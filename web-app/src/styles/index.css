@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: #fffaf4;
+    --background-soft: #fff7ef;
+    --card: #ffffff;
+    --surface: #fff7ef;
+    --input: #ffffff;
+    --text: #25212b;
+    --muted: #6f6577;
+    --primary: #f36f56;
+    --primary-dark: #d95441;
+    --success: #1b7d62;
+    --warning: #8a6d1f;
+    --danger: #d95441;
+    --peach: #ffe4d3;
+    --mint: #d9f1d7;
+    --yellow: #ffd56a;
+    --border: rgba(80, 61, 52, 0.14);
+    --pill: #fff7ef;
+    --shadow-color: rgba(88, 48, 32, 0.08);
+  }
+
+  .dark {
+    --background: #1a161f;
+    --background-soft: #25212b;
+    --card: #25212b;
+    --surface: #2b2631;
+    --input: #332d3a;
+    --text: #f5f0eb;
+    --muted: #a89fb0;
+    --primary: #f36f56;
+    --primary-dark: #d95441;
+    --success: #1b7d62; /* Using a visible dark success */
+    --warning: #ffd56a;
+    --danger: #f36f56;
+    --peach: rgba(255, 228, 211, 0.14);
+    --mint: rgba(217, 241, 215, 0.14);
+    --yellow: rgba(255, 213, 106, 0.15);
+    --border: rgba(255, 255, 255, 0.08);
+    --pill: #332d3a;
+    --shadow-color: rgba(0, 0, 0, 0.4);
+  }
+
+  body {
+    @apply bg-appBg text-appText font-sans transition-colors duration-200 antialiased overflow-x-hidden;
+    margin: 0;
+  }
+}
+
+/* Custom scrollbars for a cleaner UI */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-appBorder rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
+}
+
+/* Glassmorphism custom classes */
+.glass-card {
+  @apply bg-appCard bg-opacity-80 backdrop-blur-md border border-appBorder shadow-soft;
+}
+
+/* Smooth transitions for theme toggles */
+* {
+  transition-property: background-color, border-color;
+  transition-duration: 150ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
