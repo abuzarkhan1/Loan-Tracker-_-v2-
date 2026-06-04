@@ -71,6 +71,19 @@
           ]
         }
       ],
+      [
+        "expo-secure-store",
+        {
+          "configureAndroidBackup": false,
+          "faceIDPermission": "Allow Loan Tracker to protect your quick login with Face ID or biometrics."
+        }
+      ],
+      [
+        "expo-local-authentication",
+        {
+          "faceIDPermission": "Allow Loan Tracker to use Face ID or biometrics for quick login."
+        }
+      ],
       "@react-native-community/datetimepicker",
       [
         "expo-splash-screen",

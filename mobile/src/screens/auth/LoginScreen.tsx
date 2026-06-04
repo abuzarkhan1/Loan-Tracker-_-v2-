@@ -1,6 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useMutation } from "@tanstack/react-query";
+import { Fingerprint, ShieldCheck } from "lucide-react-native";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Text, TouchableOpacity, View } from "react-native";
 import { z } from "zod";
@@ -12,6 +14,14 @@ import { BrandLogo } from "../../components/BrandLogo";
 import { FormInput } from "../../components/FormInput";
 import { Screen } from "../../components/Screen";
 import { getErrorMessage } from "../../utils/errors";
+import {
+  authenticateAndGetSavedCredentials,
+  clearBiometricCredentials,
+  getBiometricAvailability,
+  getSavedBiometricCredentials,
+  saveBiometricCredentials,
+} from "../../services/biometricAuth";
+import { fontFamily } from "../../utils/theme";
 
 const schema = z.object({
   email: z.string().email("Valid email required"),
@@ -27,15 +37,70 @@ export const LoginScreen = ({ navigation }: Props) => {
   const {
     control,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
     defaultValues: { email: "", password: "" },
   });
+  const [biometricAvailable, setBiometricAvailable] = useState(false);
+  const [biometricLabel, setBiometricLabel] = useState("Biometric");
+  const [rememberBiometric, setRememberBiometric] = useState(true);
+  const [savedEmail, setSavedEmail] = useState<string | null>(null);
 
   const mutation = useMutation({
-    mutationFn: login,
+    mutationFn: async (values: FormValues) => {
+      await login(values);
+      if (biometricAvailable && rememberBiometric) {
+        await saveBiometricCredentials(values);
+        setSavedEmail(values.email.trim().toLowerCase());
+      }
+    },
   });
+
+  const biometricMutation = useMutation({
+    mutationFn: async () => {
+      const credentials = await authenticateAndGetSavedCredentials();
+      if (!credentials) return;
+      await login({ email: credentials.email, password: credentials.password });
+    },
+  });
+
+  useEffect(() => {
+    let mounted = true;
+
+    const loadBiometricState = async () => {
+      try {
+        const [availability, credentials] = await Promise.all([
+          getBiometricAvailability(),
+          getSavedBiometricCredentials(),
+        ]);
+
+        if (!mounted) return;
+
+        setBiometricAvailable(availability.canUseBiometric);
+        setBiometricLabel(availability.label);
+        if (credentials?.email) {
+          setSavedEmail(credentials.email);
+          setValue("email", credentials.email);
+        }
+      } catch {
+        if (!mounted) return;
+        setBiometricAvailable(false);
+      }
+    };
+
+    void loadBiometricState();
+
+    return () => {
+      mounted = false;
+    };
+  }, [setValue]);
+
+  const resetSavedLogin = async () => {
+    await clearBiometricCredentials();
+    setSavedEmail(null);
+  };
 
   return (
     <Screen className="justify-center pt-16" refreshable={false}>
@@ -49,7 +114,35 @@ export const LoginScreen = ({ navigation }: Props) => {
         </View>
       </View>
 
-      <View className="gap-4 rounded-lg border border-border bg-card p-5" style={theme.shadowSoft}>
+      {biometricAvailable && savedEmail ? (
+        <View
+          className="mb-4 rounded-3xl border p-4"
+          style={{ backgroundColor: theme.card, borderColor: theme.border, ...theme.shadowSoft }}
+        >
+          <AppButton
+            title={`Login with ${biometricLabel}`}
+            icon={Fingerprint}
+            variant="secondary"
+            loading={biometricMutation.isPending}
+            onPress={() => biometricMutation.mutate()}
+          />
+          <View className="mt-3 flex-row items-center justify-between gap-3">
+            <Text numberOfLines={1} style={{ color: theme.muted, fontFamily: fontFamily.semiBold, fontSize: 12, flex: 1 }}>
+              Saved for {savedEmail}
+            </Text>
+            <TouchableOpacity activeOpacity={0.82} onPress={resetSavedLogin}>
+              <Text style={{ color: theme.primaryDark, fontFamily: fontFamily.extraBold, fontSize: 12 }}>
+                Remove
+              </Text>
+            </TouchableOpacity>
+          </View>
+          {biometricMutation.isError ? (
+            <Text className="mt-3 text-sm font-semibold text-danger">{getErrorMessage(biometricMutation.error)}</Text>
+          ) : null}
+        </View>
+      ) : null}
+
+      <View className="gap-4 rounded-3xl border border-border bg-card p-5" style={theme.shadowSoft}>
         <FormInput
           control={control}
           name="email"
@@ -67,6 +160,38 @@ export const LoginScreen = ({ navigation }: Props) => {
           placeholder="Password"
           error={errors.password?.message}
         />
+        {biometricAvailable ? (
+          <TouchableOpacity
+            activeOpacity={0.86}
+            onPress={() => setRememberBiometric((value) => !value)}
+            className="flex-row items-center gap-3 rounded-2xl border px-3.5 py-3"
+            style={{
+              borderColor: rememberBiometric ? theme.primary : theme.border,
+              backgroundColor: rememberBiometric ? theme.peach : theme.backgroundSoft,
+            }}
+          >
+            <View
+              style={{
+                height: 32,
+                width: 32,
+                borderRadius: 12,
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: rememberBiometric ? theme.primary : theme.pill,
+              }}
+            >
+              <ShieldCheck color={rememberBiometric ? theme.white : theme.muted} size={16} strokeWidth={2.5} />
+            </View>
+            <View className="flex-1">
+              <Text style={{ color: theme.text, fontFamily: fontFamily.extraBold, fontSize: 13 }}>
+                Enable quick login
+              </Text>
+              <Text style={{ color: theme.muted, fontFamily: fontFamily.medium, fontSize: 11.5, marginTop: 2 }}>
+                Use {biometricLabel} next time instead of typing again.
+              </Text>
+            </View>
+          </TouchableOpacity>
+        ) : null}
         {mutation.isError ? (
           <Text className="text-sm font-semibold text-danger">{getErrorMessage(mutation.error)}</Text>
         ) : null}

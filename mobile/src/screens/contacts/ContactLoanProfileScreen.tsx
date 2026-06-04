@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useQuery } from "@tanstack/react-query";
-import { BookOpen, Edit3, Landmark, Plus, ReceiptText } from "lucide-react-native";
+import { BookOpen, Edit3, HandCoins, Landmark, Plus } from "lucide-react-native";
 import { Text, View } from "react-native";
 import { api } from "../../api/client";
 import { AmountText } from "../../components/AmountText";
@@ -83,7 +83,7 @@ export const ContactLoanProfileScreen = ({ navigation, route }: Props) => {
         </View>
         <AppButton
           title="Quick Payment"
-          icon={ReceiptText}
+          icon={HandCoins}
           variant="secondary"
           onPress={() => {
             if (firstActiveLoan) navigation.navigate("QuickAddPayment", { loanId: firstActiveLoan._id, contactId });

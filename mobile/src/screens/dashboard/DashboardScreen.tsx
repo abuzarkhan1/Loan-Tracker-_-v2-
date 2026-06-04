@@ -1,13 +1,23 @@
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowDownLeft, ArrowUpRight, ContactRound, Landmark, Plus, ReceiptText, WalletCards } from "lucide-react-native";
-import { Text, TouchableOpacity, View } from "react-native";
+import {
+  ArrowDownLeft,
+  ArrowUpRight,
+  ChevronRight,
+  HandCoins,
+  Scale,
+  TrendingUp,
+  WalletCards,
+  type LucideIcon,
+} from "lucide-react-native";
+import { useMemo } from "react";
+import { Text, TouchableOpacity, useWindowDimensions, View } from "react-native";
+import Svg, { G, Line, Rect, Text as SvgText } from "react-native-svg";
+import type { MonthlyChartPoint } from "../../api/types";
 import { api } from "../../api/client";
-import { AppButton } from "../../components/AppButton";
 import { Screen } from "../../components/Screen";
-import { EmptyState, ErrorState, LoadingState } from "../../components/StateViews";
-import { SummaryCard } from "../../components/SummaryCard";
+import { ErrorState, LoadingState } from "../../components/StateViews";
 import { RootStackParamList } from "../../navigation/types";
 import { useAuth } from "../../providers/AuthProvider";
 import { useAppTheme } from "../../providers/ThemeProvider";
@@ -16,20 +26,360 @@ import { fontFamily } from "../../utils/theme";
 
 type Navigation = NativeStackNavigationProp<RootStackParamList>;
 
-const QuickAction = ({ title, icon: Icon, onPress }: { title: string; icon: typeof Plus; onPress: () => void }) => {
+const currency = (value = 0) => formatCurrency(value).replace(/\u00a0/g, " ");
+
+const getInitials = (name?: string) => {
+  const parts = (name || "User").trim().split(/\s+/).filter(Boolean);
+  return parts.slice(0, 2).map((part) => part.charAt(0).toUpperCase()).join("") || "U";
+};
+
+const buildEmptyMonthlyData = () => {
+  const now = new Date();
+
+  return Array.from({ length: 6 }).map((_, index) => {
+    const date = new Date(now.getFullYear(), now.getMonth() - (5 - index), 1);
+    return {
+      month: `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`,
+      given: 0,
+      taken: 0,
+      received: 0,
+      paid: 0,
+    };
+  });
+};
+
+const monthLabel = (month: string) => {
+  const [year, monthIndex] = month.split("-").map(Number);
+  return new Intl.DateTimeFormat("en", { month: "short" }).format(new Date(year, monthIndex - 1, 1));
+};
+
+const SurfaceCard = ({ children, className = "", compact = false }: { children: React.ReactNode; className?: string; compact?: boolean }) => {
   const { theme } = useAppTheme();
+
   return (
-    <TouchableOpacity
-      activeOpacity={0.86}
-      onPress={onPress}
-      className="flex-1 items-center gap-2 rounded-3xl border p-4"
-      style={{ borderColor: theme.border, backgroundColor: theme.card, ...theme.shadowSoft }}
+    <View
+      className={className}
+      style={[
+        {
+          borderRadius: 24,
+          borderWidth: 1,
+          borderColor: theme.border,
+          backgroundColor: theme.card,
+          padding: compact ? 14 : 16,
+        },
+        theme.shadowSoft,
+      ]}
     >
-      <View className="h-11 w-11 items-center justify-center rounded-2xl" style={{ backgroundColor: theme.peach }}>
-        <Icon color={theme.primary} size={20} />
+      {children}
+    </View>
+  );
+};
+
+const DashboardHeader = ({ name }: { name?: string }) => {
+  const { theme } = useAppTheme();
+  const displayName = name || "User";
+
+  return (
+    <View className="flex-row items-center justify-between gap-4">
+      <View className="flex-1">
+        <Text style={{ color: theme.muted, fontFamily: fontFamily.extraBold, fontSize: 12 }}>
+          Assalam-o-Alaikum
+        </Text>
+        <Text
+          numberOfLines={1}
+          style={{ color: theme.text, fontFamily: fontFamily.extraBold, fontSize: 24, marginTop: 4 }}
+        >
+          {displayName}
+        </Text>
+        <Text style={{ color: theme.muted, fontFamily: fontFamily.semiBold, fontSize: 12, marginTop: 4 }}>
+          Your loan and money overview
+        </Text>
       </View>
-      <Text className="text-center text-xs font-black text-dark">{title}</Text>
-    </TouchableOpacity>
+      <View
+        style={{
+          height: 44,
+          width: 44,
+          borderRadius: 16,
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: theme.peach,
+          borderWidth: theme.mode === "dark" ? 1 : 0,
+          borderColor: theme.border,
+        }}
+      >
+        <Text style={{ color: theme.primaryDark, fontFamily: fontFamily.extraBold, fontSize: 15 }}>
+          {getInitials(displayName)}
+        </Text>
+      </View>
+    </View>
+  );
+};
+
+const BalanceCard = ({
+  balance,
+  active,
+  overdue,
+}: {
+  balance: number;
+  active: number;
+  overdue: number;
+}) => {
+  const { theme } = useAppTheme();
+  const positive = balance >= 0;
+
+  return (
+    <View
+      style={[
+        {
+          marginTop: 18,
+          borderRadius: 28,
+          backgroundColor: theme.card,
+          borderWidth: 1,
+          borderColor: theme.border,
+          padding: 18,
+        },
+        theme.shadowElevated,
+      ]}
+    >
+      <View className="flex-row items-center justify-between gap-3">
+        <View>
+          <Text style={{ color: theme.muted, fontFamily: fontFamily.extraBold, fontSize: 10.5 }}>
+            OVERALL BALANCE
+          </Text>
+          <Text style={{ color: theme.muted, fontFamily: fontFamily.bold, fontSize: 11.5, marginTop: 4 }}>
+            {positive ? "Net receivable" : "Net payable"}
+          </Text>
+        </View>
+        <View
+          className="flex-row items-center gap-1.5 rounded-full px-3 py-2"
+          style={{ backgroundColor: positive ? theme.mint : theme.peach }}
+        >
+          {positive ? <TrendingUp color={theme.success} size={13} /> : <ArrowUpRight color={theme.primaryDark} size={13} />}
+          <Text
+            style={{
+              color: positive ? theme.success : theme.primaryDark,
+              fontFamily: fontFamily.extraBold,
+              fontSize: 11,
+            }}
+          >
+            {positive ? "Positive" : "Payable"}
+          </Text>
+        </View>
+      </View>
+
+      <Text
+        numberOfLines={1}
+        adjustsFontSizeToFit
+        minimumFontScale={0.7}
+        style={{ color: theme.text, fontFamily: fontFamily.extraBold, fontSize: 34, marginTop: 12 }}
+      >
+        {currency(Math.abs(balance))}
+      </Text>
+
+      <View className="mt-5 flex-row gap-3">
+        <View className="flex-1 rounded-2xl px-4 py-3" style={{ backgroundColor: theme.backgroundSoft }}>
+          <Text style={{ color: theme.muted, fontFamily: fontFamily.bold, fontSize: 11 }}>Active Loans</Text>
+          <Text style={{ color: theme.text, fontFamily: fontFamily.extraBold, fontSize: 20, marginTop: 4 }}>{active}</Text>
+        </View>
+        <View className="flex-1 rounded-2xl px-4 py-3" style={{ backgroundColor: theme.backgroundSoft }}>
+          <Text style={{ color: theme.muted, fontFamily: fontFamily.bold, fontSize: 11 }}>Overdue</Text>
+          <Text style={{ color: overdue > 0 ? theme.danger : theme.text, fontFamily: fontFamily.extraBold, fontSize: 20, marginTop: 4 }}>
+            {overdue}
+          </Text>
+        </View>
+      </View>
+    </View>
+  );
+};
+
+const MetricTile = ({
+  label,
+  value,
+  icon: Icon,
+  tone,
+}: {
+  label: string;
+  value: number;
+  icon: LucideIcon;
+  tone: "success" | "danger" | "primary" | "warning";
+}) => {
+  const { theme } = useAppTheme();
+  const toneColor =
+    tone === "success" ? theme.success : tone === "danger" ? theme.danger : tone === "warning" ? theme.warning : theme.primary;
+  const toneBg =
+    tone === "success" ? theme.mint : tone === "danger" ? theme.peach : tone === "warning" ? theme.yellow : theme.backgroundSoft;
+
+  return (
+    <SurfaceCard className="w-[48.5%]" compact>
+      <View className="flex-row items-start justify-between gap-3">
+        <View className="flex-1">
+          <Text style={{ color: theme.muted, fontFamily: fontFamily.extraBold, fontSize: 9.5 }}>
+            {label}
+          </Text>
+          <Text
+            numberOfLines={1}
+            adjustsFontSizeToFit
+            minimumFontScale={0.72}
+            style={{ color: theme.text, fontFamily: fontFamily.extraBold, fontSize: 19, marginTop: 8 }}
+          >
+            {currency(value)}
+          </Text>
+        </View>
+        <View
+          style={{
+            height: 36,
+            width: 36,
+            borderRadius: 13,
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: toneBg,
+          }}
+        >
+          <Icon color={toneColor} size={18} strokeWidth={2.5} />
+        </View>
+      </View>
+    </SurfaceCard>
+  );
+};
+
+const SectionTitle = ({
+  title,
+  action,
+  onPress,
+}: {
+  title: string;
+  action?: string;
+  onPress?: () => void;
+}) => {
+  const { theme } = useAppTheme();
+
+  return (
+    <View className="mb-3 mt-6 flex-row items-center justify-between">
+      <Text style={{ color: theme.text, fontFamily: fontFamily.extraBold, fontSize: 18 }}>{title}</Text>
+      {action && onPress ? (
+        <TouchableOpacity activeOpacity={0.85} className="flex-row items-center gap-1" onPress={onPress}>
+          <Text style={{ color: theme.primary, fontFamily: fontFamily.extraBold, fontSize: 12 }}>{action}</Text>
+          <ChevronRight color={theme.primary} size={15} />
+        </TouchableOpacity>
+      ) : null}
+    </View>
+  );
+};
+
+const LegendItem = ({ color, label }: { color: string; label: string }) => {
+  const { theme } = useAppTheme();
+
+  return (
+    <View className="flex-row items-center gap-1.5">
+      <View style={{ height: 8, width: 8, borderRadius: 4, backgroundColor: color }} />
+      <Text style={{ color: theme.muted, fontFamily: fontFamily.bold, fontSize: 10.5 }}>{label}</Text>
+    </View>
+  );
+};
+
+const MonthlyFlowCard = ({
+  data,
+  chartWidth,
+}: {
+  data: MonthlyChartPoint[];
+  chartWidth: number;
+}) => {
+  const { theme } = useAppTheme();
+  const chartData = data.length ? data : buildEmptyMonthlyData();
+  const successColor = theme.mode === "dark" ? "#7bd8bf" : theme.success;
+  const dangerColor = theme.mode === "dark" ? "#ff8a77" : theme.primaryDark;
+  const gridColor = theme.mode === "dark" ? "rgba(255,255,255,0.08)" : "rgba(37,33,43,0.08)";
+  const maxValue = Math.max(...chartData.flatMap((item) => [item.received, item.paid]), 1);
+  const chartHeight = 128;
+  const plotTop = 8;
+  const plotHeight = 76;
+  const labelY = 112;
+  const groupWidth = chartWidth / chartData.length;
+  const barWidth = Math.min(11, groupWidth * 0.18);
+  const barGap = 7;
+  const netPeriod = chartData.reduce((total, item) => total + item.received - item.paid, 0);
+
+  return (
+    <SurfaceCard>
+      <View className="flex-row items-start justify-between gap-3">
+        <View className="flex-1">
+          <Text style={{ color: theme.muted, fontFamily: fontFamily.extraBold, fontSize: 10.5 }}>
+            LAST 6 MONTHS
+          </Text>
+          <Text style={{ color: theme.text, fontFamily: fontFamily.extraBold, fontSize: 17, marginTop: 5 }}>
+            Received vs Paid
+          </Text>
+        </View>
+        <View className="mt-1 flex-row gap-3">
+          <LegendItem color={successColor} label="Mila" />
+          <LegendItem color={dangerColor} label="Diya" />
+        </View>
+      </View>
+
+      <View className="mt-4 overflow-hidden">
+        <Svg width={chartWidth} height={chartHeight}>
+          {[0, 1, 2].map((item) => {
+            const y = plotTop + (item * plotHeight) / 2;
+            return <Line key={item} x1={0} x2={chartWidth} y1={y} y2={y} stroke={gridColor} strokeWidth={1} />;
+          })}
+          {chartData.map((item, index) => {
+            const center = groupWidth * index + groupWidth / 2;
+            const receivedHeight = (item.received / maxValue) * plotHeight;
+            const paidHeight = (item.paid / maxValue) * plotHeight;
+
+            return (
+              <G key={item.month}>
+                <Rect
+                  x={center - barGap / 2 - barWidth}
+                  y={plotTop + plotHeight - receivedHeight}
+                  width={barWidth}
+                  height={receivedHeight}
+                  rx={7}
+                  fill={successColor}
+                />
+                <Rect
+                  x={center + barGap / 2}
+                  y={plotTop + plotHeight - paidHeight}
+                  width={barWidth}
+                  height={paidHeight}
+                  rx={7}
+                  fill={dangerColor}
+                />
+                <SvgText
+                  x={center}
+                  y={labelY}
+                  fill={theme.muted}
+                  fontFamily={fontFamily.bold}
+                  fontSize={10}
+                  textAnchor="middle"
+                >
+                  {monthLabel(item.month)}
+                </SvgText>
+              </G>
+            );
+          })}
+        </Svg>
+      </View>
+
+      <View className="mt-1 flex-row items-center justify-between gap-4">
+        <Text style={{ color: theme.muted, fontFamily: fontFamily.bold, fontSize: 11 }}>
+          Net movement
+        </Text>
+        <Text
+          numberOfLines={1}
+          adjustsFontSizeToFit
+          minimumFontScale={0.78}
+          style={{
+            color: netPeriod >= 0 ? theme.success : theme.danger,
+            fontFamily: fontFamily.extraBold,
+            fontSize: 16,
+          }}
+        >
+          {netPeriod >= 0 ? "+" : ""}
+          {currency(netPeriod)}
+        </Text>
+      </View>
+    </SurfaceCard>
   );
 };
 
@@ -37,84 +387,61 @@ export const DashboardScreen = () => {
   const navigation = useNavigation<Navigation>();
   const { user } = useAuth();
   const { theme } = useAppTheme();
-  const summaryQuery = useQuery({ queryKey: ["dashboard", "summary"], queryFn: api.getSummary });
-  const loansQuery = useQuery({ queryKey: ["loans", "dashboard"], queryFn: () => api.getLoans({ limit: 4 }) });
-  const transactionsQuery = useQuery({ queryKey: ["transactions", "dashboard"], queryFn: () => api.getTransactions({ limit: 5 }) });
+  const { width } = useWindowDimensions();
+  const chartWidth = Math.max(220, width - 72);
 
-  if (summaryQuery.isLoading) return <Screen><LoadingState label="Loading dashboard..." /></Screen>;
+  const summaryQuery = useQuery({ queryKey: ["dashboard", "summary"], queryFn: api.getSummary });
+  const monthlyQuery = useQuery({ queryKey: ["dashboard", "monthly-chart", 6], queryFn: () => api.getMonthlyChart(6) });
+
+  const monthlyData = useMemo(() => monthlyQuery.data || buildEmptyMonthlyData(), [monthlyQuery.data]);
+
+  if (summaryQuery.isLoading) {
+    return (
+      <Screen>
+        <LoadingState label="Loading dashboard..." />
+      </Screen>
+    );
+  }
+
   if (summaryQuery.isError || !summaryQuery.data) {
-    return <Screen><ErrorState message="Dashboard load nahi ho saka." onRetry={summaryQuery.refetch} /></Screen>;
+    return (
+      <Screen>
+        <ErrorState message="Dashboard load nahi ho saka." onRetry={summaryQuery.refetch} />
+      </Screen>
+    );
   }
 
   const summary = summaryQuery.data;
-  const recentLoans = loansQuery.data?.loans || [];
-  const recentTransactions = transactionsQuery.data?.transactions || [];
 
   return (
-    <Screen>
-      <View className="gap-1">
-        <Text className="text-sm font-bold text-muted">Assalam o Alaikum{user?.name ? `, ${user.name}` : ""}</Text>
-        <Text className="text-3xl font-black text-dark">Loan Tracker</Text>
-        <Text className="text-sm font-semibold text-muted">Loans, payments, expenses aur income ek simple jagah.</Text>
+    <Screen className="pt-1">
+      <DashboardHeader name={user?.name} />
+
+      <BalanceCard
+        balance={summary.overallBalance}
+        active={summary.activeLoans}
+        overdue={summary.overdueLoans}
+      />
+
+      <View className="mt-4 flex-row flex-wrap justify-between gap-y-3">
+        <MetricTile label="MUJHE LENE HAIN" value={summary.netReceivable} tone="success" icon={ArrowDownLeft} />
+        <MetricTile label="MUJHE DENE HAIN" value={summary.netPayable} tone="danger" icon={ArrowUpRight} />
+        <MetricTile label="WAPIS MILA" value={summary.totalReceivedBack} tone="primary" icon={HandCoins} />
+        <MetricTile label="WAPIS DIYA" value={summary.totalPaidBack} tone="warning" icon={WalletCards} />
       </View>
 
-      <View className="mt-6 flex-row flex-wrap justify-between gap-y-3">
-        <SummaryCard label="Mujhe Lene Hain" value={formatCurrency(summary.netReceivable)} tone="success" icon={ArrowDownLeft} />
-        <SummaryCard label="Mujhe Dene Hain" value={formatCurrency(summary.netPayable)} tone="danger" icon={ArrowUpRight} />
-        <SummaryCard label="Total Wapis Mila" value={formatCurrency(summary.totalReceivedBack)} tone="primary" icon={ReceiptText} />
-        <SummaryCard label="Total Wapis Diya" value={formatCurrency(summary.totalPaidBack)} tone="warning" icon={WalletCards} />
-      </View>
+      <SectionTitle title="Monthly Flow" action="Transactions" onPress={() => navigation.navigate("Transactions")} />
+      {monthlyQuery.isError ? (
+        <ErrorState message="Monthly flow load nahi ho saka." onRetry={monthlyQuery.refetch} />
+      ) : (
+        <MonthlyFlowCard data={monthlyData} chartWidth={chartWidth} />
+      )}
 
-      <View className="mt-4 rounded-3xl border p-5" style={{ borderColor: theme.border, backgroundColor: theme.card, ...theme.shadowSoft }}>
-        <Text className="text-sm font-bold text-muted">Overall Balance</Text>
-        <Text className="mt-2 text-3xl font-black text-dark">{formatCurrency(summary.overallBalance)}</Text>
-        <Text className="mt-2 text-xs font-semibold text-muted">
-          Active {summary.activeLoans} · Completed {summary.completedLoans} · Overdue {summary.overdueLoans}
+      <View className="mt-6 flex-row items-center justify-center gap-2">
+        <Scale color={theme.muted} size={14} />
+        <Text style={{ color: theme.muted, fontFamily: fontFamily.bold, fontSize: 11.5 }}>
+          Simple ledger. Clear balance. No extra noise.
         </Text>
-      </View>
-
-      <View className="mt-6">
-        <Text className="mb-3 text-lg font-black text-dark">Quick Actions</Text>
-        <View className="flex-row gap-3">
-          <QuickAction title="Naya Loan" icon={Landmark} onPress={() => navigation.navigate("LoanForm")} />
-          <QuickAction title="Expense" icon={ReceiptText} onPress={() => navigation.navigate("AddExpense")} />
-          <QuickAction title="Income" icon={WalletCards} onPress={() => navigation.navigate("AddIncome")} />
-          <QuickAction title="Contact" icon={ContactRound} onPress={() => navigation.navigate("ContactForm")} />
-        </View>
-      </View>
-
-      <View className="mt-7">
-        <View className="mb-3 flex-row items-center justify-between">
-          <Text style={{ color: theme.text, fontFamily: fontFamily.extraBold, fontSize: 18 }}>Recent Loans</Text>
-          <AppButton title="View" variant="ghost" onPress={() => navigation.navigate("MainTabs", { screen: "Loans" })} />
-        </View>
-        {recentLoans.length ? (
-          <View className="gap-3">
-            {recentLoans.map((loan) => (
-              <TouchableOpacity key={loan._id} activeOpacity={0.86} onPress={() => navigation.navigate("LoanDetail", { loanId: loan._id })} className="rounded-3xl border bg-card p-4">
-                <Text className="text-base font-black text-dark">{typeof loan.contactId === "string" ? "Contact" : loan.contactId.name}</Text>
-                <Text className="mt-1 text-xs font-bold text-muted">{loan.type} · {loan.status} · Baqi {formatCurrency(loan.remainingAmount)}</Text>
-              </TouchableOpacity>
-            ))}
-          </View>
-        ) : <EmptyState title="No loans yet" subtitle="Naya Loan se apna pehla hisaab start karein." />}
-      </View>
-
-      <View className="mt-7">
-        <View className="mb-3 flex-row items-center justify-between">
-          <Text style={{ color: theme.text, fontFamily: fontFamily.extraBold, fontSize: 18 }}>Recent Expenses & Income</Text>
-          <AppButton title="View" variant="ghost" onPress={() => navigation.navigate("Transactions")} />
-        </View>
-        {recentTransactions.length ? (
-          <View className="gap-3">
-            {recentTransactions.map((transaction) => (
-              <View key={transaction._id} className="rounded-3xl border bg-card p-4" style={{ borderColor: theme.border }}>
-                <Text className="text-base font-black text-dark">{transaction.source || transaction.type}</Text>
-                <Text className="mt-1 text-xs font-bold text-muted">{transaction.type} · {transaction.paymentMethod} · {formatCurrency(transaction.amount)}</Text>
-              </View>
-            ))}
-          </View>
-        ) : <EmptyState title="No expenses or income" subtitle="Expense ya income add karne ke baad yahan show hoga." />}
       </View>
     </Screen>
   );

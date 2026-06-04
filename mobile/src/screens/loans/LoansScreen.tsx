@@ -3,84 +3,165 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useQuery } from "@tanstack/react-query";
 import { Plus, Search } from "lucide-react-native";
 import { useState } from "react";
-import { Text, TextInput, View } from "react-native";
+import { ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { api } from "../../api/client";
 import { LoanStatus, LoanType } from "../../api/types";
-import { AppButton } from "../../components/AppButton";
-import { FormSelect } from "../../components/FormSelect";
 import { LoanCard } from "../../components/LoanCard";
 import { Screen } from "../../components/Screen";
 import { EmptyState, ErrorState, LoadingState } from "../../components/StateViews";
 import { RootStackParamList } from "../../navigation/types";
 import { useAppTheme } from "../../providers/ThemeProvider";
+import { fontFamily } from "../../utils/theme";
 
 type Navigation = NativeStackNavigationProp<RootStackParamList>;
-type TypeFilter = "ALL" | LoanType;
-type StatusFilter = "ALL" | LoanStatus;
+type LoanFilter = "ALL" | LoanType | Extract<LoanStatus, "OVERDUE" | "COMPLETED">;
+
+const filters: Array<{ label: string; value: LoanFilter }> = [
+  { label: "Sab", value: "ALL" },
+  { label: "Lena Hai", value: "GIVEN" },
+  { label: "Dena Hai", value: "TAKEN" },
+  { label: "Overdue", value: "OVERDUE" },
+  { label: "Mukammal", value: "COMPLETED" },
+];
+
+const FilterChip = ({
+  label,
+  active,
+  onPress,
+}: {
+  label: string;
+  active: boolean;
+  onPress: () => void;
+}) => {
+  const { theme } = useAppTheme();
+
+  return (
+    <TouchableOpacity
+      activeOpacity={0.86}
+      onPress={onPress}
+      style={[
+        {
+          minHeight: 38,
+          borderRadius: 999,
+          borderWidth: 1,
+          borderColor: active ? theme.primary : theme.border,
+          backgroundColor: active ? theme.primary : theme.card,
+          paddingHorizontal: 18,
+          alignItems: "center",
+          justifyContent: "center",
+        },
+        active
+          ? {
+              shadowColor: theme.primaryDark,
+              shadowOpacity: 0.18,
+              shadowRadius: 14,
+              shadowOffset: { width: 0, height: 6 },
+              elevation: 4,
+            }
+          : null,
+      ]}
+    >
+      <Text style={{ color: active ? theme.white : theme.muted, fontFamily: fontFamily.extraBold, fontSize: 13 }}>
+        {label}
+      </Text>
+    </TouchableOpacity>
+  );
+};
 
 export const LoansScreen = () => {
   const navigation = useNavigation<Navigation>();
   const { theme } = useAppTheme();
   const [search, setSearch] = useState("");
-  const [type, setType] = useState<TypeFilter>("ALL");
-  const [status, setStatus] = useState<StatusFilter>("ALL");
+  const [filter, setFilter] = useState<LoanFilter>("ALL");
+  const type = filter === "GIVEN" || filter === "TAKEN" ? filter : undefined;
+  const status = filter === "OVERDUE" || filter === "COMPLETED" ? filter : undefined;
 
   const loansQuery = useQuery({
-    queryKey: ["loans", search, type, status],
+    queryKey: ["loans", search, filter],
     queryFn: () =>
       api.getLoans({
         search,
-        type: type === "ALL" ? undefined : type,
-        status: status === "ALL" ? undefined : status,
+        type,
+        status,
         limit: 50,
       }),
   });
 
   return (
-    <Screen className="pt-5">
-      <View className="flex-row items-center justify-between gap-3">
+    <Screen className="pt-1">
+      <View className="flex-row items-start justify-between gap-4">
         <View className="flex-1">
-          <Text className="text-2xl font-black text-dark">Loans</Text>
-          <Text className="mt-1 text-sm font-medium text-muted">Given aur taken dono ka simple hisaab.</Text>
+          <Text style={{ color: theme.text, fontFamily: fontFamily.extraBold, fontSize: 30 }}>Loans</Text>
+          <Text style={{ color: theme.muted, fontFamily: fontFamily.medium, fontSize: 14, marginTop: 4 }}>
+            Tamam Loans
+          </Text>
         </View>
-        <AppButton title="Naya Loan" icon={Plus} onPress={() => navigation.navigate("LoanForm")} />
+        <TouchableOpacity
+          activeOpacity={0.86}
+          onPress={() => navigation.navigate("LoanForm")}
+          style={{
+            height: 48,
+            width: 48,
+            borderRadius: 24,
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: theme.primary,
+            shadowColor: theme.primaryDark,
+            shadowOpacity: 0.2,
+            shadowRadius: 16,
+            shadowOffset: { width: 0, height: 8 },
+            elevation: 5,
+          }}
+        >
+          <Plus color={theme.white} size={25} strokeWidth={2.1} />
+        </TouchableOpacity>
       </View>
 
-      <View className="mt-5 flex-row items-center gap-3 border border-border px-4" style={{ borderRadius: 14, backgroundColor: theme.input }}>
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        className="mt-5 -mx-5"
+        contentContainerStyle={{ gap: 8, paddingHorizontal: 20 }}
+      >
+        {filters.map((item) => (
+          <FilterChip
+            key={item.value}
+            label={item.label}
+            active={filter === item.value}
+            onPress={() => setFilter(item.value)}
+          />
+        ))}
+      </ScrollView>
+
+      <View
+        className="mt-4 flex-row items-center gap-3 border px-4"
+        style={[
+          {
+            minHeight: 44,
+            borderRadius: 18,
+            borderColor: theme.border,
+            backgroundColor: theme.input,
+          },
+          theme.mode === "dark"
+            ? null
+            : {
+                shadowColor: "#2b2631",
+                shadowOpacity: 0.06,
+                shadowRadius: 14,
+                shadowOffset: { width: 0, height: 6 },
+                elevation: 2,
+              },
+        ]}
+      >
         <Search color={theme.muted} size={18} />
         <TextInput
           value={search}
           onChangeText={setSearch}
           autoCorrect={false}
-          placeholder="Search loans"
+          placeholder="Loan talash karein..."
           placeholderTextColor={theme.placeholder}
           returnKeyType="search"
-          className="h-12 flex-1 text-base text-dark"
-        />
-      </View>
-
-      <View className="mt-4 gap-4">
-        <FormSelect
-          label="Loan Type"
-          value={type}
-          onChange={setType}
-          options={[
-            { label: "All", value: "ALL" },
-            { label: "Mujhe Lene Hain", value: "GIVEN" },
-            { label: "Mujhe Dene Hain", value: "TAKEN" },
-          ]}
-        />
-        <FormSelect
-          label="Status"
-          value={status}
-          onChange={setStatus}
-          options={[
-            { label: "All", value: "ALL" },
-            { label: "Active", value: "ACTIVE" },
-            { label: "Partial", value: "PARTIALLY_PAID" },
-            { label: "Completed", value: "COMPLETED" },
-            { label: "Overdue", value: "OVERDUE" },
-          ]}
+          style={{ flex: 1, color: theme.text, fontFamily: fontFamily.medium, fontSize: 14, paddingVertical: 0 }}
         />
       </View>
 

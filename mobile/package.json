@@ -18,6 +18,8 @@
     "expo-font": "~56.0.5",
     "expo-haptics": "~56.0.3",
     "expo-linear-gradient": "~56.0.4",
+    "expo-local-authentication": "~56.0.4",
+    "expo-secure-store": "~56.0.4",
     "expo-splash-screen": "~56.0.10",
     "expo-status-bar": "~56.0.4",
     "expo-system-ui": "~56.0.5",
@@ -42,13 +44,23 @@
     "typescript": "~6.0.3"
   },
   "scripts": {
+    "check:node": "node ./scripts/check-node-version.js",
+    "prestart": "npm run check:node",
     "start": "expo start",
+    "preandroid": "npm run check:node",
     "android": "expo start --android",
+    "preios": "npm run check:node",
     "ios": "expo start --ios",
+    "preweb": "npm run check:node",
     "web": "expo start --web",
+    "prepreview:android": "npm run check:node",
     "preview:android": "npx eas build --profile preview --platform android",
+    "prepreview:update": "npm run check:node",
     "preview:update": "npx eas update --channel preview --message \"Preview update\"",
     "typecheck": "tsc --noEmit"
+  },
+  "engines": {
+    "node": ">=20 <24"
   },
   "private": true
 }

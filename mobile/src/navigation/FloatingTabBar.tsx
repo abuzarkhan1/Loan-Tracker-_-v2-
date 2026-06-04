@@ -1,5 +1,5 @@
 import type { BottomTabBarProps } from "@react-navigation/bottom-tabs";
-import { ContactRound, Home, Landmark, ReceiptText, Settings2 } from "lucide-react-native";
+import { ContactRound, Home, Landmark, Settings2, WalletCards } from "lucide-react-native";
 import { Text, TouchableOpacity, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useAppTheme } from "../providers/ThemeProvider";
@@ -9,7 +9,7 @@ const tabMeta = {
   Dashboard: { label: "Home", icon: Home },
   Loans: { label: "Loans", icon: Landmark },
   Contacts: { label: "Contacts", icon: ContactRound },
-  Expenses: { label: "Expenses", icon: ReceiptText },
+  Expenses: { label: "Expenses", icon: WalletCards },
   SettingsTab: { label: "Settings", icon: Settings2 },
 };
 
@@ -22,20 +22,20 @@ export const FloatingTabBar = ({ state, navigation }: BottomTabBarProps) => {
       pointerEvents="box-none"
       style={{
         position: "absolute",
-        left: 16,
-        right: 16,
-        bottom: Math.max(insets.bottom, 12),
+        left: 18,
+        right: 18,
+        bottom: Math.max(insets.bottom, 10),
       }}
     >
       <View
         style={[
           {
-            minHeight: 70,
+            minHeight: 64,
             borderRadius: 999,
             borderWidth: 1,
             borderColor: theme.border,
             backgroundColor: theme.card,
-            padding: 8,
+            padding: 6,
             flexDirection: "row",
             alignItems: "center",
             justifyContent: "space-between",
@@ -69,31 +69,32 @@ export const FloatingTabBar = ({ state, navigation }: BottomTabBarProps) => {
               accessibilityState={focused ? { selected: true } : {}}
               onPress={onPress}
               style={{
-                minHeight: 52,
-                flex: focused ? 1.32 : 0.72,
+                minHeight: 50,
+                flex: focused ? 1.34 : 0.74,
                 borderRadius: 999,
                 alignItems: "center",
                 justifyContent: "center",
-                flexDirection: "row",
-                gap: focused ? 8 : 0,
+                flexDirection: focused ? "row" : "column",
+                gap: focused ? 6 : 3,
                 backgroundColor: focused ? theme.primary : "transparent",
-                borderWidth: focused ? 0 : 1,
-                borderColor: focused ? "transparent" : theme.border,
+                shadowColor: focused ? theme.primaryDark : "transparent",
+                shadowOpacity: focused ? 0.22 : 0,
+                shadowRadius: focused ? 18 : 0,
+                shadowOffset: { width: 0, height: 8 },
+                elevation: focused ? 5 : 0,
               }}
             >
-              <Icon color={focused ? theme.white : theme.muted} size={19} />
-              {focused ? (
-                <Text
-                  numberOfLines={1}
-                  style={{
-                    color: theme.white,
-                    fontFamily: fontFamily.extraBold,
-                    fontSize: 11,
-                  }}
-                >
-                  {meta.label}
-                </Text>
-              ) : null}
+              <Icon color={focused ? theme.white : theme.muted} size={focused ? 17 : 18} />
+              <Text
+                numberOfLines={1}
+                style={{
+                  color: focused ? theme.white : theme.muted,
+                  fontFamily: focused ? fontFamily.extraBold : fontFamily.bold,
+                  fontSize: focused ? 11 : 9.5,
+                }}
+              >
+                {meta.label}
+              </Text>
             </TouchableOpacity>
           );
         })}

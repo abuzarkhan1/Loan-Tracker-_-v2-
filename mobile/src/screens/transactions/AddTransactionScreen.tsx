@@ -65,6 +65,13 @@ const TransactionForm = ({ navigation, route, forcedType }: Props & { forcedType
   });
 
   const type = watch("type");
+  const submitTitle = isEditing
+    ? "Save Transaction"
+    : forcedType === "INCOME"
+      ? "Add Income"
+      : forcedType === "EXPENSE"
+        ? "Add Expense"
+        : "Add Transaction";
   const categoriesQuery = useQuery({
     queryKey: ["categories", type],
     queryFn: () => api.getCategories({ type }),
@@ -183,7 +190,7 @@ const TransactionForm = ({ navigation, route, forcedType }: Props & { forcedType
       <FormInput control={control} name="note" label="Note" placeholder="Optional note" multiline />
 
       {mutation.isError ? <Text className="text-sm font-semibold text-danger">{getErrorMessage(mutation.error)}</Text> : null}
-      <AppButton title={isEditing ? "Save Transaction" : "Add Transaction"} icon={Save} loading={mutation.isPending} onPress={handleSubmit((values) => mutation.mutate(values))} />
+      <AppButton title={submitTitle} icon={Save} loading={mutation.isPending} onPress={handleSubmit((values) => mutation.mutate(values))} />
     </Screen>
   );
 };

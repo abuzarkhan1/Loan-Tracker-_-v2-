@@ -3,20 +3,36 @@ import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import * as Contacts from "expo-contacts/legacy";
 import * as Haptics from "expo-haptics";
-import { BookUser, CheckCircle2, Plus, Search, UserRound } from "lucide-react-native";
+import { BookUser, CheckCircle2, ChevronRight, Plus, Search } from "lucide-react-native";
 import { useCallback, useMemo, useState } from "react";
-import { Text, TextInput, TouchableOpacity, View } from "react-native";
+import { ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { api } from "../../api/client";
 import { Contact, DeviceContactImportPayload } from "../../api/types";
-import { AppButton } from "../../components/AppButton";
 import { EmptyState, ErrorState, LoadingState } from "../../components/StateViews";
 import { Screen } from "../../components/Screen";
 import { RootStackParamList } from "../../navigation/types";
 import { showAlert } from "../../providers/AlertProvider";
 import { useAppTheme } from "../../providers/ThemeProvider";
+import { formatCurrency } from "../../utils/format";
+import { fontFamily } from "../../utils/theme";
 
 type Navigation = NativeStackNavigationProp<RootStackParamList>;
 type PermissionState = "loading" | "granted" | "denied" | "undetermined";
+type ContactFilter = "ALL" | "RECEIVABLE" | "PAYABLE";
+type ContactBalance = {
+  contactId: string;
+  name?: string;
+  contactName?: string;
+  netReceivable?: number;
+  netPayable?: number;
+  overallBalance?: number;
+};
+
+const filters: Array<{ label: string; value: ContactFilter }> = [
+  { label: "Sab", value: "ALL" },
+  { label: "Qarzdar", value: "RECEIVABLE" },
+  { label: "Lender", value: "PAYABLE" },
+];
 
 const initials = (name: string) => name.trim().split(/\s+/).slice(0, 2).map((part) => part[0]).join("").toUpperCase() || "U";
 
@@ -30,11 +46,123 @@ const contactToPayload = (contact: Contacts.ExistingContact): DeviceContactImpor
   source: "DEVICE_CONTACT",
 });
 
+const balanceValue = (balance?: ContactBalance) => {
+  if (!balance) return 0;
+  return balance.overallBalance ?? (balance.netReceivable || 0) - (balance.netPayable || 0);
+};
+
+const formatSignedCurrency = (value: number) => {
+  if (!value) return "Rs 0";
+  const sign = value > 0 ? "+" : "-";
+  return `Rs ${sign}${Math.abs(value).toLocaleString("en-PK")}`;
+};
+
+const FilterChip = ({ label, active, onPress }: { label: string; active: boolean; onPress: () => void }) => {
+  const { theme } = useAppTheme();
+
+  return (
+    <TouchableOpacity
+      activeOpacity={0.86}
+      onPress={onPress}
+      style={{
+        minHeight: 38,
+        borderRadius: 999,
+        borderWidth: 1,
+        borderColor: active ? theme.primary : theme.border,
+        backgroundColor: active ? theme.primary : theme.card,
+        paddingHorizontal: 18,
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <Text style={{ color: active ? theme.white : theme.muted, fontFamily: fontFamily.extraBold, fontSize: 13 }}>
+        {label}
+      </Text>
+    </TouchableOpacity>
+  );
+};
+
+const ContactRow = ({
+  contact,
+  balance,
+  onPress,
+}: {
+  contact: Contact;
+  balance: number;
+  onPress: () => void;
+}) => {
+  const { theme } = useAppTheme();
+  const positive = balance > 0;
+  const negative = balance < 0;
+  const toneColor = positive ? theme.success : negative ? theme.danger : theme.muted;
+  const avatarBackground = positive ? theme.mint : negative ? theme.peach : theme.backgroundSoft;
+  const relationLabel = positive ? "Mujhe Lena Hai" : negative ? "Mujhe Dena Hai" : "Settled";
+
+  return (
+    <TouchableOpacity
+      activeOpacity={0.86}
+      onPress={onPress}
+      style={{
+        minHeight: 84,
+        borderRadius: 24,
+        borderWidth: 1,
+        borderColor: theme.border,
+        backgroundColor: theme.card,
+        paddingHorizontal: 16,
+        paddingVertical: 14,
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 13,
+      }}
+    >
+      <View
+        style={{
+          height: 50,
+          width: 50,
+          borderRadius: 25,
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: avatarBackground,
+        }}
+      >
+        <Text style={{ color: toneColor, fontFamily: fontFamily.extraBold, fontSize: 16 }}>
+          {initials(contact.name)}
+        </Text>
+      </View>
+
+      <View className="min-w-0 flex-1">
+        <Text numberOfLines={1} style={{ color: theme.text, fontFamily: fontFamily.extraBold, fontSize: 16 }}>
+          {contact.name}
+        </Text>
+        <Text numberOfLines={1} style={{ color: theme.muted, fontFamily: fontFamily.medium, fontSize: 12.5, marginTop: 5 }}>
+          {contact.phone || contact.email || "No phone"}
+        </Text>
+      </View>
+
+      <View className="items-end">
+        <Text style={{ color: theme.muted, fontFamily: fontFamily.medium, fontSize: 11.5 }}>
+          {relationLabel}
+        </Text>
+        <Text
+          numberOfLines={1}
+          adjustsFontSizeToFit
+          minimumFontScale={0.76}
+          style={{ color: toneColor, fontFamily: fontFamily.extraBold, fontSize: 19, marginTop: 7, maxWidth: 118 }}
+        >
+          {formatSignedCurrency(balance)}
+        </Text>
+      </View>
+      <ChevronRight color={theme.muted} size={20} />
+    </TouchableOpacity>
+  );
+};
+
 export const ContactsScreen = () => {
   const navigation = useNavigation<Navigation>();
   const queryClient = useQueryClient();
   const { theme } = useAppTheme();
   const [search, setSearch] = useState("");
+  const [filter, setFilter] = useState<ContactFilter>("ALL");
   const [permissionState, setPermissionState] = useState<PermissionState>("loading");
   const [deviceContacts, setDeviceContacts] = useState<Contacts.ExistingContact[]>([]);
   const [contactsError, setContactsError] = useState<string | null>(null);
@@ -42,6 +170,10 @@ export const ContactsScreen = () => {
   const appContactsQuery = useQuery({
     queryKey: ["contacts", search],
     queryFn: () => api.getContacts({ search, limit: 80 }),
+  });
+  const balancesQuery = useQuery({
+    queryKey: ["contacts", "balances"],
+    queryFn: () => api.getTopContacts(80) as Promise<ContactBalance[]>,
   });
 
   const loadDeviceContacts = useCallback(async () => {
@@ -76,8 +208,9 @@ export const ContactsScreen = () => {
         setContactsError("Phone contacts load nahi ho sake.");
       }),
       appContactsQuery.refetch(),
+      balancesQuery.refetch(),
     ]);
-  }, [appContactsQuery, loadDeviceContacts]);
+  }, [appContactsQuery, balancesQuery, loadDeviceContacts]);
 
   const requestAccess = async () => {
     const permission = await Contacts.requestPermissionsAsync();
@@ -108,6 +241,24 @@ export const ContactsScreen = () => {
     return map;
   }, [appContactsQuery.data?.contacts]);
 
+  const balanceByContact = useMemo(() => {
+    const map = new Map<string, number>();
+    (balancesQuery.data || []).forEach((balance) => {
+      map.set(balance.contactId, balanceValue(balance));
+    });
+    return map;
+  }, [balancesQuery.data]);
+
+  const appContacts = useMemo(() => {
+    const contacts = appContactsQuery.data?.contacts || [];
+    return contacts.filter((contact) => {
+      const value = balanceByContact.get(contact._id) || 0;
+      if (filter === "RECEIVABLE") return value > 0;
+      if (filter === "PAYABLE") return value < 0;
+      return true;
+    });
+  }, [appContactsQuery.data?.contacts, balanceByContact, filter]);
+
   const filteredDeviceContacts = useMemo(() => {
     const term = search.trim().toLowerCase();
     return deviceContacts
@@ -118,58 +269,107 @@ export const ContactsScreen = () => {
       .slice(0, 120);
   }, [deviceContacts, search]);
 
-  const appContacts = appContactsQuery.data?.contacts || [];
-  const showPermissionCard = permissionState !== "granted";
+  const netBalance = appContacts.reduce((total, contact) => total + (balanceByContact.get(contact._id) || 0), 0);
+  const showPermissionCard = permissionState !== "granted" && !appContacts.length;
 
   return (
-    <Screen className="pt-5" onRefresh={handleRefresh} refreshLabel="Refreshing contacts...">
-      <View className="flex-row items-center justify-between gap-3">
+    <Screen className="pt-1" onRefresh={handleRefresh} refreshLabel="Refreshing contacts...">
+      <View className="flex-row items-start justify-between gap-4">
         <View className="flex-1">
-          <Text className="text-2xl font-black text-dark">Contacts</Text>
-          <Text className="mt-1 text-sm font-medium text-muted">Phone book se hisaab shuru karein.</Text>
+          <Text style={{ color: theme.text, fontFamily: fontFamily.extraBold, fontSize: 30 }}>Contacts</Text>
+          <Text style={{ color: theme.muted, fontFamily: fontFamily.medium, fontSize: 14, marginTop: 4 }}>
+            Tamam Contacts
+          </Text>
         </View>
-        <AppButton title="Manual" icon={Plus} onPress={() => navigation.navigate("ContactForm")} />
+        <TouchableOpacity
+          activeOpacity={0.86}
+          onPress={() => navigation.navigate("ContactForm")}
+          style={{
+            height: 48,
+            width: 48,
+            borderRadius: 18,
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: theme.primary,
+            shadowColor: theme.primaryDark,
+            shadowOpacity: 0.2,
+            shadowRadius: 16,
+            shadowOffset: { width: 0, height: 8 },
+            elevation: 5,
+          }}
+        >
+          <Plus color={theme.white} size={25} strokeWidth={2.1} />
+        </TouchableOpacity>
       </View>
 
-      <View className="mt-5 flex-row items-center gap-3 border border-border px-4" style={{ borderRadius: 18, backgroundColor: theme.input }}>
-        <Search color={theme.muted} size={18} />
+      <View
+        className="mt-5 flex-row items-center gap-3 border px-4"
+        style={{
+          minHeight: 46,
+          borderRadius: 20,
+          borderColor: theme.border,
+          backgroundColor: theme.input,
+        }}
+      >
+        <Search color={theme.muted} size={19} />
         <TextInput
           value={search}
           onChangeText={setSearch}
           autoCorrect={false}
-          placeholder="Search contacts"
+          placeholder="Contact talash karein..."
           placeholderTextColor={theme.placeholder}
           returnKeyType="search"
-          className="h-12 flex-1 text-base text-dark"
+          style={{ flex: 1, color: theme.text, fontFamily: fontFamily.medium, fontSize: 14, paddingVertical: 0 }}
         />
       </View>
 
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        className="mt-5 -mx-5"
+        contentContainerStyle={{ gap: 8, paddingHorizontal: 20 }}
+      >
+        {filters.map((item) => (
+          <FilterChip key={item.value} label={item.label} active={filter === item.value} onPress={() => setFilter(item.value)} />
+        ))}
+      </ScrollView>
+
       {showPermissionCard ? (
         <View className="mt-5 rounded-3xl border border-border bg-card p-5" style={theme.shadowSoft}>
-          <View className="h-12 w-12 items-center justify-center rounded-2xl bg-peach">
-            <BookUser color={theme.primaryDark} size={24} />
+          <View className="h-11 w-11 items-center justify-center rounded-2xl bg-peach">
+            <BookUser color={theme.primaryDark} size={22} />
           </View>
-          <Text className="mt-4 text-xl font-black text-dark">Find Contacts Faster</Text>
+          <Text className="mt-3 text-lg font-black text-dark">Find Contacts Faster</Text>
           <Text className="mt-2 text-sm font-medium leading-6 text-muted">
-            Allow contact access so you can select people from your phone book and create loans without manually typing names or phone numbers.
+            Phone book access allow karein ya manually contact add karein.
           </Text>
-          <View className="mt-5 gap-3">
-            <AppButton title="Allow Contacts Access" icon={BookUser} onPress={requestAccess} />
-            <AppButton title="Add Manually" icon={Plus} variant="secondary" onPress={() => navigation.navigate("ContactForm")} />
-            <AppButton title="Maybe Later" variant="ghost" onPress={() => setPermissionState("denied")} />
+          <View className="mt-4 flex-row gap-3">
+            <TouchableOpacity className="flex-1 rounded-full bg-primary py-3" onPress={requestAccess}>
+              <Text className="text-center text-xs font-black text-white">Allow</Text>
+            </TouchableOpacity>
+            <TouchableOpacity className="flex-1 rounded-full bg-background-soft py-3" onPress={() => navigation.navigate("ContactForm")}>
+              <Text className="text-center text-xs font-black text-primary">Manual</Text>
+            </TouchableOpacity>
           </View>
         </View>
       ) : null}
 
-      <View className="mt-6 gap-3">
-        {permissionState === "loading" ? <LoadingState label="Checking contacts permission..." /> : null}
+      <View className="mt-5 gap-3">
+        {appContactsQuery.isLoading ? <LoadingState label="Loading contacts..." /> : null}
+        {permissionState === "loading" && !appContacts.length ? <LoadingState label="Checking contacts permission..." /> : null}
         {contactsError ? <ErrorState message={contactsError} onRetry={loadDeviceContacts} /> : null}
-        {permissionState === "granted" && filteredDeviceContacts.length === 0 ? (
-          <EmptyState title="No contacts found" subtitle="Search clear karein ya manually contact add karein." />
-        ) : null}
 
-        {permissionState === "granted" ? (
-          filteredDeviceContacts.map((contact) => {
+        {appContacts.map((contact) => (
+          <ContactRow
+            key={contact._id}
+            contact={contact}
+            balance={balanceByContact.get(contact._id) || 0}
+            onPress={() => navigation.navigate("ContactLoanProfile", { contactId: contact._id })}
+          />
+        ))}
+
+        {!appContactsQuery.isLoading && !appContacts.length && permissionState === "granted" ? (
+          filteredDeviceContacts.length ? filteredDeviceContacts.map((contact) => {
             const phoneKey = getPrimaryPhone(contact).replace(/\D/g, "").slice(-10);
             const existing = appContactByPhone.get(phoneKey);
             return (
@@ -178,47 +378,33 @@ export const ContactsScreen = () => {
                 activeOpacity={0.88}
                 disabled={importMutation.isPending}
                 onPress={() => importMutation.mutate(contactToPayload(contact))}
-                className="flex-row items-center gap-4 rounded-2xl border border-border bg-card p-4"
-                style={theme.shadowSoft}
+                className="flex-row items-center gap-3 rounded-3xl border border-border bg-card p-4"
               >
-                <View className="h-12 w-12 items-center justify-center rounded-2xl bg-background-soft">
+                <View className="h-11 w-11 items-center justify-center rounded-full bg-background-soft">
                   <Text className="text-sm font-black text-primary">{initials(contact.name || "U")}</Text>
                 </View>
                 <View className="flex-1">
-                  <View className="flex-row items-center gap-2">
-                    <Text numberOfLines={1} className="flex-1 text-base font-black text-dark">{contact.name}</Text>
-                    {existing ? <CheckCircle2 color={theme.success} size={16} /> : null}
-                  </View>
-                  <Text numberOfLines={1} className="mt-1 text-sm font-semibold text-muted">{getPrimaryPhone(contact) || "No phone"}</Text>
-                  <Text className="mt-2 text-[11px] font-bold text-primary">{existing ? "Open profile" : "Tap to import"}</Text>
+                  <Text numberOfLines={1} className="text-base font-black text-dark">{contact.name}</Text>
+                  <Text numberOfLines={1} className="mt-1 text-xs font-semibold text-muted">{getPrimaryPhone(contact) || "No phone"}</Text>
                 </View>
+                {existing ? <CheckCircle2 color={theme.success} size={17} /> : <Text className="text-xs font-black text-primary">Import</Text>}
               </TouchableOpacity>
             );
-          })
-        ) : null}
-
-        {permissionState !== "granted" ? (
-          appContacts.length ? appContacts.map((contact) => (
-            <TouchableOpacity
-              key={contact._id}
-              activeOpacity={0.88}
-              onPress={() => navigation.navigate("ContactLoanProfile", { contactId: contact._id })}
-              className="flex-row items-center gap-4 rounded-2xl border border-border bg-card p-4"
-              style={theme.shadowSoft}
-            >
-              <View className="h-12 w-12 items-center justify-center rounded-2xl bg-background-soft">
-                <UserRound color={theme.primary} size={22} />
-              </View>
-              <View className="flex-1">
-                <Text className="text-base font-bold text-dark">{contact.name}</Text>
-                <Text className="mt-1 text-sm font-medium text-muted">{contact.phone || contact.email || "No phone"}</Text>
-              </View>
-            </TouchableOpacity>
-          )) : (
-            <EmptyState title="No saved contacts" subtitle="Phone access allow karein ya manually contact add karein." />
+          }) : (
+            <EmptyState title="No contacts found" subtitle="Search clear karein ya manually contact add karein." />
           )
         ) : null}
+
+        {!appContactsQuery.isLoading && !appContacts.length && permissionState !== "granted" && !showPermissionCard ? (
+          <EmptyState title="No saved contacts" subtitle="Phone access allow karein ya manually contact add karein." />
+        ) : null}
       </View>
+
+      {appContacts.length ? (
+        <Text className="mt-5 text-center" style={{ color: theme.muted, fontFamily: fontFamily.medium, fontSize: 13 }}>
+          {appContacts.length} contacts · {formatCurrency(Math.abs(netBalance)).replace(/\u00a0/g, " ")} {netBalance >= 0 ? "net receivable" : "net payable"}
+        </Text>
+      ) : null}
     </Screen>
   );
 };

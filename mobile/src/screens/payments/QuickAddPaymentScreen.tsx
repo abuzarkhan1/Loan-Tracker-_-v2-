@@ -1,7 +1,7 @@
 import * as Haptics from "expo-haptics";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { CheckCircle2, ReceiptText } from "lucide-react-native";
+import { CheckCircle2, HandCoins } from "lucide-react-native";
 import { useMemo, useState } from "react";
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
 import { api } from "../../api/client";
@@ -93,7 +93,7 @@ export const QuickAddPaymentScreen = ({ navigation, route }: Props) => {
 
       <View className="mt-5 rounded-3xl border border-border bg-card p-5" style={theme.shadowSoft}>
         <View className="h-12 w-12 items-center justify-center rounded-2xl bg-peach">
-          <ReceiptText color={theme.primaryDark} size={24} />
+          <HandCoins color={theme.primaryDark} size={24} />
         </View>
         <Text className="mt-4 text-xs font-black uppercase text-muted">Amount</Text>
         <TextInput
@@ -164,7 +164,7 @@ export const QuickAddPaymentScreen = ({ navigation, route }: Props) => {
       <View className="mt-6">
         <AppButton
           title="Save Payment"
-          icon={ReceiptText}
+          icon={HandCoins}
           disabled={Boolean(validationError)}
           loading={paymentMutation.isPending}
           onPress={() => paymentMutation.mutate()}
