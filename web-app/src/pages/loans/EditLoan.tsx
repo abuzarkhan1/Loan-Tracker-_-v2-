@@ -81,7 +81,7 @@ export const EditLoan: React.FC = () => {
         </button>
         <div>
           <h2 className="text-xl font-extrabold text-appText flex items-center gap-2">
-            <HandCoins className="h-5.5 w-5.5 text-appPrimary animate-pulse" /> Edit Loan Record
+            <HandCoins className="h-5 w-5 text-appPrimary animate-pulse" /> Edit Loan Record
           </h2>
           <p className="text-xs text-appMuted mt-0.5">Modify loan metadata, due dates, or descriptions.</p>
         </div>

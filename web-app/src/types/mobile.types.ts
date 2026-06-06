@@ -37,6 +37,7 @@ export type LoanStatus = "ACTIVE" | "PARTIALLY_PAID" | "COMPLETED" | "OVERDUE";
 export type PaymentType = "RECEIVED" | "PAID";
 export type PaymentMethod = "CASH" | "BANK" | "JAZZCASH" | "EASYPAISA" | "OTHER";
 export type TransactionType = "INCOME" | "EXPENSE" | "LOAN_RECOVERY" | "LOAN_REPAYMENT";
+export type GoalStatus = "ACTIVE" | "COMPLETED" | "ARCHIVED";
 
 export type Loan = {
   _id: string;
@@ -100,6 +101,32 @@ export type Transaction = {
   updatedAt: string;
 };
 
+export type Goal = {
+  _id: string;
+  userId: string;
+  title: string;
+  targetAmount: number;
+  savedAmount: number;
+  remainingAmount: number;
+  progressPercent: number;
+  status: GoalStatus;
+  note?: string;
+  completedAt?: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type GoalContribution = {
+  _id: string;
+  userId: string;
+  goalId: string | Goal;
+  amount: number;
+  date: string;
+  note?: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
 export type AuthPayload = {
   user: User;
   token: string;
@@ -118,6 +145,38 @@ export type PaginatedLoans = {
 export type PaginatedTransactions = {
   transactions: Transaction[];
   pagination: Pagination;
+};
+
+export type PaginatedGoals = {
+  goals: Goal[];
+  pagination: Pagination;
+};
+
+export type GoalDetail = {
+  goal: Goal;
+  contributions: GoalContribution[];
+};
+
+export type GoalSummary = {
+  activeGoals: number;
+  completedGoals: number;
+  archivedGoals: number;
+  totalTargetAmount: number;
+  totalSavedAmount: number;
+  totalRemainingAmount: number;
+  nearestGoal?: Goal | null;
+};
+
+export type GoalMutationResponse = {
+  goal: Goal;
+  message?: string;
+};
+
+export type GoalContributionMutationResponse = {
+  goal: Goal;
+  contribution?: GoalContribution;
+  id?: string;
+  message?: string;
 };
 
 export type ContactBalanceSummary = {

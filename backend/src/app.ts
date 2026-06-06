@@ -10,6 +10,7 @@ import categoryRoutes from "./modules/categories/category.routes";
 import contactRoutes from "./modules/contacts/contact.routes";
 import dashboardRoutes from "./modules/dashboard/dashboard.routes";
 import healthRoutes from "./modules/health/health.routes";
+import goalRoutes from "./modules/goals/goal.routes";
 import loanRoutes from "./modules/loans/loan.routes";
 import paymentRoutes from "./modules/payments/payment.routes";
 import transactionRoutes from "./modules/transactions/transaction.routes";
@@ -39,6 +40,7 @@ app.use("/api/payments", paymentRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/transactions", transactionRoutes);
+app.use("/api/goals", goalRoutes);
 app.use("/api/health", healthRoutes);
 
 app.use(notFoundHandler);

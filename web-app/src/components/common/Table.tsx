@@ -20,9 +20,9 @@ export const Table: React.FC<TableProps> = ({
   emptyComponent,
 }) => {
   return (
-    <div className="w-full overflow-x-auto rounded-2xl border border-appBorder bg-appCard shadow-sm">
+    <div className="w-full overflow-x-auto rounded-[24px] border border-appBorder bg-appCard shadow-sm">
       <table className={cn("w-full min-w-[600px] border-collapse text-left text-sm text-appText", className)}>
-        <thead className="bg-appBgSoft/60 text-xs font-semibold uppercase tracking-wider text-appMuted border-b border-appBorder">
+        <thead className="border-b border-appBorder bg-appBgSoft/75 text-[10px] font-black uppercase tracking-[0.18em] text-appMuted">
           <tr>
             {headers.map((h, i) => (
               <th key={i} className="px-6 py-4">
@@ -31,7 +31,7 @@ export const Table: React.FC<TableProps> = ({
             ))}
           </tr>
         </thead>
-        <tbody className="divide-y divide-appBorder">
+        <tbody className="divide-y divide-appBorder/55">
           {isLoading && (
             <tr>
               <td colSpan={headers.length} className="px-6 py-12">

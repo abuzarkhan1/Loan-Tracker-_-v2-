@@ -10,9 +10,10 @@ import Card from "../../components/common/Card";
 import LoadingState from "../../components/common/LoadingState";
 import ErrorState from "../../components/common/ErrorState";
 import EmptyState from "../../components/common/EmptyState";
-import { format } from "date-fns";
+import PageHeader from "../../components/common/PageHeader";
+import { formatDate } from "../../lib/formatDate";
 
-const fmtDate = (d?: string) => (d ? format(new Date(d), "dd MMM yyyy") : "—");
+const fmtDate = (d?: string) => (d ? formatDate(d) : "—");
 
 const SummaryTile = ({
   label,
@@ -63,7 +64,7 @@ export const ContactLedger: React.FC = () => {
     kind === "LOAN" ? "text-appPrimary" : "text-appSuccess";
 
   return (
-    <div className="space-y-6 max-w-3xl mx-auto">
+    <div className="mx-auto w-full max-w-4xl space-y-6">
       {/* Back */}
       <button
         onClick={() => navigate(ROUTES.CONTACT_DETAIL.replace(":id", contactId!))}
@@ -72,14 +73,15 @@ export const ContactLedger: React.FC = () => {
         <ArrowLeft className="h-4 w-4" /> Back to {contact.name}
       </button>
 
-      {/* Header */}
-      <div>
-        <h1 className="text-2xl font-extrabold text-appText">{contact.name} — Ledger</h1>
-        <p className="mt-1 text-sm text-appMuted">Complete hisaab aur transaction timeline.</p>
-      </div>
+      <PageHeader
+        kicker="Contact ledger"
+        title={`${contact.name} — Ledger`}
+        description="Complete hisaab aur transaction timeline."
+        icon={<Landmark className="h-6 w-6" />}
+      />
 
       {/* Summary tiles */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
         <SummaryTile label="Total Diya"   amount={summary.totalGiven          || 0} tone="success" />
         <SummaryTile label="Total Liya"   amount={summary.totalTaken          || 0} tone="danger"  />
         <SummaryTile label="Wapis Mila"   amount={summary.totalReceivedBack   || 0} tone="primary" />

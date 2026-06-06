@@ -29,5 +29,9 @@ export type RootStackParamList = {
   AddIncome: undefined;
   Categories: undefined;
   AddEditCategory: { categoryId?: string; type?: "INCOME" | "EXPENSE" } | undefined;
+  Goals: undefined;
+  GoalDetail: { goalId: string };
+  AddEditGoal: { goalId?: string } | undefined;
+  AddGoalContribution: { goalId: string; contributionId?: string };
   Settings: undefined;
 };

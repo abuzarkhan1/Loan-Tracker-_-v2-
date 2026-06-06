@@ -13,6 +13,7 @@ const labels: Record<string, string> = {
   DEFAULT: "Default",
   CANCELLED: "Cancelled",
   PAID: "Paid",
+  ARCHIVED: "Archived",
 };
 
 export const StatusBadge = ({ value }: { value: LoanStatus | LoanType | string }) => {

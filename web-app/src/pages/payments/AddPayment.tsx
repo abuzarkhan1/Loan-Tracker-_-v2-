@@ -106,7 +106,7 @@ export const AddPayment: React.FC = () => {
         </button>
         <div>
           <h2 className="text-xl font-extrabold text-appText flex items-center gap-2">
-            <Coins className="h-5.5 w-5.5 text-appPrimary animate-pulse" /> Log Repayment Log
+            <Coins className="h-5 w-5 text-appPrimary animate-pulse" /> Log Repayment Log
           </h2>
           <p className="text-xs text-appMuted mt-0.5">Record a partial or full payment made against a loan liability.</p>
         </div>

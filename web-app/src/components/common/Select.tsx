@@ -23,11 +23,11 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
             {label}
           </label>
         )}
-        <div className="relative flex items-center bg-appInput rounded-xl shadow-sm">
+        <div className="relative flex items-center bg-appInput rounded-2xl shadow-sm">
           <select
             id={id}
             className={cn(
-              "w-full rounded-xl border border-appBorder bg-transparent px-4 py-2.5 text-sm text-appText transition-all placeholder:text-appMuted focus:border-appPrimary focus:outline-none focus:ring-1 focus:ring-appPrimary disabled:cursor-not-allowed disabled:opacity-50 appearance-none cursor-pointer",
+              "w-full rounded-2xl border border-appBorder bg-transparent px-4 py-3 text-sm font-semibold text-appText transition-all placeholder:text-appMuted focus:border-appPrimary focus:outline-none focus:ring-2 focus:ring-appPrimary/20 disabled:cursor-not-allowed disabled:opacity-50 appearance-none cursor-pointer",
               error && "border-appDanger focus:border-appDanger focus:ring-appDanger",
               className
             )}

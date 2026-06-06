@@ -7,6 +7,7 @@ import {
   ChevronRight,
   HandCoins,
   Scale,
+  Target,
   TrendingUp,
   WalletCards,
   type LucideIcon,
@@ -14,9 +15,10 @@ import {
 import { useMemo } from "react";
 import { Text, TouchableOpacity, useWindowDimensions, View } from "react-native";
 import Svg, { G, Line, Rect, Text as SvgText } from "react-native-svg";
-import type { MonthlyChartPoint } from "../../api/types";
+import type { GoalSummary, MonthlyChartPoint } from "../../api/types";
 import { api } from "../../api/client";
 import { Screen } from "../../components/Screen";
+import { ProgressBar } from "../../components/ProgressBar";
 import { ErrorState, LoadingState } from "../../components/StateViews";
 import { RootStackParamList } from "../../navigation/types";
 import { useAuth } from "../../providers/AuthProvider";
@@ -383,6 +385,76 @@ const MonthlyFlowCard = ({
   );
 };
 
+const GoalShortcutCard = ({ summary, onPress }: { summary?: GoalSummary; onPress: () => void }) => {
+  const { theme } = useAppTheme();
+  const nearestGoal = summary?.nearestGoal;
+  const activeGoals = summary?.activeGoals || 0;
+  const totalSaved = summary?.totalSavedAmount || 0;
+  const totalTarget = summary?.totalTargetAmount || 0;
+  const progress = totalTarget > 0 ? Math.min(100, Math.round((totalSaved / totalTarget) * 100)) : 0;
+
+  return (
+    <TouchableOpacity activeOpacity={0.86} onPress={onPress}>
+      <View
+        className="mt-5 rounded-3xl border p-4"
+        style={[{ backgroundColor: theme.card, borderColor: theme.border }, theme.shadowSoft]}
+      >
+        <View className="flex-row items-start gap-3">
+          <View
+            style={{
+              height: 44,
+              width: 44,
+              borderRadius: 16,
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor: theme.peach,
+            }}
+          >
+            <Target color={theme.primaryDark} size={21} />
+          </View>
+          <View className="min-w-0 flex-1">
+            <View className="flex-row items-start justify-between gap-3">
+              <View className="min-w-0 flex-1">
+                <Text style={{ color: theme.text, fontFamily: fontFamily.extraBold, fontSize: 16 }}>
+                  Saving Goals
+                </Text>
+                <Text numberOfLines={1} style={{ color: theme.muted, fontFamily: fontFamily.semiBold, fontSize: 12, marginTop: 4 }}>
+                  {activeGoals ? `${activeGoals} active · ${currency(totalSaved)} saved` : "Add your first saving target"}
+                </Text>
+              </View>
+              <View className="flex-row items-center gap-1">
+                <Text style={{ color: theme.primaryDark, fontFamily: fontFamily.extraBold, fontSize: 12 }}>
+                  Open
+                </Text>
+                <ChevronRight color={theme.primaryDark} size={15} />
+              </View>
+            </View>
+
+            {activeGoals ? (
+              <View className="mt-4 gap-2">
+                <View className="flex-row items-center justify-between gap-3">
+                  <Text numberOfLines={1} style={{ color: theme.text, fontFamily: fontFamily.bold, fontSize: 12, flex: 1 }}>
+                    {nearestGoal?.title || "All active goals"}
+                  </Text>
+                  <Text style={{ color: theme.muted, fontFamily: fontFamily.bold, fontSize: 11 }}>
+                    {progress}%
+                  </Text>
+                </View>
+                <ProgressBar progress={progress} />
+                {nearestGoal ? (
+                  <Text style={{ color: theme.muted, fontFamily: fontFamily.semiBold, fontSize: 11 }}>
+                    {currency(nearestGoal.remainingAmount)} left for {nearestGoal.title}
+                  </Text>
+                ) : null}
+              </View>
+            ) : null}
+          </View>
+        </View>
+      </View>
+    </TouchableOpacity>
+  );
+};
+
 export const DashboardScreen = () => {
   const navigation = useNavigation<Navigation>();
   const { user } = useAuth();
@@ -392,6 +464,7 @@ export const DashboardScreen = () => {
 
   const summaryQuery = useQuery({ queryKey: ["dashboard", "summary"], queryFn: api.getSummary });
   const monthlyQuery = useQuery({ queryKey: ["dashboard", "monthly-chart", 6], queryFn: () => api.getMonthlyChart(6) });
+  const goalsSummaryQuery = useQuery({ queryKey: ["goals", "summary"], queryFn: api.getGoalSummary });
 
   const monthlyData = useMemo(() => monthlyQuery.data || buildEmptyMonthlyData(), [monthlyQuery.data]);
 
@@ -429,6 +502,8 @@ export const DashboardScreen = () => {
         <MetricTile label="WAPIS MILA" value={summary.totalReceivedBack} tone="primary" icon={HandCoins} />
         <MetricTile label="WAPIS DIYA" value={summary.totalPaidBack} tone="warning" icon={WalletCards} />
       </View>
+
+      <GoalShortcutCard summary={goalsSummaryQuery.data} onPress={() => navigation.navigate("Goals")} />
 
       <SectionTitle title="Monthly Flow" action="Transactions" onPress={() => navigation.navigate("Transactions")} />
       {monthlyQuery.isError ? (

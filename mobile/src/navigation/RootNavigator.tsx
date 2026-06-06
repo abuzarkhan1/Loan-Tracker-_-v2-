@@ -23,6 +23,10 @@ import { TransactionDetailScreen } from "../screens/transactions/TransactionDeta
 import { AddExpenseScreen, AddIncomeScreen, AddTransactionScreen } from "../screens/transactions/AddTransactionScreen";
 import { CategoriesScreen } from "../screens/categories/CategoriesScreen";
 import { AddEditCategoryScreen } from "../screens/categories/AddEditCategoryScreen";
+import { GoalsScreen } from "../screens/goals/GoalsScreen";
+import { GoalDetailScreen } from "../screens/goals/GoalDetailScreen";
+import { AddEditGoalScreen } from "../screens/goals/AddEditGoalScreen";
+import { AddGoalContributionScreen } from "../screens/goals/AddGoalContributionScreen";
 import { SettingsScreen } from "../screens/settings/SettingsScreen";
 import { FloatingTabBar } from "./FloatingTabBar";
 
@@ -78,6 +82,10 @@ const AppNavigator = () => {
       <RootStack.Screen name="AddIncome" component={AddIncomeScreen} options={{ title: "Add Income" }} />
       <RootStack.Screen name="Categories" component={CategoriesScreen} options={{ title: "Categories" }} />
       <RootStack.Screen name="AddEditCategory" component={AddEditCategoryScreen} options={{ title: "Category" }} />
+      <RootStack.Screen name="Goals" component={GoalsScreen} options={{ title: "Goals" }} />
+      <RootStack.Screen name="GoalDetail" component={GoalDetailScreen} options={{ title: "Goal Detail" }} />
+      <RootStack.Screen name="AddEditGoal" component={AddEditGoalScreen} options={{ title: "Goal" }} />
+      <RootStack.Screen name="AddGoalContribution" component={AddGoalContributionScreen} options={{ title: "Add Money" }} />
       <RootStack.Screen name="Settings" component={SettingsScreen} options={{ title: "Settings" }} />
     </RootStack.Navigator>
   );

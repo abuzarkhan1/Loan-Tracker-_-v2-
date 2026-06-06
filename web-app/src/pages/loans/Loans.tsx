@@ -15,6 +15,7 @@ import Card from "../../components/common/Card";
 import EmptyState from "../../components/common/EmptyState";
 import ErrorState from "../../components/common/ErrorState";
 import LoadingState from "../../components/common/LoadingState";
+import PageHeader from "../../components/common/PageHeader";
 import SearchInput from "../../components/common/SearchInput";
 import StatusBadge from "../../components/common/StatusBadge";
 import { ROUTES } from "../../config/routes.config";
@@ -51,25 +52,22 @@ export const Loans: React.FC = () => {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h2 className="flex items-center gap-2 text-xl font-extrabold text-appText">
-            <HandCoins className="h-6 w-6 text-appPrimary" /> Loans
-          </h2>
-          <p className="mt-1 text-xs font-semibold text-appMuted">
-            Track given and taken loans with partial payments and remaining balances.
-          </p>
-        </div>
-        <Button
-          variant="primary"
-          onClick={() => navigate(ROUTES.ADD_LOAN)}
-          leftIcon={<Plus className="h-4 w-4" />}
-          className="self-start sm:self-auto"
-        >
-          Add Loan
-        </Button>
-      </div>
+    <div className="w-full space-y-6">
+      <PageHeader
+        kicker="Loan ledger"
+        title="Loans"
+        description="Track given and taken loans with partial payments, due dates, statuses, and remaining balances."
+        icon={<HandCoins className="h-6 w-6" />}
+        actions={
+          <Button
+            variant="primary"
+            onClick={() => navigate(ROUTES.ADD_LOAN)}
+            leftIcon={<Plus className="h-4 w-4" />}
+          >
+            Add Loan
+          </Button>
+        }
+      />
 
       <Card variant="bordered" className="border-appBorder/50">
         <div className="flex flex-col gap-4 xl:flex-row xl:items-center">

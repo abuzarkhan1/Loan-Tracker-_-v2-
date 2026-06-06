@@ -27,9 +27,9 @@ export const LoadingState: React.FC<LoadingStateProps> = ({
 
   if (type === "card-skeletons") {
     return (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-pulse">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 animate-pulse">
         {Array.from({ length: count }).map((_, i) => (
-          <div key={i} className="rounded-2xl border border-appBorder bg-appCard p-6 space-y-4">
+          <div key={i} className="rounded-[24px] border border-appBorder bg-appCard p-6 space-y-4 shadow-sm">
             <div className="flex justify-between items-center">
               <div className="h-4 bg-appBorder rounded w-1/3"></div>
               <div className="h-6 bg-appBorder rounded-full w-1/4"></div>
@@ -47,9 +47,11 @@ export const LoadingState: React.FC<LoadingStateProps> = ({
   }
 
   return (
-    <div className="flex min-h-[250px] w-full flex-col items-center justify-center gap-3">
-      <Loader2 className="h-8 w-8 animate-spin text-appPrimary" />
-      <span className="text-sm font-medium text-appMuted">{message}</span>
+    <div className="flex min-h-[250px] w-full flex-col items-center justify-center gap-4 rounded-[24px] border border-appBorder/50 bg-appCard/80">
+      <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-appPeach text-appPrimary">
+        <Loader2 className="h-6 w-6 animate-spin" />
+      </div>
+      <span className="text-sm font-bold text-appMuted">{message}</span>
     </div>
   );
 };

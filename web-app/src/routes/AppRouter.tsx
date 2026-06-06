@@ -1,48 +1,72 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import LoadingState from "../components/common/LoadingState";
 import AppLayout from "../components/layout/AppLayout";
 import { ROUTES } from "../config/routes.config";
-import ForgotPassword from "../pages/auth/ForgotPassword";
-import Login from "../pages/auth/Login";
-import Register from "../pages/auth/Register";
-import ContactDetail from "../pages/contacts/ContactDetail";
-import ContactLedger from "../pages/contacts/ContactLedger";
-import Contacts from "../pages/contacts/Contacts";
-import Dashboard from "../pages/dashboard/Dashboard";
-import PrivacyPolicy from "../pages/legal/PrivacyPolicy";
-import Terms from "../pages/legal/Terms";
-import AddLoan from "../pages/loans/AddLoan";
-import EditLoan from "../pages/loans/EditLoan";
-import LoanDetail from "../pages/loans/LoanDetail";
-import Loans from "../pages/loans/Loans";
-import AddTransaction from "../pages/money/AddTransaction";
-import Categories from "../pages/money/Categories";
-import TransactionDetail from "../pages/money/TransactionDetail";
-import Transactions from "../pages/money/Transactions";
-import AddPayment from "../pages/payments/AddPayment";
-import EditPayment from "../pages/payments/EditPayment";
-import PaymentDetail from "../pages/payments/PaymentDetail";
-import Profile from "../pages/settings/Profile";
-import Settings from "../pages/settings/Settings";
 import ProtectedRoute from "./ProtectedRoute";
 import PublicRoute from "./PublicRoute";
 
+const Login = lazy(() => import("../pages/auth/Login"));
+const Register = lazy(() => import("../pages/auth/Register"));
+const ForgotPassword = lazy(() => import("../pages/auth/ForgotPassword"));
+
+const Dashboard = lazy(() => import("../pages/dashboard/Dashboard"));
+
+const Contacts = lazy(() => import("../pages/contacts/Contacts"));
+const ContactDetail = lazy(() => import("../pages/contacts/ContactDetail"));
+const ContactLedger = lazy(() => import("../pages/contacts/ContactLedger"));
+
+const Loans = lazy(() => import("../pages/loans/Loans"));
+const AddLoan = lazy(() => import("../pages/loans/AddLoan"));
+const EditLoan = lazy(() => import("../pages/loans/EditLoan"));
+const LoanDetail = lazy(() => import("../pages/loans/LoanDetail"));
+
+const AddPayment = lazy(() => import("../pages/payments/AddPayment"));
+const EditPayment = lazy(() => import("../pages/payments/EditPayment"));
+const PaymentDetail = lazy(() => import("../pages/payments/PaymentDetail"));
+
+const Transactions = lazy(() => import("../pages/money/Transactions"));
+const AddTransaction = lazy(() => import("../pages/money/AddTransaction"));
+const TransactionDetail = lazy(() => import("../pages/money/TransactionDetail"));
+const Categories = lazy(() => import("../pages/money/Categories"));
+
+const Goals = lazy(() => import("../pages/goals/Goals"));
+const AddEditGoal = lazy(() => import("../pages/goals/AddEditGoal"));
+const AddGoalContribution = lazy(() => import("../pages/goals/AddGoalContribution"));
+const GoalDetail = lazy(() => import("../pages/goals/GoalDetail"));
+
+const Settings = lazy(() => import("../pages/settings/Settings"));
+const Profile = lazy(() => import("../pages/settings/Profile"));
+
+const PrivacyPolicy = lazy(() => import("../pages/legal/PrivacyPolicy"));
+const Terms = lazy(() => import("../pages/legal/Terms"));
+
+const lazyFallback = <LoadingState message="Loading page..." type="spinner" />;
+
+const withSuspense = (children: React.ReactNode) => (
+  <Suspense fallback={lazyFallback}>{children}</Suspense>
+);
+
 const protectedPage = (children: React.ReactNode) => (
   <ProtectedRoute>
-    <AppLayout>{children}</AppLayout>
+    <AppLayout>{withSuspense(children)}</AppLayout>
   </ProtectedRoute>
+);
+
+const publicPage = (children: React.ReactNode) => (
+  <PublicRoute>{withSuspense(children)}</PublicRoute>
 );
 
 export const AppRouter: React.FC = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path={ROUTES.LOGIN} element={<PublicRoute><Login /></PublicRoute>} />
-        <Route path={ROUTES.REGISTER} element={<PublicRoute><Register /></PublicRoute>} />
-        <Route path={ROUTES.FORGOT_PASSWORD} element={<PublicRoute><ForgotPassword /></PublicRoute>} />
+        <Route path={ROUTES.LOGIN} element={publicPage(<Login />)} />
+        <Route path={ROUTES.REGISTER} element={publicPage(<Register />)} />
+        <Route path={ROUTES.FORGOT_PASSWORD} element={publicPage(<ForgotPassword />)} />
 
-        <Route path={ROUTES.PRIVACY_POLICY} element={<PrivacyPolicy />} />
-        <Route path={ROUTES.TERMS} element={<Terms />} />
+        <Route path={ROUTES.PRIVACY_POLICY} element={withSuspense(<PrivacyPolicy />)} />
+        <Route path={ROUTES.TERMS} element={withSuspense(<Terms />)} />
 
         <Route path={ROUTES.DASHBOARD} element={protectedPage(<Dashboard />)} />
         <Route path={ROUTES.CONTACTS} element={protectedPage(<Contacts />)} />
@@ -62,6 +86,13 @@ export const AppRouter: React.FC = () => {
         <Route path={ROUTES.ADD_TRANSACTION} element={protectedPage(<AddTransaction />)} />
         <Route path={ROUTES.TRANSACTION_DETAIL} element={protectedPage(<TransactionDetail />)} />
         <Route path={ROUTES.CATEGORIES} element={protectedPage(<Categories />)} />
+
+        <Route path={ROUTES.GOALS} element={protectedPage(<Goals />)} />
+        <Route path={ROUTES.ADD_GOAL} element={protectedPage(<AddEditGoal />)} />
+        <Route path={ROUTES.GOAL_DETAIL} element={protectedPage(<GoalDetail />)} />
+        <Route path={ROUTES.EDIT_GOAL} element={protectedPage(<AddEditGoal />)} />
+        <Route path={ROUTES.ADD_GOAL_CONTRIBUTION} element={protectedPage(<AddGoalContribution />)} />
+        <Route path={ROUTES.EDIT_GOAL_CONTRIBUTION} element={protectedPage(<AddGoalContribution />)} />
 
         <Route path={ROUTES.SETTINGS} element={protectedPage(<Settings />)} />
         <Route path={ROUTES.PROFILE} element={protectedPage(<Profile />)} />

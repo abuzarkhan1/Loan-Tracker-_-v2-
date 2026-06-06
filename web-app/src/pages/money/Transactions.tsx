@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  Search,
   Plus,
   ArrowUpRight,
   ArrowDownLeft,
   Layers,
   Trash2,
   Eye,
-  RefreshCw
+  RefreshCw,
+  WalletCards
 } from "lucide-react";
 import Card from "../../components/common/Card";
 import Button from "../../components/common/Button";
@@ -17,6 +17,8 @@ import Table from "../../components/common/Table";
 import Badge from "../../components/common/Badge";
 import AmountText from "../../components/common/AmountText";
 import ConfirmDialog from "../../components/common/ConfirmDialog";
+import PageHeader from "../../components/common/PageHeader";
+import SearchInput from "../../components/common/SearchInput";
 import { useTransactions } from "../../hooks/useTransactions";
 import { usePagination } from "../../hooks/usePagination";
 import { ROUTES } from "../../config/routes.config";
@@ -32,7 +34,7 @@ export const Transactions: React.FC = () => {
   const [selectedTxId, setSelectedTxId] = useState<string | null>(null);
 
   // Pagination hook
-  const { page, limit, setPage, setLimit } = usePagination(1, 10);
+  const { page, limit, setPage } = usePagination(1, 10);
 
   // Query hook
   const listParams = {
@@ -72,37 +74,35 @@ export const Transactions: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6">
-      {/* Top action row */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-extrabold text-appText">Transactions Ledger</h1>
-          <p className="text-sm text-appMuted">Unified view of expenses, income, loan recoveries, and loan repayments.</p>
-        </div>
-        <Button
-          variant="primary"
-          size="sm"
-          leftIcon={<Plus className="h-4 w-4" />}
-          onClick={() => navigate(ROUTES.ADD_TRANSACTION)}
-        >
-          Add Transaction
-        </Button>
-      </div>
+    <div className="w-full space-y-6">
+      <PageHeader
+        kicker="Expenses"
+        title="Transactions Ledger"
+        description="Unified view of expenses, income, loan recoveries, and loan repayments."
+        icon={<WalletCards className="h-6 w-6" />}
+        actions={
+          <Button
+            variant="primary"
+            size="sm"
+            leftIcon={<Plus className="h-4 w-4" />}
+            onClick={() => navigate(ROUTES.ADD_TRANSACTION)}
+          >
+            Add Transaction
+          </Button>
+        }
+      />
 
       {/* Filters row */}
       <Card variant="bordered">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3">
-          <div className="relative">
-            <Search className="absolute left-3 top-3 h-4 w-4 text-appMuted" />
-            <input
-              type="text"
+          <div>
+            <SearchInput
               placeholder="Search descriptions..."
               value={search}
-              onChange={(e) => {
-                setSearch(e.target.value);
+              onChange={(value) => {
+                setSearch(value);
                 setPage(1);
               }}
-              className="w-full pl-9 pr-4 py-2 border border-appBorder rounded-lg bg-appBg text-sm text-appText focus:outline-none focus:border-appPrimary"
             />
           </div>
 
@@ -176,7 +176,7 @@ export const Transactions: React.FC = () => {
       </Card>
 
       {/* Transactions Table Card */}
-      <Card variant="bordered" className="overflow-hidden">
+      <Card variant="bordered" className="overflow-hidden border-appBorder/50" padding="none">
         <Table
           headers={["Details", "Category", "Method", "Type", "Amount", "Actions"]}
           isLoading={isLoading}

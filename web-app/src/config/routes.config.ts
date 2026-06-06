@@ -25,6 +25,13 @@ export const ROUTES = {
   TRANSACTION_DETAIL: "/transactions/:id",
   CATEGORIES: "/categories",
 
+  GOALS: "/goals",
+  ADD_GOAL: "/goals/add",
+  GOAL_DETAIL: "/goals/:id",
+  EDIT_GOAL: "/goals/:id/edit",
+  ADD_GOAL_CONTRIBUTION: "/goals/:id/contributions/add",
+  EDIT_GOAL_CONTRIBUTION: "/goals/:id/contributions/:contributionId/edit",
+
   SETTINGS: "/settings",
   PROFILE: "/settings/profile",
 };

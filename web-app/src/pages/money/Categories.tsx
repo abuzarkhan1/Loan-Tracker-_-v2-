@@ -175,7 +175,7 @@ export const Categories: React.FC = () => {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="h-9 w-9 rounded-xl bg-appBgSoft border border-appBorder flex items-center justify-center text-appMuted shrink-0">
-                    <FolderOpen className="h-4.5 w-4.5 text-indigo-500" />
+                    <FolderOpen className="h-4 w-4 text-indigo-500" />
                   </div>
                   <div>
                     <h4 className="font-bold text-appText text-sm sm:text-base">{cat.name}</h4>

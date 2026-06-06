@@ -18,7 +18,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
   }, [initializeTheme]);
 
   return (
-    <div className="flex h-screen w-screen overflow-hidden bg-appBg">
+    <div className="app-shell-bg flex h-screen w-screen overflow-hidden bg-appBg">
       {/* Sidebar for Desktop */}
       <Sidebar collapsed={sidebarCollapsed} setCollapsed={setSidebarCollapsed} />
 
@@ -31,12 +31,12 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
         <Header />
 
         {/* Scrollable Workspace */}
-        <main className="flex-1 overflow-y-auto px-4 sm:px-6 py-4 flex flex-col gap-2">
+        <main className="flex-1 overflow-y-auto px-4 py-4 sm:px-6 lg:px-8 flex flex-col gap-2">
           {/* Breadcrumbs HUD */}
           <Breadcrumbs />
 
           {/* Actual screen view */}
-          <div className="flex-1 pb-10">
+          <div className="mx-auto w-full max-w-[1480px] pb-10">
             {children}
           </div>
         </main>

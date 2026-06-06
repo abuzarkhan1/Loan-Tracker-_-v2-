@@ -45,7 +45,7 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
         <div className="flex flex-col gap-4">
           <div className="flex items-center gap-3">
             <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full ${isDestructive ? 'bg-appDanger bg-opacity-10 text-appDanger' : 'bg-appWarning bg-opacity-10 text-appWarning'}`}>
-              <AlertTriangle className="h-5.5 w-5.5" />
+              <AlertTriangle className="h-5 w-5" />
             </div>
             <h3 className="text-lg font-bold text-appText">{title}</h3>
           </div>

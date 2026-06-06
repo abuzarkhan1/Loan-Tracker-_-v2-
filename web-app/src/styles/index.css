@@ -42,14 +42,20 @@
     --peach: rgba(255, 228, 211, 0.14);
     --mint: rgba(217, 241, 215, 0.14);
     --yellow: rgba(255, 213, 106, 0.15);
-    --border: rgba(255, 255, 255, 0.08);
+    --border: rgba(111, 101, 119, 0.22);
     --pill: #332d3a;
-    --shadow-color: rgba(0, 0, 0, 0.4);
+    --shadow-color: rgba(0, 0, 0, 0.34);
   }
 
   body {
     @apply bg-appBg text-appText font-sans transition-colors duration-200 antialiased overflow-x-hidden;
     margin: 0;
+    font-feature-settings: "tnum" 1, "ss01" 1;
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--primary) 22%, transparent);
+    color: var(--text);
   }
 }
 
@@ -74,6 +80,36 @@
 /* Glassmorphism custom classes */
 .glass-card {
   @apply bg-appCard bg-opacity-80 backdrop-blur-md border border-appBorder shadow-soft;
+}
+
+.app-shell-bg {
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--background-soft) 74%, transparent) 0%, var(--background) 34%, var(--background) 100%),
+    repeating-linear-gradient(90deg, color-mix(in srgb, var(--border) 18%, transparent) 0 1px, transparent 1px 72px);
+}
+
+.premium-panel {
+  @apply border border-appBorder bg-appCard shadow-soft;
+}
+
+.premium-card-hover {
+  @apply transition-all duration-200 ease-out hover:-translate-y-0.5 hover:border-appPrimary hover:shadow-soft active:translate-y-0;
+}
+
+.nav-item-transition {
+  @apply transition-all duration-200 ease-out;
+}
+
+.page-kicker {
+  @apply text-[10px] font-black uppercase tracking-[0.22em] text-appPrimary;
+}
+
+.page-title {
+  @apply text-2xl font-extrabold tracking-tight text-appText sm:text-3xl;
+}
+
+.page-subtitle {
+  @apply mt-2 max-w-2xl text-sm font-semibold leading-6 text-appMuted;
 }
 
 /* Smooth transitions for theme toggles */

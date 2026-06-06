@@ -11,6 +11,7 @@ import {
 import { Link } from "react-router-dom";
 import Button from "../../components/common/Button";
 import Card from "../../components/common/Card";
+import PageHeader from "../../components/common/PageHeader";
 import { ROUTES } from "../../config/routes.config";
 import { useAuth } from "../../hooks/useAuth";
 import { useTheme } from "../../hooks/useTheme";
@@ -36,15 +37,15 @@ export const Settings: React.FC = () => {
 
   return (
     <div className="mx-auto max-w-4xl space-y-6">
-      <div>
-        <h1 className="text-2xl font-extrabold text-appText">Settings</h1>
-        <p className="text-sm font-semibold text-appMuted">
-          Keep the app simple: profile, theme, categories, and logout.
-        </p>
-      </div>
+      <PageHeader
+        kicker="Preferences"
+        title="Settings"
+        description="Keep the app simple: profile, theme, categories, app info, and logout."
+        icon={<Info className="h-6 w-6" />}
+      />
 
       {user && (
-        <Card variant="bordered" className="flex items-center justify-between gap-4 border-l-4 border-l-appPrimary bg-appBgSoft p-5">
+        <Card variant="elevated" className="flex items-center justify-between gap-4 border-appBorder/50 bg-appCard p-5">
           <div className="flex items-center gap-3">
             <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-appPrimary text-lg font-extrabold text-white shadow-sm">
               {user.name?.charAt(0).toUpperCase() || "U"}

@@ -19,7 +19,7 @@ export const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(
         )}
         <div className="relative flex items-center bg-appInput rounded-xl shadow-sm">
           <div className="absolute left-3.5 flex items-center text-appMuted pointer-events-none">
-            <Calendar className="h-4.5 w-4.5" />
+            <Calendar className="h-4 w-4" />
           </div>
           
           <input

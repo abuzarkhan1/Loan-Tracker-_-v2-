@@ -3,7 +3,11 @@ import {
   LogOut, 
   User, 
   Plus, 
-  ChevronDown
+  ChevronDown,
+  HandCoins,
+  ReceiptText,
+  Target,
+  WalletCards,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../store/auth.store";
@@ -31,13 +35,13 @@ export const Header: React.FC = () => {
   };
 
   return (
-    <header className="flex h-16 items-center justify-between px-6 border-b border-appBorder bg-appCard sticky top-0 z-20 shadow-sm">
+    <header className="sticky top-0 z-20 hidden h-[72px] items-center justify-between border-b border-appBorder bg-appCard/90 px-8 shadow-sm backdrop-blur-xl md:flex">
       {/* Welcome text */}
       <div className="flex flex-col">
-        <h1 className="text-sm font-extrabold tracking-wide text-appText select-none uppercase">
+        <h1 className="select-none text-sm font-extrabold tracking-tight text-appText">
           {getGreeting()},{user?.name ? ` ${user.name.split(" ")[0]}` : ""}
         </h1>
-        <p className="text-xs text-appMuted hidden sm:block">Manage your loans, transactions, and cash flows.</p>
+        <p className="hidden text-xs font-semibold text-appMuted sm:block">Loans, contacts, expenses, and goals in one calm workspace.</p>
       </div>
 
       {/* Action buttons */}
@@ -61,20 +65,26 @@ export const Header: React.FC = () => {
               <Card
                 variant="elevated"
                 padding="none"
-                className="absolute right-0 mt-2 w-48 py-2 z-40 animate-in fade-in slide-in-from-top-2 duration-150 border border-appBorder/50"
+                className="absolute right-0 mt-2 w-60 py-2 z-40 animate-in fade-in slide-in-from-top-2 duration-150 border border-appBorder/50"
               >
-                <button
-                  onClick={() => { navigate(ROUTES.ADD_LOAN); setQuickAddOpen(false); }}
-                  className="w-full text-left px-4 py-2 text-xs font-semibold text-appText hover:bg-appBgSoft transition-colors"
-                >
-                  Add Loan
-                </button>
-                <button
-                  onClick={() => { navigate(ROUTES.ADD_TRANSACTION); setQuickAddOpen(false); }}
-                  className="w-full text-left px-4 py-2 text-xs font-semibold text-appText hover:bg-appBgSoft transition-colors"
-                >
-                  Add Income/Expense
-                </button>
+                {[
+                  { label: "Add Loan", route: ROUTES.ADD_LOAN, icon: HandCoins },
+                  { label: "Add Payment", route: ROUTES.ADD_PAYMENT, icon: ReceiptText },
+                  { label: "Add Expense / Income", route: ROUTES.ADD_TRANSACTION, icon: WalletCards },
+                  { label: "Add Goal", route: ROUTES.ADD_GOAL, icon: Target },
+                ].map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <button
+                      key={item.label}
+                      onClick={() => { navigate(item.route); setQuickAddOpen(false); }}
+                      className="flex w-full items-center gap-2.5 px-4 py-2.5 text-left text-xs font-bold text-appText transition-colors hover:bg-appBgSoft"
+                    >
+                      <Icon className="h-4 w-4 text-appPrimary" />
+                      {item.label}
+                    </button>
+                  );
+                })}
               </Card>
             </>
           )}

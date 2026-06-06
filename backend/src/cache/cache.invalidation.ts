@@ -32,6 +32,15 @@ export const cacheInvalidation = {
     ]);
   },
 
+  async goalChanged(userId: string, goalId?: string) {
+    await Promise.all([
+      cacheService.delByPattern(cacheKeys.goals.listPattern(userId)),
+      goalId ? cacheService.del(cacheKeys.goals.detail(userId, goalId)) : cacheService.delByPattern(cacheKeys.goals.detailPattern(userId)),
+      cacheService.del(cacheKeys.goals.summary(userId)),
+      cacheService.delByPattern(cacheKeys.dashboard.pattern(userId)),
+    ]);
+  },
+
   async userChanged(userId: string) {
     await cacheService.delByPattern(cacheKeys.userPrefix(userId) + ":*");
   },

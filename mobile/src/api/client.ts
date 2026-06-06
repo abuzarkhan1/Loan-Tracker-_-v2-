@@ -11,12 +11,20 @@ import {
   DashboardSummary,
   DeviceContactImportPayload,
   DeviceContactImportResult,
+  Goal,
+  GoalContribution,
+  GoalContributionMutationResponse,
+  GoalDetail,
+  GoalMutationResponse,
+  GoalStatus,
+  GoalSummary,
   Loan,
   LoanDetail,
   LoanStatusChartPoint,
   LoanTypeChartPoint,
   MonthlyChartPoint,
   PaginatedContacts,
+  PaginatedGoals,
   PaginatedLoans,
   PaginatedTransactions,
   Payment,
@@ -129,6 +137,20 @@ export const api = {
   updateTransaction: (transactionId: string, payload: Partial<Transaction>) =>
     unwrap<Transaction>(apiClient.patch(`/transactions/${transactionId}`, payload)),
   deleteTransaction: (transactionId: string) => unwrap<{ id: string }>(apiClient.delete(`/transactions/${transactionId}`)),
+
+  getGoals: (params?: { status?: GoalStatus; page?: number; limit?: number }) =>
+    unwrap<PaginatedGoals>(apiClient.get("/goals", { params })),
+  getGoalSummary: () => unwrap<GoalSummary>(apiClient.get("/goals/summary")),
+  getGoal: (goalId: string) => unwrap<GoalDetail>(apiClient.get(`/goals/${goalId}`)),
+  createGoal: (payload: Partial<Goal>) => unwrap<GoalMutationResponse>(apiClient.post("/goals", payload)),
+  updateGoal: (goalId: string, payload: Partial<Goal>) => unwrap<GoalMutationResponse>(apiClient.patch(`/goals/${goalId}`, payload)),
+  deleteGoal: (goalId: string) => unwrap<{ id: string }>(apiClient.delete(`/goals/${goalId}`)),
+  addGoalContribution: (goalId: string, payload: Partial<GoalContribution>) =>
+    unwrap<GoalContributionMutationResponse>(apiClient.post(`/goals/${goalId}/contributions`, payload)),
+  updateGoalContribution: (goalId: string, contributionId: string, payload: Partial<GoalContribution>) =>
+    unwrap<GoalContributionMutationResponse>(apiClient.patch(`/goals/${goalId}/contributions/${contributionId}`, payload)),
+  deleteGoalContribution: (goalId: string, contributionId: string) =>
+    unwrap<GoalContributionMutationResponse>(apiClient.delete(`/goals/${goalId}/contributions/${contributionId}`)),
 };
 
 export const getApiBaseUrl = () => API_URL;

@@ -55,6 +55,14 @@ export const cacheKeys = {
     detail: (userId: string, id: string) => `${userPrefix(userId)}:transactions:detail:${id}`,
     pattern: (userId: string) => `${userPrefix(userId)}:transactions:*`,
   },
+  goals: {
+    list: (userId: string, query: QueryParams = {}) => `${userPrefix(userId)}:goals:list:${stableQueryKey(query)}`,
+    detail: (userId: string, goalId: string) => `${userPrefix(userId)}:goals:detail:${goalId}`,
+    summary: (userId: string) => `${userPrefix(userId)}:goals:summary`,
+    pattern: (userId: string) => `${userPrefix(userId)}:goals:*`,
+    listPattern: (userId: string) => `${userPrefix(userId)}:goals:list:*`,
+    detailPattern: (userId: string, goalId = "*") => `${userPrefix(userId)}:goals:detail:${goalId}`,
+  },
 };
 
 export const cacheTtl = {

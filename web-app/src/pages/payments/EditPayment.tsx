@@ -120,7 +120,7 @@ export const EditPayment: React.FC = () => {
         </button>
         <div>
           <h2 className="text-xl font-extrabold text-appText flex items-center gap-2">
-            <Edit className="h-5.5 w-5.5 text-appPrimary animate-pulse" /> Edit Repayment Record
+            <Edit className="h-5 w-5 text-appPrimary animate-pulse" /> Edit Repayment Record
           </h2>
           <p className="text-xs text-appMuted mt-0.5">
             Modify payment amount or channel logged for {contactName}'s loan "{loanDesc}".

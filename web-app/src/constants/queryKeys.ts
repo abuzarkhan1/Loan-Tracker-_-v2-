@@ -19,4 +19,8 @@ export const QUERY_KEYS = {
   TRANSACTIONS: "transactions",
   TRANSACTION_DETAIL: "transaction_detail",
   CATEGORIES: "categories",
+
+  GOALS: "goals",
+  GOAL_DETAIL: "goal_detail",
+  GOAL_SUMMARY: "goal_summary",
 };

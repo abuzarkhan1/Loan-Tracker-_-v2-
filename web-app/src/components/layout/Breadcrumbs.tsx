@@ -11,7 +11,7 @@ export const Breadcrumbs: React.FC = () => {
   if (location.pathname === ROUTES.DASHBOARD) return null;
 
   return (
-    <nav className="flex items-center gap-1.5 py-3 text-xs font-semibold text-appMuted select-none max-w-full overflow-x-auto whitespace-nowrap">
+    <nav className="mb-3 flex max-w-full items-center gap-1.5 overflow-x-auto whitespace-nowrap rounded-2xl border border-appBorder/40 bg-appCard/70 px-3 py-2 text-xs font-bold text-appMuted shadow-sm backdrop-blur select-none">
       <Link to="/" className="hover:text-appText flex items-center gap-1 transition-colors">
         <Home className="h-3.5 w-3.5" />
         <span>Home</span>

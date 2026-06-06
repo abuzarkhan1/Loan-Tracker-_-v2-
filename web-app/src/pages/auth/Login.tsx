@@ -3,12 +3,13 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as zod from "zod";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { Lock, Mail } from "lucide-react";
+import { ArrowRight, Lock, Mail, ShieldCheck, WalletCards } from "lucide-react";
 import { useAuthStore } from "../../store/auth.store";
 import { ROUTES } from "../../config/routes.config";
 import Input from "../../components/common/Input";
 import Button from "../../components/common/Button";
 import Card from "../../components/common/Card";
+import BrandLogo from "../../components/common/BrandLogo";
 
 const loginSchema = zod.object({
   email: zod.string().min(1, "Email is required").email("Invalid email address"),
@@ -16,6 +17,14 @@ const loginSchema = zod.object({
 });
 
 type LoginFormInputs = zod.infer<typeof loginSchema>;
+
+const getErrorMessage = (error: unknown) => {
+  if (typeof error === "object" && error !== null && "response" in error) {
+    const response = (error as { response?: { data?: { message?: string } } }).response;
+    return response?.data?.message;
+  }
+  return undefined;
+};
 
 export const Login: React.FC = () => {
   const { login } = useAuthStore();
@@ -40,9 +49,9 @@ export const Login: React.FC = () => {
     try {
       await login(data);
       navigate(ROUTES.DASHBOARD);
-    } catch (err: any) {
+    } catch (err: unknown) {
       setServerError(
-        err.response?.data?.message || "Failed to log in. Please check your credentials."
+        getErrorMessage(err) || "Failed to log in. Please check your credentials."
       );
     } finally {
       setLoading(false);
@@ -50,24 +59,50 @@ export const Login: React.FC = () => {
   };
 
   return (
-    <div className="flex min-h-screen w-screen items-center justify-center bg-appBg px-4 py-12 select-none">
-      <div className="w-full max-w-md space-y-6">
-        {/* Branding header */}
-        <div className="flex flex-col items-center text-center gap-2">
-          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-appPrimary text-white font-extrabold text-xl shadow-lg">
-            LT
+    <div className="app-shell-bg flex min-h-screen w-screen items-center justify-center bg-appBg px-4 py-10 select-none">
+      <div className="grid w-full max-w-6xl grid-cols-1 overflow-hidden rounded-[32px] border border-appBorder bg-appCard shadow-elevated lg:grid-cols-[0.95fr_1.05fr]">
+        <div className="hidden border-r border-appBorder bg-appBgSoft/70 p-10 lg:flex lg:flex-col lg:justify-between">
+          <div>
+            <BrandLogo markSize="lg" />
+
+            <div className="mt-16">
+              <p className="page-kicker">Simple hisaab</p>
+              <h1 className="mt-3 max-w-md text-4xl font-extrabold leading-tight tracking-tight text-appText">
+                Track loans, payments, expenses, and saving goals with clarity.
+              </h1>
+              <p className="mt-5 max-w-md text-sm font-semibold leading-7 text-appMuted">
+                A professional workspace for money you gave, money you took, partial payments, and daily cash records.
+              </p>
+            </div>
           </div>
-          <h2 className="text-2xl font-extrabold text-appText tracking-tight">
-            Welcome to <span className="text-appPrimary">Loan Tracker</span>
-          </h2>
-          <p className="text-sm text-appMuted max-w-xs">
-            Manage your personal finance, envelopes, and loan records safely.
-          </p>
+
+          <div className="grid grid-cols-2 gap-3">
+            <div className="rounded-2xl border border-appBorder bg-appCard p-4">
+              <WalletCards className="h-5 w-5 text-appPrimary" />
+              <p className="mt-3 text-xs font-extrabold text-appText">Clean dashboard</p>
+              <p className="mt-1 text-[11px] font-semibold leading-5 text-appMuted">Balances and charts at a glance.</p>
+            </div>
+            <div className="rounded-2xl border border-appBorder bg-appCard p-4">
+              <ShieldCheck className="h-5 w-5 text-appSuccess" />
+              <p className="mt-3 text-xs font-extrabold text-appText">Private records</p>
+              <p className="mt-1 text-[11px] font-semibold leading-5 text-appMuted">Your personal ledger stays organized.</p>
+            </div>
+          </div>
         </div>
 
-        {/* Form container */}
-        <Card variant="elevated" className="border border-appBorder/50">
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <div className="p-6 sm:p-10 lg:p-14">
+          <div className="mx-auto w-full max-w-md space-y-7">
+            <div>
+              <BrandLogo showText={false} markSize="lg" className="mb-6 lg:hidden" />
+              <p className="page-kicker">Welcome back</p>
+              <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-appText">Log in</h2>
+              <p className="mt-2 text-sm font-semibold leading-6 text-appMuted">
+                Continue your loan tracker and expense ledger.
+              </p>
+            </div>
+
+            <Card variant="bordered" className="border-appBorder/60">
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             {showExpired && (
               <div className="rounded-xl bg-appWarning/10 border border-appWarning/25 p-3.5 text-center text-xs font-semibold text-appWarning">
                 Your session has expired. Please log in again.
@@ -88,7 +123,7 @@ export const Login: React.FC = () => {
               leftIcon={<Mail className="h-4 w-4" />}
               error={errors.email?.message}
               disabled={loading}
-              {...register("register" in register ? "email" : "email" as any)}
+              {...register("email")}
             />
 
             <div className="space-y-1">
@@ -100,7 +135,7 @@ export const Login: React.FC = () => {
                 leftIcon={<Lock className="h-4 w-4" />}
                 error={errors.password?.message}
                 disabled={loading}
-                {...register("password" as any)}
+                {...register("password")}
               />
               <div className="flex justify-end pr-1 pt-1.5">
                 <Link
@@ -112,22 +147,23 @@ export const Login: React.FC = () => {
               </div>
             </div>
 
-            <Button type="submit" variant="primary" fullWidth isLoading={loading} className="mt-2 py-3">
+            <Button type="submit" variant="primary" fullWidth isLoading={loading} className="mt-2 py-3" rightIcon={<ArrowRight className="h-4 w-4" />}>
               Log In
             </Button>
-          </form>
-        </Card>
+              </form>
+            </Card>
 
-        {/* Footer links */}
-        <p className="text-center text-xs font-semibold text-appMuted">
-          Don't have an account?{" "}
-          <Link
-            to={ROUTES.REGISTER}
-            className="font-bold text-appPrimary hover:text-appPrimaryDark transition-colors"
-          >
-            Create one now
-          </Link>
-        </p>
+            <p className="text-center text-xs font-semibold text-appMuted">
+              Don't have an account?{" "}
+              <Link
+                to={ROUTES.REGISTER}
+                className="font-bold text-appPrimary hover:text-appPrimaryDark transition-colors"
+              >
+                Create one now
+              </Link>
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );

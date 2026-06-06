@@ -23,7 +23,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             {label}
           </label>
         )}
-        <div className="relative flex items-center rounded-xl bg-appInput shadow-sm">
+        <div className="relative flex items-center rounded-2xl bg-appInput shadow-sm">
           {leftIcon && (
             <div className="absolute left-3.5 flex items-center text-appMuted pointer-events-none">
               {leftIcon}
@@ -34,7 +34,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             id={id}
             type={actualType}
             className={cn(
-              "w-full rounded-xl border border-appBorder bg-transparent px-4 py-2.5 text-sm text-appText transition-all placeholder:text-appMuted focus:border-appPrimary focus:outline-none focus:ring-1 focus:ring-appPrimary disabled:cursor-not-allowed disabled:opacity-50",
+              "w-full rounded-2xl border border-appBorder bg-transparent px-4 py-3 text-sm font-semibold text-appText transition-all placeholder:text-appMuted focus:border-appPrimary focus:outline-none focus:ring-2 focus:ring-appPrimary/20 disabled:cursor-not-allowed disabled:opacity-50",
               leftIcon && "pl-10",
               (rightIcon || isPassword) && "pr-10",
               error && "border-appDanger focus:border-appDanger focus:ring-appDanger",
@@ -56,7 +56,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               className="absolute right-3.5 flex items-center text-appMuted hover:text-appText transition-colors focus:outline-none"
               onClick={() => setShowPassword(!showPassword)}
             >
-              {showPassword ? <EyeOff className="h-4.5 w-4.5" /> : <Eye className="h-4.5 w-4.5" />}
+              {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
             </button>
           )}
         </div>

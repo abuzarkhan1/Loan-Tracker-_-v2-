@@ -72,7 +72,7 @@ export const AddLoan: React.FC = () => {
         </button>
         <div>
           <h2 className="text-xl font-extrabold text-appText flex items-center gap-2">
-            <HandCoins className="h-5.5 w-5.5 text-appPrimary animate-pulse" /> Add Loan Record
+            <HandCoins className="h-5 w-5 text-appPrimary animate-pulse" /> Add Loan Record
           </h2>
           <p className="text-xs text-appMuted mt-0.5">Log a new loan given to or taken from a contact.</p>
         </div>

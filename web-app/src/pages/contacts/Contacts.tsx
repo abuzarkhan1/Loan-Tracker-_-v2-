@@ -10,7 +10,6 @@ import {
   Mail,
   Phone,
   Plus,
-  Search,
   Smartphone,
   Users2,
 } from "lucide-react";
@@ -22,6 +21,7 @@ import ErrorState from "../../components/common/ErrorState";
 import Input from "../../components/common/Input";
 import LoadingState from "../../components/common/LoadingState";
 import Modal from "../../components/common/Modal";
+import PageHeader from "../../components/common/PageHeader";
 import SearchInput from "../../components/common/SearchInput";
 import { ROUTES } from "../../config/routes.config";
 import useDebounce from "../../hooks/useDebounce";
@@ -92,25 +92,22 @@ export const Contacts: React.FC = () => {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h2 className="flex items-center gap-2 text-xl font-extrabold text-appText">
-            <Users2 className="h-6 w-6 text-appPrimary" /> Contacts
-          </h2>
-          <p className="mt-1 text-xs font-semibold text-appMuted">
-            Phone contacts stay first. Manual contacts are available when you need them.
-          </p>
-        </div>
-        <Button
-          variant="primary"
-          onClick={() => setAddOpen(true)}
-          leftIcon={<Plus className="h-4 w-4" />}
-          className="self-start sm:self-auto"
-        >
-          Add Manually
-        </Button>
-      </div>
+    <div className="w-full space-y-6">
+      <PageHeader
+        kicker="People"
+        title="Contacts"
+        description="Keep every person’s loan profile, payment history, and ledger organized in one place."
+        icon={<Users2 className="h-6 w-6" />}
+        actions={
+          <Button
+            variant="primary"
+            onClick={() => setAddOpen(true)}
+            leftIcon={<Plus className="h-4 w-4" />}
+          >
+            Add Manually
+          </Button>
+        }
+      />
 
       <Card variant="bordered" className="border-appBorder/50">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-center">
