@@ -2,10 +2,10 @@ import {
   BadgeCent,
   HandCoins,
   LayoutDashboard,
+  ReceiptText,
   Settings2,
   Target,
   Users2,
-  Wallet,
   type LucideIcon,
 } from "lucide-react";
 import { ROUTES } from "./routes.config";
@@ -34,7 +34,7 @@ export const NAV_GROUPS: NavGroup[] = [
   {
     title: "Expenses",
     items: [
-      { label: "Transactions", icon: Wallet, path: ROUTES.TRANSACTIONS },
+      { label: "Expenses", icon: ReceiptText, path: ROUTES.EXPENSES },
       { label: "Categories", icon: BadgeCent, path: ROUTES.CATEGORIES },
     ],
   },

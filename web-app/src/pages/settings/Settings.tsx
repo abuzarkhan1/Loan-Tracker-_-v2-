@@ -5,6 +5,7 @@ import {
   Layers,
   LogOut,
   Moon,
+  ReceiptText,
   Sun,
   User as UserIcon,
 } from "lucide-react";
@@ -32,6 +33,12 @@ export const Settings: React.FC = () => {
       description: "Manage expense and income categories.",
       icon: <Layers className="h-5 w-5 text-appSuccess" />,
       route: ROUTES.CATEGORIES,
+    },
+    {
+      title: "Expenses",
+      description: "Open expense, income, budget, and cash-flow tracking.",
+      icon: <ReceiptText className="h-5 w-5 text-appDanger" />,
+      route: ROUTES.EXPENSES,
     },
   ];
 

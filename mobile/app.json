@@ -12,8 +12,8 @@
     "scheme": "loantracker",
     "icon": "./assets/logo.png",
     "userInterfaceStyle": "automatic",
-    "backgroundColor": "#fffaf4",
-    "primaryColor": "#f36f56",
+    "backgroundColor": "#ffffff",
+    "primaryColor": "#635bff",
     "runtimeVersion": {
       "policy": "appVersion"
     },
@@ -28,7 +28,7 @@
       "buildNumber": "1",
       "supportsTablet": true,
       "requireFullScreen": false,
-      "backgroundColor": "#fffaf4",
+      "backgroundColor": "#ffffff",
       "userInterfaceStyle": "automatic",
       "icon": "./assets/logo.png",
       "config": {
@@ -38,13 +38,13 @@
     "android": {
       "package": "com.abuzar.loantracker",
       "versionCode": 1,
-      "backgroundColor": "#fffaf4",
+      "backgroundColor": "#ffffff",
       "userInterfaceStyle": "automatic",
       "softwareKeyboardLayoutMode": "resize",
       "allowBackup": false,
       "permissions": [],
       "adaptiveIcon": {
-        "backgroundColor": "#fffaf4",
+        "backgroundColor": "#ffffff",
         "foregroundImage": "./assets/logo.png"
       },
       "predictiveBackGestureEnabled": true
@@ -53,8 +53,8 @@
       "name": "Loan Tracker",
       "shortName": "LoanTrack",
       "favicon": "./assets/logo.png",
-      "themeColor": "#f36f56",
-      "backgroundColor": "#fffaf4",
+      "themeColor": "#635bff",
+      "backgroundColor": "#ffffff",
       "display": "standalone",
       "bundler": "metro"
     },
@@ -63,11 +63,12 @@
         "expo-font",
         {
           "fonts": [
-            "./node_modules/@expo-google-fonts/manrope/400Regular/Manrope_400Regular.ttf",
-            "./node_modules/@expo-google-fonts/manrope/500Medium/Manrope_500Medium.ttf",
-            "./node_modules/@expo-google-fonts/manrope/600SemiBold/Manrope_600SemiBold.ttf",
-            "./node_modules/@expo-google-fonts/manrope/700Bold/Manrope_700Bold.ttf",
-            "./node_modules/@expo-google-fonts/manrope/800ExtraBold/Manrope_800ExtraBold.ttf"
+            "./node_modules/@expo-google-fonts/inter/400Regular/Inter_400Regular.ttf",
+            "./node_modules/@expo-google-fonts/inter/500Medium/Inter_500Medium.ttf",
+            "./node_modules/@expo-google-fonts/inter/600SemiBold/Inter_600SemiBold.ttf",
+            "./node_modules/@expo-google-fonts/inter/700Bold/Inter_700Bold.ttf",
+            "./node_modules/@expo-google-fonts/inter/800ExtraBold/Inter_800ExtraBold.ttf",
+            "./node_modules/@expo-google-fonts/fira-code/400Regular/FiraCode_400Regular.ttf"
           ]
         }
       ],
@@ -88,12 +89,12 @@
       [
         "expo-splash-screen",
         {
-          "backgroundColor": "#fffaf4",
+          "backgroundColor": "#ffffff",
           "image": "./assets/logo.png",
           "imageWidth": 160,
           "resizeMode": "contain",
           "dark": {
-            "backgroundColor": "#1a161f",
+            "backgroundColor": "#0b0f19",
             "image": "./assets/logo.png"
           }
         }

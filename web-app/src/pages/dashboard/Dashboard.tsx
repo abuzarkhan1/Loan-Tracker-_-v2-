@@ -299,10 +299,10 @@ export const Dashboard: React.FC = () => {
           onClick={() => navigate(ROUTES.ADD_PAYMENT)}
         />
         <QuickAction
-          label="Add Expense / Income"
-          description="Log everyday cash movement."
+          label="Add Expense"
+          description="Log everyday spending."
           icon={WalletCards}
-          onClick={() => navigate(ROUTES.ADD_TRANSACTION)}
+          onClick={() => navigate(`${ROUTES.ADD_TRANSACTION}?type=EXPENSE`)}
         />
         <QuickAction
           label="Add Goal"

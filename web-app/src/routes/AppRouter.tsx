@@ -83,8 +83,10 @@ export const AppRouter: React.FC = () => {
         <Route path={ROUTES.PAYMENT_DETAIL} element={protectedPage(<PaymentDetail />)} />
 
         <Route path={ROUTES.TRANSACTIONS} element={protectedPage(<Transactions />)} />
+        <Route path={ROUTES.EXPENSES} element={protectedPage(<Transactions />)} />
         <Route path={ROUTES.ADD_TRANSACTION} element={protectedPage(<AddTransaction />)} />
         <Route path={ROUTES.TRANSACTION_DETAIL} element={protectedPage(<TransactionDetail />)} />
+        <Route path={ROUTES.EDIT_TRANSACTION} element={protectedPage(<AddTransaction />)} />
         <Route path={ROUTES.CATEGORIES} element={protectedPage(<Categories />)} />
 
         <Route path={ROUTES.GOALS} element={protectedPage(<Goals />)} />

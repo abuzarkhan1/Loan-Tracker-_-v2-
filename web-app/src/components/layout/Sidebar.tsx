@@ -18,6 +18,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed, setCollapsed }) => 
     if (path === ROUTES.DASHBOARD) {
       return location.pathname === path;
     }
+    if (path === ROUTES.EXPENSES) {
+      return location.pathname.startsWith(ROUTES.EXPENSES) || location.pathname.startsWith(ROUTES.TRANSACTIONS);
+    }
     return location.pathname.startsWith(path);
   };
 

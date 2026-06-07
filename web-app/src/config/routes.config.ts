@@ -20,9 +20,11 @@ export const ROUTES = {
   EDIT_PAYMENT: "/payments/:id/edit",
   PAYMENT_DETAIL: "/payments/:id",
 
+  EXPENSES: "/expenses",
   TRANSACTIONS: "/transactions",
   ADD_TRANSACTION: "/transactions/add",
   TRANSACTION_DETAIL: "/transactions/:id",
+  EDIT_TRANSACTION: "/transactions/:id/edit",
   CATEGORIES: "/categories",
 
   GOALS: "/goals",

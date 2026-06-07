@@ -21,7 +21,7 @@ export const useTransactions = (transactionId?: string, listParams?: Record<stri
 
   const categoriesQuery = useQuery({
     queryKey: [QUERY_KEYS.CATEGORIES],
-    queryFn: () => transactionsApi.getCategories(),
+    queryFn: () => transactionsApi.getCategories({ includeInactive: true }),
   });
 
   // Mutations

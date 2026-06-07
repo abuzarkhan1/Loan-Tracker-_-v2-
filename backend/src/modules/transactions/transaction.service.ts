@@ -72,9 +72,13 @@ export const transactionService = {
       };
     }
     if (filters.dateFrom || filters.dateTo) {
+      const dateFrom = filters.dateFrom ? new Date(filters.dateFrom) : undefined;
+      const dateTo = filters.dateTo ? new Date(filters.dateTo) : undefined;
+      if (dateFrom) dateFrom.setHours(0, 0, 0, 0);
+      if (dateTo) dateTo.setHours(23, 59, 59, 999);
       query.date = {
-        ...(filters.dateFrom ? { $gte: filters.dateFrom } : {}),
-        ...(filters.dateTo ? { $lte: filters.dateTo } : {}),
+        ...(dateFrom ? { $gte: dateFrom } : {}),
+        ...(dateTo ? { $lte: dateTo } : {}),
       };
     }
     if (filters.search) {

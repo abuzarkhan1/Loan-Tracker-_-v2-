@@ -70,7 +70,7 @@ export const Header: React.FC = () => {
                 {[
                   { label: "Add Loan", route: ROUTES.ADD_LOAN, icon: HandCoins },
                   { label: "Add Payment", route: ROUTES.ADD_PAYMENT, icon: ReceiptText },
-                  { label: "Add Expense / Income", route: ROUTES.ADD_TRANSACTION, icon: WalletCards },
+                  { label: "Add Expense", route: `${ROUTES.ADD_TRANSACTION}?type=EXPENSE`, icon: WalletCards },
                   { label: "Add Goal", route: ROUTES.ADD_GOAL, icon: Target },
                 ].map((item) => {
                   const Icon = item.icon;

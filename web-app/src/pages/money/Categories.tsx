@@ -2,21 +2,24 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Plus, Trash2, Eye, EyeOff, FolderOpen, Layers } from "lucide-react";
-import Card from "../../components/common/Card";
-import Button from "../../components/common/Button";
-import Input from "../../components/common/Input";
-import Select from "../../components/common/Select";
+import { Edit3, Eye, EyeOff, FolderOpen, Layers, Plus, Save, Trash2, X } from "lucide-react";
+import AmountText from "../../components/common/AmountText";
 import Badge from "../../components/common/Badge";
+import Button from "../../components/common/Button";
+import Card from "../../components/common/Card";
+import Input from "../../components/common/Input";
 import LoadingState from "../../components/common/LoadingState";
 import PageHeader from "../../components/common/PageHeader";
+import Select from "../../components/common/Select";
 import { useTransactions } from "../../hooks/useTransactions";
+import type { Category } from "../../types";
 
 const categorySchema = z.object({
   name: z.string().min(2, "Category name must be at least 2 characters"),
   type: z.enum(["INCOME", "EXPENSE"]),
-  icon: z.string().optional(),
-  color: z.string().optional(),
+  icon: z.string().max(60).optional(),
+  color: z.string().max(20).optional(),
+  monthlyBudget: z.coerce.number().min(0, "Budget cannot be negative").optional(),
 });
 
 type CategoryFormInputs = z.infer<typeof categorySchema>;
@@ -24,52 +27,91 @@ type CategoryFormInputs = z.infer<typeof categorySchema>;
 export const Categories: React.FC = () => {
   const [activeTab, setActiveTab] = useState<"EXPENSE" | "INCOME">("EXPENSE");
   const [formOpen, setFormOpen] = useState(false);
+  const [editingCategory, setEditingCategory] = useState<Category | null>(null);
   const [formError, setFormError] = useState<string | null>(null);
-
   const { categories, isLoading, createCategory, deleteCategory, updateCategory } = useTransactions();
 
   const {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors },
   } = useForm<CategoryFormInputs>({
-    resolver: zodResolver(categorySchema),
+    resolver: zodResolver(categorySchema) as any,
     defaultValues: {
       type: "EXPENSE",
-      color: "#6366F1",
+      color: "#635BFF",
+      monthlyBudget: 0,
     },
   });
 
+  const openCreate = () => {
+    setEditingCategory(null);
+    setFormError(null);
+    reset({ type: activeTab, color: "#635BFF", monthlyBudget: 0, icon: "", name: "" });
+    setFormOpen(true);
+  };
+
+  const openEdit = (category: Category) => {
+    setEditingCategory(category);
+    setFormError(null);
+    reset({
+      name: category.name,
+      type: category.type,
+      icon: category.icon || "",
+      color: category.color || "#635BFF",
+      monthlyBudget: category.monthlyBudget || 0,
+    });
+    setFormOpen(true);
+  };
+
+  const closeForm = () => {
+    setFormOpen(false);
+    setEditingCategory(null);
+    setFormError(null);
+    reset({ type: activeTab, color: "#635BFF", monthlyBudget: 0, icon: "", name: "" });
+  };
+
   const onSubmit = async (data: CategoryFormInputs) => {
     setFormError(null);
+    const payload = {
+      ...data,
+      icon: data.icon || undefined,
+      color: data.color || undefined,
+      monthlyBudget: Number(data.monthlyBudget || 0),
+    };
+
     try {
-      await createCategory(data);
-      setFormOpen(false);
-      reset();
+      if (editingCategory) {
+        await updateCategory({ id: editingCategory._id, payload });
+      } else {
+        await createCategory(payload);
+      }
+      setActiveTab(data.type);
+      closeForm();
     } catch (err: any) {
-      setFormError(err.response?.data?.message || "Failed to create category.");
+      setFormError(err.response?.data?.message || "Failed to save category.");
     }
   };
 
-  const handleToggleActive = async (id: string, currentIsActive: boolean) => {
+  const handleToggleActive = async (category: Category) => {
     try {
       await updateCategory({
-        id,
-        payload: { isActive: !currentIsActive },
+        id: category._id,
+        payload: { isActive: !category.isActive },
       });
-    } catch (err: any) {
-      alert("Failed to update status.");
+    } catch {
+      alert("Failed to update category status.");
     }
   };
 
-  const handleDelete = async (id: string) => {
-    if (window.confirm("Are you sure you want to deactivate/delete this category? Transactions using it will be preserved but category won't show in new selections.")) {
-      try {
-        await deleteCategory(id);
-      } catch (err: any) {
-        alert("Failed to delete category.");
-      }
+  const handleDelete = async (category: Category) => {
+    if (!window.confirm("Deactivate/delete this category? Existing transactions will stay preserved.")) return;
+    try {
+      await deleteCategory(category._id);
+    } catch {
+      alert("Failed to delete category.");
     }
   };
 
@@ -77,76 +119,87 @@ export const Categories: React.FC = () => {
     return <LoadingState message="Loading finance categories..." />;
   }
 
-  const expenseCategories = (categories || []).filter((cat) => cat.type === "EXPENSE");
-  const incomeCategories = (categories || []).filter((cat) => cat.type === "INCOME");
+  const expenseCategories = (categories || []).filter((category) => category.type === "EXPENSE");
+  const incomeCategories = (categories || []).filter((category) => category.type === "INCOME");
   const displayList = activeTab === "EXPENSE" ? expenseCategories : incomeCategories;
+  const budgetTotal = expenseCategories.reduce((sum, category) => sum + Number(category.monthlyBudget || 0), 0);
 
   return (
-    <div className="space-y-6 max-w-4xl mx-auto">
+    <div className="mx-auto max-w-5xl space-y-6">
       <PageHeader
         kicker="Money setup"
         title="Categories"
-        description="Customize simple expense and income categories."
+        description="Manage income and expense categories, including monthly budgets for expense tracking."
         icon={<Layers className="h-6 w-6" />}
         actions={
-          <Button
-            variant="primary"
-            size="sm"
-            leftIcon={<Plus className="h-4 w-4" />}
-            onClick={() => setFormOpen(!formOpen)}
-          >
-            {formOpen ? "Close" : "Create Category"}
+          <Button variant="primary" size="sm" leftIcon={<Plus className="h-4 w-4" />} onClick={openCreate}>
+            Create Category
           </Button>
         }
       />
 
-      {/* Add New Category Card */}
+      <div className="grid gap-4 sm:grid-cols-3">
+        <Card>
+          <p className="text-xs font-semibold uppercase tracking-[0.05em] text-appMuted">Expense Categories</p>
+          <p className="mt-2 text-2xl font-semibold text-appDanger">{expenseCategories.length}</p>
+        </Card>
+        <Card>
+          <p className="text-xs font-semibold uppercase tracking-[0.05em] text-appMuted">Income Categories</p>
+          <p className="mt-2 text-2xl font-semibold text-appSuccess">{incomeCategories.length}</p>
+        </Card>
+        <Card>
+          <p className="text-xs font-semibold uppercase tracking-[0.05em] text-appMuted">Monthly Budget</p>
+          <AmountText amount={budgetTotal} className="mt-2 block text-2xl font-semibold text-appPrimary" />
+        </Card>
+      </div>
+
       {formOpen && (
-        <Card variant="bordered" className="border-appBorder/50 bg-appCard">
-          <h3 className="mb-4 text-sm font-semibold text-appText">Create New Category</h3>
-          <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 sm:grid-cols-4 gap-4 items-end">
-            <div className="sm:col-span-2">
-              <Input
-                label="Category Name"
-                placeholder="e.g. Health, Utilities, Fuel"
-                error={errors.name?.message}
-                {...register("name")}
-              />
-            </div>
+        <Card className="border-appPrimary/30">
+          <div className="mb-5 flex items-center justify-between gap-3">
             <div>
+              <h3 className="text-lg font-semibold text-appText">{editingCategory ? "Edit Category" : "Create Category"}</h3>
+              <p className="mt-1 text-sm text-appTextSecondary">Budgets are used on the Expenses overview.</p>
+            </div>
+            <button type="button" className="rounded-md p-2 text-appMuted hover:bg-appSurface hover:text-appText" onClick={closeForm} aria-label="Close form">
+              <X className="h-4 w-4" />
+            </button>
+          </div>
+
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Input label="Category Name" placeholder="Health, Utilities, Fuel" error={errors.name?.message} {...register("name")} />
               <Select
                 label="Category Type"
                 error={errors.type?.message}
                 {...register("type")}
+                onChange={(event) => setValue("type", event.target.value as "EXPENSE" | "INCOME")}
                 options={[
-                  { label: "Expense (-)", value: "EXPENSE" },
-                  { label: "Income (+)", value: "INCOME" },
+                  { label: "Expense", value: "EXPENSE" },
+                  { label: "Income", value: "INCOME" },
                 ]}
               />
             </div>
-            <div className="flex gap-2">
-              <Button type="submit" variant="primary" className="w-full">
-                Save
-              </Button>
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => {
-                  setFormOpen(false);
-                  reset();
-                }}
-              >
+
+            <div className="grid gap-4 sm:grid-cols-3">
+              <Input label="Icon Key" placeholder="utensils, wallet..." error={errors.icon?.message} {...register("icon")} />
+              <Input label="Color" placeholder="#635BFF" error={errors.color?.message} {...register("color")} />
+              <Input label="Monthly Budget" type="number" min={0} placeholder="0" error={errors.monthlyBudget?.message} {...register("monthlyBudget")} />
+            </div>
+
+            {formError ? <p className="text-sm font-medium text-appDanger">{formError}</p> : null}
+
+            <div className="flex flex-col-reverse gap-2 border-t border-appBorder pt-4 sm:flex-row sm:justify-end">
+              <Button type="button" variant="outline" onClick={closeForm}>
                 Cancel
+              </Button>
+              <Button type="submit" variant="primary" leftIcon={<Save className="h-4 w-4" />}>
+                {editingCategory ? "Save Changes" : "Save Category"}
               </Button>
             </div>
           </form>
-          {formError && (
-            <p className="mt-2 text-xs font-medium text-appDanger">{formError}</p>
-          )}
         </Card>
       )}
 
-      {/* Tab controls */}
       <div className="flex border-b border-appBorder">
         <button
           onClick={() => setActiveTab("EXPENSE")}
@@ -162,54 +215,47 @@ export const Categories: React.FC = () => {
         </button>
       </div>
 
-      {/* Categories grid */}
       {displayList.length === 0 ? (
-        <div className="py-12 text-center text-appMuted">
-          No categories found. Click "Create Category" to build one.
-        </div>
+        <Card className="py-12 text-center">
+          <p className="text-sm font-semibold text-appText">No categories found.</p>
+          <p className="mt-1 text-sm text-appMuted">Create a category to start organizing cash flow.</p>
+        </Card>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          {displayList.map((cat) => (
-            <Card
-              key={cat._id}
-              variant="bordered"
-              className={`hover:shadow-md transition-shadow relative overflow-hidden ${!cat.isActive ? "opacity-60 bg-appBgSoft" : ""}`}
-            >
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-appBorder bg-appBgSoft text-appMuted">
-                    <FolderOpen className="h-4 w-4 text-appPrimary" />
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {displayList.map((category) => (
+            <Card key={category._id} className={`relative overflow-hidden transition-shadow hover:shadow-level2 ${!category.isActive ? "opacity-60" : ""}`}>
+              <div className="absolute inset-x-0 top-0 h-1" style={{ backgroundColor: category.color || "#635BFF" }} />
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex min-w-0 items-center gap-3">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-appBorder bg-appSurface text-appPrimary">
+                    <FolderOpen className="h-4 w-4" />
                   </div>
-                  <div>
-                    <h4 className="text-sm font-semibold text-appText">{cat.name}</h4>
-                    <span className="text-xs capitalize text-appMuted">{cat.type.toLowerCase()} envelope</span>
+                  <div className="min-w-0">
+                    <h4 className="truncate text-sm font-semibold text-appText">{category.name}</h4>
+                    <p className="mt-1 text-xs capitalize text-appMuted">{category.type.toLowerCase()} category</p>
                   </div>
                 </div>
 
-                {/* Badging & Actions */}
                 <div className="flex items-center gap-1">
-                  <button
-                    onClick={() => handleToggleActive(cat._id, cat.isActive ?? true)}
-                    className="p-1.5 hover:bg-appBgSoft rounded-lg text-appMuted transition-colors"
-                    title={cat.isActive ? "Deactivate" : "Activate"}
-                  >
-                    {cat.isActive ? <Eye className="h-4 w-4 text-appSuccess" /> : <EyeOff className="h-4 w-4" />}
+                  <button className="rounded-lg p-1.5 text-appMuted transition-colors hover:bg-appSurface hover:text-appText" onClick={() => openEdit(category)} title="Edit">
+                    <Edit3 className="h-4 w-4" />
                   </button>
-                  <button
-                    onClick={() => handleDelete(cat._id)}
-                    className="rounded-lg p-1.5 text-appDanger transition-colors hover:bg-appBgSoft hover:text-appDanger"
-                    title="Deactivate / Delete"
-                  >
+                  <button className="rounded-lg p-1.5 text-appMuted transition-colors hover:bg-appSurface hover:text-appText" onClick={() => handleToggleActive(category)} title={category.isActive ? "Deactivate" : "Activate"}>
+                    {category.isActive ? <Eye className="h-4 w-4 text-appSuccess" /> : <EyeOff className="h-4 w-4" />}
+                  </button>
+                  <button className="rounded-lg p-1.5 text-appDanger transition-colors hover:bg-appSurface" onClick={() => handleDelete(category)} title="Delete">
                     <Trash2 className="h-4 w-4" />
                   </button>
                 </div>
               </div>
 
-              {/* Status footer pill */}
-              <div className="mt-3 flex items-center justify-between border-t border-appBorder pt-2 text-xs">
-                <span className="text-appMuted">Created: {new Date(cat.createdAt).toLocaleDateString()}</span>
-                <Badge variant={cat.isActive ? "success" : "muted"}>
-                  {cat.isActive ? "Active" : "Disabled"}
+              <div className="mt-4 flex items-center justify-between border-t border-appBorder pt-3 text-xs">
+                <div>
+                  <p className="text-appMuted">Budget</p>
+                  <AmountText amount={Number(category.monthlyBudget || 0)} className="mt-1 block text-sm font-semibold text-appText" />
+                </div>
+                <Badge variant={category.isActive ? "success" : "muted"}>
+                  {category.isActive ? "Active" : "Disabled"}
                 </Badge>
               </div>
             </Card>
