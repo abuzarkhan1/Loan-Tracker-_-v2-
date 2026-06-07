@@ -70,7 +70,7 @@ export const LoanDetail: React.FC = () => {
     <div className="mx-auto max-w-5xl space-y-6">
       <button
         onClick={() => navigate(ROUTES.LOANS)}
-        className="flex items-center gap-1.5 text-sm font-bold text-appMuted transition-colors hover:text-appText"
+        className="flex items-center gap-1.5 text-xs font-medium text-appMuted transition-colors hover:text-appText"
       >
         <ArrowLeft className="h-4 w-4" /> Back to Loans
       </button>
@@ -80,14 +80,14 @@ export const LoanDetail: React.FC = () => {
           <div className="min-w-0">
             <div className="mb-3 flex flex-wrap items-center gap-2">
               <StatusBadge status={loan.status} />
-              <span className={`rounded-full px-2.5 py-1 text-[10px] font-black uppercase tracking-widest ${
+              <span className={`rounded-md border px-2.5 py-1 text-xs font-medium ${
                 loan.type === "GIVEN" ? "bg-appSuccess/10 text-appSuccess" : "bg-appDanger/10 text-appDanger"
               }`}>
                 {loan.type === "GIVEN" ? "Given Loan" : "Taken Loan"}
               </span>
             </div>
-            <h1 className="text-2xl font-extrabold text-appText">{loan.description || "Loan"}</h1>
-            <div className="mt-2 flex flex-wrap items-center gap-4 text-sm font-semibold text-appMuted">
+            <h1 className="text-xl font-semibold text-appText">{loan.description || "Loan"}</h1>
+            <div className="mt-2 flex flex-wrap items-center gap-4 text-sm font-normal text-appMuted">
               <span className="inline-flex items-center gap-1.5">
                 <User className="h-4 w-4" /> {contact?.name || "Unknown Contact"}
               </span>
@@ -126,22 +126,22 @@ export const LoanDetail: React.FC = () => {
         </div>
 
         <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
-          <div className="rounded-2xl bg-appBgSoft p-5">
-            <p className="text-[10px] font-black uppercase tracking-widest text-appMuted">Amount</p>
-            <AmountText amount={loan.amount} className="mt-1 text-xl font-extrabold text-appText" />
+          <div className="rounded-lg border border-appBorder bg-appSurface p-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.05em] text-appMuted">Amount</p>
+            <AmountText amount={loan.amount} className="mt-1 text-lg font-semibold text-appText" />
           </div>
-          <div className="rounded-2xl bg-appBgSoft p-5">
-            <p className="text-[10px] font-black uppercase tracking-widest text-appMuted">Paid</p>
-            <AmountText amount={loan.paidAmount} className="mt-1 text-xl font-extrabold text-appSuccess" />
+          <div className="rounded-lg border border-appBorder bg-appSurface p-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.05em] text-appMuted">Paid</p>
+            <AmountText amount={loan.paidAmount} className="mt-1 text-lg font-semibold text-appSuccess" />
           </div>
-          <div className="rounded-2xl bg-appBgSoft p-5">
-            <p className="text-[10px] font-black uppercase tracking-widest text-appMuted">Remaining</p>
-            <AmountText amount={loan.remainingAmount} className="mt-1 text-xl font-extrabold text-appPrimary" />
+          <div className="rounded-lg border border-appBorder bg-appSurface p-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.05em] text-appMuted">Remaining</p>
+            <AmountText amount={loan.remainingAmount} className="mt-1 text-lg font-semibold text-appPrimary" />
           </div>
         </div>
 
         <div className="mt-6 space-y-2">
-          <div className="flex items-center justify-between text-xs font-semibold text-appMuted">
+          <div className="flex items-center justify-between text-xs font-medium text-appMuted">
             <span>Payment Progress</span>
             <span>{progress}% paid</span>
           </div>
@@ -183,8 +183,8 @@ export const LoanDetail: React.FC = () => {
       <Card variant="bordered" className="border-appBorder/50">
         <div className="mb-4 flex items-center justify-between gap-4">
           <div>
-            <h2 className="text-lg font-extrabold text-appText">Payment History</h2>
-            <p className="text-xs font-semibold text-appMuted">Every partial payment recalculates the balance automatically.</p>
+            <h2 className="text-lg font-semibold text-appText">Payment History</h2>
+            <p className="text-xs font-normal text-appMuted">Every partial payment recalculates the balance automatically.</p>
           </div>
           <Button
             variant="outline"
@@ -207,16 +207,16 @@ export const LoanDetail: React.FC = () => {
         ) : (
           <div className="space-y-3">
             {paymentList.map((payment) => (
-              <div key={payment._id} className="rounded-2xl border border-appBorder/50 bg-appBgSoft/50 p-4">
+              <div key={payment._id} className="rounded-lg border border-appBorder bg-appCard p-4 shadow-level1">
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                   <div>
-                    <p className="text-sm font-extrabold text-appText">
+                    <p className="text-sm font-semibold text-appText">
                       <AmountText amount={payment.amount} />
                     </p>
-                    <p className="mt-1 text-xs font-semibold text-appMuted">
+                    <p className="mt-1 text-xs font-normal text-appMuted">
                       {payment.type === "RECEIVED" ? "Received back" : "Paid back"} via {payment.method}
                     </p>
-                    <p className="mt-1 text-xs font-semibold text-appMuted">{formatDate(payment.paymentDate)}</p>
+                    <p className="mt-1 text-xs font-normal text-appMuted">{formatDate(payment.paymentDate)}</p>
                     {payment.note && <p className="mt-2 text-sm text-appText">{payment.note}</p>}
                   </div>
                   <div className="flex gap-2">

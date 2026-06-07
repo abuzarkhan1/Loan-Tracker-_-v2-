@@ -94,7 +94,7 @@ export const Transactions: React.FC = () => {
 
       {/* Filters row */}
       <Card variant="bordered">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5">
           <div>
             <SearchInput
               placeholder="Search descriptions..."
@@ -186,44 +186,45 @@ export const Transactions: React.FC = () => {
             const isIncome = tx.type === "INCOME" || tx.type === "LOAN_RECOVERY";
             const catName = getCategoryName(tx);
             return (
-              <tr key={tx._id} className="hover:bg-appBgSoft border-b border-appBorder last:border-0">
-                <td className="px-6 py-4">
+              <tr key={tx._id} className="border-b border-appBorder last:border-0 hover:bg-appSurface">
+                <td className="px-4 py-3">
                   <div className="flex items-center gap-3">
-                    <div className={`h-8 w-8 rounded-full flex items-center justify-center shrink-0 ${isIncome ? "bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400" : "bg-rose-50 text-rose-600 dark:bg-rose-950/40 dark:text-rose-400"}`}>
+                    <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-md ${isIncome ? "bg-appSuccess/10 text-appSuccess" : "bg-appDanger/10 text-appDanger"}`}>
                       {isIncome ? <ArrowUpRight className="h-4 w-4" /> : <ArrowDownLeft className="h-4 w-4" />}
                     </div>
                     <div>
-                      <p className="font-semibold text-appText truncate max-w-[200px]">{tx.note || catName}</p>
+                      <p className="max-w-[200px] truncate text-sm font-medium text-appText">{tx.note || catName}</p>
                       <p className="text-xs text-appMuted">{new Date(tx.date || tx.createdAt).toLocaleDateString()}</p>
                     </div>
                   </div>
                 </td>
-                <td className="px-6 py-4">
-                  <div className="flex items-center gap-1 text-xs text-appMuted font-medium">
-                    <Layers className="h-3.5 w-3.5 text-indigo-500" />
+                <td className="px-4 py-3">
+                  <div className="flex items-center gap-1 text-xs font-medium text-appMuted">
+                    <Layers className="h-3.5 w-3.5 text-appPrimary" />
                     <span>{catName}</span>
                   </div>
                 </td>
-                <td className="px-6 py-4">
+                <td className="px-4 py-3">
                   <Badge variant={tx.paymentMethod === "CASH" ? "warning" : "primary"}>
                     {tx.paymentMethod}
                   </Badge>
                 </td>
-                <td className="px-6 py-4">
-                  <span className={`text-xs font-bold ${isIncome ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"}`}>
+                <td className="px-4 py-3">
+                  <span className={`text-xs font-semibold ${isIncome ? "text-appSuccess" : "text-appDanger"}`}>
                     {tx.type}
                   </span>
                 </td>
-                <td className="px-6 py-4">
-                  <p className={`font-bold ${isIncome ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"}`}>
+                <td className="px-4 py-3">
+                  <p className={`font-medium ${isIncome ? "text-appSuccess" : "text-appDanger"}`}>
                     {isIncome ? "+" : "-"}<AmountText amount={tx.amount} />
                   </p>
                 </td>
-                <td className="px-6 py-4">
+                <td className="px-4 py-3">
                   <div className="flex items-center gap-1.5">
                     <Button
                       variant="ghost"
                       size="sm"
+                      className="h-8 w-8 px-0"
                       onClick={() => navigate(ROUTES.TRANSACTION_DETAIL.replace(":id", tx._id))}
                       leftIcon={<Eye className="h-3.5 w-3.5" />}
                       title="View Details"
@@ -231,7 +232,7 @@ export const Transactions: React.FC = () => {
                     <Button
                       variant="ghost"
                       size="sm"
-                      className="text-rose-500 hover:text-rose-600"
+                      className="h-8 w-8 px-0 text-appDanger hover:text-appDanger"
                       onClick={(e) => handleDeleteClick(tx._id, e)}
                       leftIcon={<Trash2 className="h-3.5 w-3.5" />}
                       title="Delete Transaction"
@@ -245,7 +246,7 @@ export const Transactions: React.FC = () => {
 
         {/* Pagination HUD */}
         {totalPages > 1 && (
-          <div className="py-4 px-6 border-t border-appBorder flex items-center justify-between">
+          <div className="flex items-center justify-between border-t border-appBorder px-6 py-4">
             <span className="text-xs text-appMuted">
               Showing {(page - 1) * limit + 1} - {Math.min(page * limit, totalCount)} of {totalCount} records
             </span>

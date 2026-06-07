@@ -42,9 +42,9 @@ export const Terms = () => (
     <Section className="pt-4">
       <div className="mx-auto grid max-w-4xl gap-4">
         {terms.map((item) => (
-          <Card key={item.title} className="rounded-xl p-6">
-            <h2 className="text-2xl font-extrabold text-dark">{item.title}</h2>
-            <p className="mt-3 text-sm font-medium leading-7 text-muted">{item.body}</p>
+          <Card key={item.title} className="p-5">
+            <h2 className="text-base font-semibold text-dark">{item.title}</h2>
+            <p className="mt-2 text-sm font-normal leading-6 text-muted">{item.body}</p>
           </Card>
         ))}
       </div>

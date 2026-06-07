@@ -25,23 +25,23 @@ export const DashboardChartsSection = () => (
     <div className="mt-8 grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
       <div className="grid gap-3 sm:grid-cols-2">
         {financeCards.map((card) => (
-          <Card key={card.label} className="p-5">
+          <Card key={card.label} className="p-4">
             <IconBadge icon={card.icon} tone={card.tone as Tone} />
-            <p className="mt-4 text-[11px] font-extrabold uppercase text-muted">{card.label}</p>
-            <p className="mt-1 text-2xl font-extrabold text-dark">{card.value}</p>
+            <p className="mt-4 text-xs font-semibold uppercase tracking-[0.05em] text-muted">{card.label}</p>
+            <p className="mt-1 text-xl font-semibold text-dark">{card.value}</p>
           </Card>
         ))}
       </div>
 
-      <Card className="rounded-2xl p-5 sm:p-7">
+      <Card className="p-5 sm:p-6">
         <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h3 className="text-2xl font-extrabold text-dark">Monthly Flow</h3>
-            <p className="mt-1 text-sm font-bold text-muted">Loans and repayments trend</p>
+            <h3 className="text-lg font-semibold text-dark">Monthly Flow</h3>
+            <p className="mt-1 text-sm font-normal text-muted">Loans and repayments trend</p>
           </div>
-          <span className="w-fit rounded-full bg-peach px-4 py-2 text-xs font-extrabold uppercase text-primary-dark">Sample chart</span>
+          <span className="w-fit rounded-md border border-border bg-background-soft px-3 py-1.5 text-xs font-medium text-muted">Sample chart</span>
         </div>
-        <div className="h-[260px] sm:h-[320px]">
+        <div className="h-[240px] sm:h-[280px]">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={chartData} margin={{ left: -22, right: 8, top: 10, bottom: 0 }}>
               <defs>
@@ -55,11 +55,11 @@ export const DashboardChartsSection = () => (
                 </linearGradient>
               </defs>
               <CartesianGrid stroke="rgb(var(--color-border))" strokeDasharray="4 6" vertical={false} />
-              <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fill: "rgb(var(--color-muted))", fontSize: 12, fontWeight: 700 }} />
-              <YAxis axisLine={false} tickLine={false} tick={{ fill: "rgb(var(--color-muted))", fontSize: 12, fontWeight: 700 }} />
+              <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fill: "rgb(var(--color-muted))", fontSize: 12, fontWeight: 500 }} />
+              <YAxis axisLine={false} tickLine={false} tick={{ fill: "rgb(var(--color-muted))", fontSize: 12, fontWeight: 500 }} />
               <Tooltip
                 contentStyle={{
-                  borderRadius: 18,
+                  borderRadius: 8,
                   borderColor: "rgb(var(--color-border))",
                   background: "rgb(var(--color-card))",
                   color: "rgb(var(--color-text))",

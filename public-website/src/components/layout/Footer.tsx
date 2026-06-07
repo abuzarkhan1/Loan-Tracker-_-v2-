@@ -11,13 +11,13 @@ const legalLinks = [
 ];
 
 export const Footer = () => (
-  <footer className="px-5 pb-6 pt-12 sm:px-6">
-    <div className="mx-auto max-w-7xl rounded-2xl border border-border bg-[#2b2631] p-6 text-[#f5f0eb] shadow-elevated dark:bg-[#15121a] sm:p-8 lg:p-10">
-      <div className="grid gap-10 lg:grid-cols-[1.3fr_0.8fr_0.8fr_1fr]">
+  <footer className="px-4 pb-6 pt-10 sm:px-6">
+    <div className="mx-auto max-w-6xl rounded-xl border border-white/10 bg-[#0a2540] p-6 text-white shadow-elevated dark:border-[#2a3441] dark:bg-[#151b2b] dark:text-[#f0f6fc] sm:p-8">
+      <div className="grid gap-8 lg:grid-cols-[1.3fr_0.8fr_0.8fr_1fr]">
         <div>
-          <BrandMark className="text-[#f5f0eb] [&_span_span:first-child]:text-[#f5f0eb] [&_span_span:last-child]:text-[#a89fb0]" />
-          <p className="mt-5 max-w-sm text-sm font-medium leading-7 text-[#a89fb0]">
-            A premium personal loan tracker for contacts, repayments, remaining balances, and clean financial summaries.
+          <BrandMark className="[&_span_span:first-child]:text-white [&_span_span:last-child]:text-[#a3acb9] dark:[&_span_span:first-child]:text-[#f0f6fc] dark:[&_span_span:last-child]:text-[#8b9cb5]" />
+          <p className="mt-4 max-w-sm text-sm font-normal leading-6 text-[#c7d2e1] dark:text-[#8b9cb5]">
+            A focused personal loan tracker for contacts, repayments, remaining balances, and clean financial summaries.
           </p>
           <DownloadApkButton className="mt-6">
             Download APK
@@ -25,10 +25,10 @@ export const Footer = () => (
         </div>
 
         <div>
-          <h3 className="text-sm font-extrabold uppercase text-[#ffe4d3]">Quick Links</h3>
+          <h3 className="text-xs font-semibold uppercase tracking-[0.05em] text-[#a3acb9] dark:text-[#8b949e]">Quick Links</h3>
           <div className="mt-4 grid gap-3">
             {navLinks.slice(0, 5).map((link) => (
-              <Link key={link.href} to={link.href} className="text-sm font-bold text-[#a89fb0] transition hover:text-[#f5f0eb]">
+              <Link key={link.href} to={link.href} className="text-sm font-medium text-[#c7d2e1] transition hover:text-white dark:text-[#8b9cb5] dark:hover:text-[#f0f6fc]">
                 {link.label}
               </Link>
             ))}
@@ -36,10 +36,10 @@ export const Footer = () => (
         </div>
 
         <div>
-          <h3 className="text-sm font-extrabold uppercase text-[#ffe4d3]">Legal</h3>
+          <h3 className="text-xs font-semibold uppercase tracking-[0.05em] text-[#a3acb9] dark:text-[#8b949e]">Legal</h3>
           <div className="mt-4 grid gap-3">
             {legalLinks.map((link) => (
-              <Link key={link.href} to={link.href} className="text-sm font-bold text-[#a89fb0] transition hover:text-[#f5f0eb]">
+              <Link key={link.href} to={link.href} className="text-sm font-medium text-[#c7d2e1] transition hover:text-white dark:text-[#8b9cb5] dark:hover:text-[#f0f6fc]">
                 {link.label}
               </Link>
             ))}
@@ -47,9 +47,9 @@ export const Footer = () => (
         </div>
 
         <div>
-          <h3 className="text-sm font-extrabold uppercase text-[#ffe4d3]">Contact</h3>
-          <div className="mt-4 grid gap-3 text-sm font-bold text-[#a89fb0]">
-            <a href={APP_CONFIG.supportEmailHref} className="inline-flex items-center gap-2 transition hover:text-[#f5f0eb]">
+          <h3 className="text-xs font-semibold uppercase tracking-[0.05em] text-[#a3acb9] dark:text-[#8b949e]">Contact</h3>
+          <div className="mt-4 grid gap-3 text-sm font-medium text-[#c7d2e1] dark:text-[#8b9cb5]">
+            <a href={APP_CONFIG.supportEmailHref} className="inline-flex items-center gap-2 transition hover:text-white dark:hover:text-[#f0f6fc]">
               <Mail size={17} />
               {APP_CONFIG.supportEmail}
             </a>
@@ -65,7 +65,7 @@ export const Footer = () => (
         </div>
       </div>
 
-      <div className="mt-10 flex flex-col gap-3 border-t border-white/10 pt-6 text-xs font-bold text-[#a89fb0] sm:flex-row sm:items-center sm:justify-between">
+      <div className="mt-8 flex flex-col gap-3 border-t border-white/10 pt-6 text-xs font-normal text-[#a3acb9] dark:border-[#2a3441] dark:text-[#8b949e] sm:flex-row sm:items-center sm:justify-between">
         <p>© {new Date().getFullYear()} {APP_CONFIG.appName}. All rights reserved.</p>
         <p>Built for clear personal finance records.</p>
       </div>

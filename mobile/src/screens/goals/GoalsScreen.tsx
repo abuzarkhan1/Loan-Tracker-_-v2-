@@ -28,10 +28,10 @@ const StatusChip = ({ label, active, onPress }: { label: string; active: boolean
     <TouchableOpacity
       activeOpacity={0.86}
       onPress={onPress}
-      className="flex-1 rounded-full border py-3"
-      style={{ borderColor: active ? theme.primary : theme.border, backgroundColor: active ? theme.peach : theme.pill }}
+      className="flex-1 rounded-lg border py-2.5"
+      style={{ borderColor: active ? theme.primary : theme.border, backgroundColor: active ? theme.primary : theme.pill }}
     >
-      <Text style={{ color: active ? theme.primaryDark : theme.muted, fontFamily: fontFamily.extraBold, fontSize: 12, textAlign: "center" }}>
+      <Text style={{ color: active ? theme.white : theme.muted, fontFamily: fontFamily.medium, fontSize: 13, textAlign: "center" }}>
         {label}
       </Text>
     </TouchableOpacity>
@@ -53,8 +53,8 @@ export const GoalsScreen = () => {
     <Screen className="gap-5 pt-5">
       <View className="flex-row items-start justify-between gap-4">
         <View className="flex-1">
-          <Text style={{ color: theme.text, fontFamily: fontFamily.extraBold, fontSize: 28 }}>Goals</Text>
-          <Text style={{ color: theme.muted, fontFamily: fontFamily.semiBold, fontSize: 13, marginTop: 4 }}>
+          <Text style={{ color: theme.text, fontFamily: fontFamily.bold, fontSize: 32, lineHeight: 40 }}>Goals</Text>
+          <Text style={{ color: theme.textSecondary, fontFamily: fontFamily.regular, fontSize: 15, lineHeight: 22, marginTop: 2 }}>
             Save slowly for things you want.
           </Text>
         </View>
@@ -62,20 +62,20 @@ export const GoalsScreen = () => {
           activeOpacity={0.86}
           onPress={() => navigation.navigate("AddEditGoal")}
           style={{
-            height: 48,
-            width: 48,
-            borderRadius: 17,
+            height: 40,
+            width: 40,
+            borderRadius: 6,
             alignItems: "center",
             justifyContent: "center",
             backgroundColor: theme.primary,
-            shadowColor: theme.primaryDark,
+            shadowColor: theme.primary,
             shadowOpacity: 0.18,
-            shadowRadius: 16,
-            shadowOffset: { width: 0, height: 8 },
-            elevation: 5,
+            shadowRadius: 12,
+            shadowOffset: { width: 0, height: 4 },
+            elevation: 4,
           }}
         >
-          <Plus color={theme.white} size={25} strokeWidth={2.1} />
+          <Plus color={theme.white} size={22} strokeWidth={2.1} />
         </TouchableOpacity>
       </View>
 

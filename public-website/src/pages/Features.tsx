@@ -36,9 +36,9 @@ export const Features = () => (
     <Section className="pt-2">
       <div className="grid gap-5 lg:grid-cols-3">
         {featureStories.map((story) => (
-          <Card key={story.title} className="rounded-2xl p-6">
-            <h3 className="text-xl font-extrabold text-dark">{story.title}</h3>
-            <p className="mt-4 text-sm font-medium leading-7 text-muted">{story.copy}</p>
+          <Card key={story.title} className="p-5">
+            <h3 className="text-base font-semibold text-dark">{story.title}</h3>
+            <p className="mt-2 text-sm font-normal leading-6 text-muted">{story.copy}</p>
           </Card>
         ))}
       </div>

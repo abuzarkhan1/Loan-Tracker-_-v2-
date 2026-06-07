@@ -23,7 +23,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
       <Sidebar collapsed={sidebarCollapsed} setCollapsed={setSidebarCollapsed} />
 
       {/* Main Container */}
-      <div className="flex flex-1 flex-col h-full overflow-hidden">
+      <div className="flex h-full flex-1 flex-col overflow-hidden">
         {/* Mobile View Topbar */}
         <MobileTopbar />
 
@@ -31,12 +31,12 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
         <Header />
 
         {/* Scrollable Workspace */}
-        <main className="flex-1 overflow-y-auto px-4 py-4 sm:px-6 lg:px-8 flex flex-col gap-2">
+        <main className="flex flex-1 flex-col gap-3 overflow-y-auto px-4 py-5 sm:px-6 lg:px-8">
           {/* Breadcrumbs HUD */}
           <Breadcrumbs />
 
           {/* Actual screen view */}
-          <div className="mx-auto w-full max-w-[1480px] pb-10">
+          <div className="mx-auto w-full max-w-[1200px] pb-10">
             {children}
           </div>
         </main>

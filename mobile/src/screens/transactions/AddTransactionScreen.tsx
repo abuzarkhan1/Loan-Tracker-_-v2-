@@ -122,7 +122,7 @@ const TransactionForm = ({ navigation, route, forcedType }: Props & { forcedType
   return (
     <Screen className="gap-4 pt-5">
       <View>
-        <Text className="text-2xl font-black text-dark" style={{ fontFamily: fontFamily.extraBold }}>
+        <Text className="text-2xl font-bold text-dark" style={{ fontFamily: fontFamily.bold }}>
           {isEditing ? "Edit Transaction" : forcedType === "INCOME" ? "Add Income" : forcedType === "EXPENSE" ? "Add Expense" : "Add Transaction"}
         </Text>
         <Text className="mt-1 text-sm font-medium text-muted">Simple cash flow record.</Text>
@@ -159,7 +159,7 @@ const TransactionForm = ({ navigation, route, forcedType }: Props & { forcedType
             <View className="flex-row items-center justify-between">
               <Text style={{ color: theme.muted, fontFamily: fontFamily.bold, fontSize: 13 }}>Category</Text>
               <TouchableOpacity onPress={() => navigation.navigate("Categories")}>
-                <Text className="text-xs font-black text-primary">Manage</Text>
+                <Text className="text-xs font-bold text-primary">Manage</Text>
               </TouchableOpacity>
             </View>
             <View className="flex-row flex-wrap gap-2">
@@ -170,10 +170,10 @@ const TransactionForm = ({ navigation, route, forcedType }: Props & { forcedType
                     key={category._id}
                     activeOpacity={0.86}
                     onPress={() => onChange(category._id)}
-                    className="rounded-full border px-4 py-2"
+                    className="rounded-lg border px-3 py-2"
                     style={{ borderColor: selected ? theme.primary : theme.border, backgroundColor: selected ? theme.primary : theme.pill }}
                   >
-                    <Text style={{ color: selected ? theme.white : theme.muted, fontFamily: fontFamily.bold, fontSize: 12 }}>
+                    <Text style={{ color: selected ? theme.white : theme.muted, fontFamily: fontFamily.medium, fontSize: 13 }}>
                       {category.name}
                     </Text>
                   </TouchableOpacity>

@@ -41,27 +41,27 @@ const FilterChip = ({
       onPress={onPress}
       style={[
         {
-          minHeight: 38,
-          borderRadius: 999,
+          minHeight: 34,
+          borderRadius: 6,
           borderWidth: 1,
           borderColor: active ? theme.primary : theme.border,
-          backgroundColor: active ? theme.primary : theme.card,
-          paddingHorizontal: 18,
+          backgroundColor: active ? theme.primary : theme.pill,
+          paddingHorizontal: 12,
           alignItems: "center",
           justifyContent: "center",
         },
         active
           ? {
-              shadowColor: theme.primaryDark,
-              shadowOpacity: 0.18,
-              shadowRadius: 14,
-              shadowOffset: { width: 0, height: 6 },
-              elevation: 4,
+              shadowColor: theme.primary,
+              shadowOpacity: 0.14,
+              shadowRadius: 10,
+              shadowOffset: { width: 0, height: 4 },
+              elevation: 3,
             }
           : null,
       ]}
     >
-      <Text style={{ color: active ? theme.white : theme.muted, fontFamily: fontFamily.extraBold, fontSize: 13 }}>
+      <Text style={{ color: active ? theme.white : theme.muted, fontFamily: fontFamily.medium, fontSize: 13 }}>
         {label}
       </Text>
     </TouchableOpacity>
@@ -91,8 +91,8 @@ export const LoansScreen = () => {
     <Screen className="pt-1">
       <View className="flex-row items-start justify-between gap-4">
         <View className="flex-1">
-          <Text style={{ color: theme.text, fontFamily: fontFamily.extraBold, fontSize: 30 }}>Loans</Text>
-          <Text style={{ color: theme.muted, fontFamily: fontFamily.medium, fontSize: 14, marginTop: 4 }}>
+          <Text style={{ color: theme.text, fontFamily: fontFamily.bold, fontSize: 32, lineHeight: 40 }}>Loans</Text>
+          <Text style={{ color: theme.textSecondary, fontFamily: fontFamily.regular, fontSize: 15, lineHeight: 22, marginTop: 2 }}>
             Tamam Loans
           </Text>
         </View>
@@ -100,28 +100,28 @@ export const LoansScreen = () => {
           activeOpacity={0.86}
           onPress={() => navigation.navigate("LoanForm")}
           style={{
-            height: 48,
-            width: 48,
-            borderRadius: 24,
+            height: 40,
+            width: 40,
+            borderRadius: 6,
             alignItems: "center",
             justifyContent: "center",
             backgroundColor: theme.primary,
-            shadowColor: theme.primaryDark,
-            shadowOpacity: 0.2,
-            shadowRadius: 16,
-            shadowOffset: { width: 0, height: 8 },
-            elevation: 5,
+            shadowColor: theme.primary,
+            shadowOpacity: 0.18,
+            shadowRadius: 12,
+            shadowOffset: { width: 0, height: 4 },
+            elevation: 4,
           }}
         >
-          <Plus color={theme.white} size={25} strokeWidth={2.1} />
+          <Plus color={theme.white} size={22} strokeWidth={2.1} />
         </TouchableOpacity>
       </View>
 
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
-        className="mt-5 -mx-5"
-        contentContainerStyle={{ gap: 8, paddingHorizontal: 20 }}
+        className="mt-6 -mx-6"
+        contentContainerStyle={{ gap: 8, paddingHorizontal: 24 }}
       >
         {filters.map((item) => (
           <FilterChip
@@ -134,22 +134,22 @@ export const LoansScreen = () => {
       </ScrollView>
 
       <View
-        className="mt-4 flex-row items-center gap-3 border px-4"
+        className="mt-4 flex-row items-center gap-3 border px-3"
         style={[
           {
-            minHeight: 44,
-            borderRadius: 18,
+            minHeight: 40,
+            borderRadius: 6,
             borderColor: theme.border,
-            backgroundColor: theme.input,
+            backgroundColor: theme.surface,
           },
           theme.mode === "dark"
             ? null
             : {
-                shadowColor: "#2b2631",
-                shadowOpacity: 0.06,
-                shadowRadius: 14,
-                shadowOffset: { width: 0, height: 6 },
-                elevation: 2,
+                shadowColor: theme.secondary,
+                shadowOpacity: 0.04,
+                shadowRadius: 4,
+                shadowOffset: { width: 0, height: 2 },
+                elevation: 1,
               },
         ]}
       >
@@ -161,7 +161,7 @@ export const LoansScreen = () => {
           placeholder="Loan talash karein..."
           placeholderTextColor={theme.placeholder}
           returnKeyType="search"
-          style={{ flex: 1, color: theme.text, fontFamily: fontFamily.medium, fontSize: 14, paddingVertical: 0 }}
+          style={{ flex: 1, color: theme.text, fontFamily: fontFamily.regular, fontSize: 15, paddingVertical: 0 }}
         />
       </View>
 

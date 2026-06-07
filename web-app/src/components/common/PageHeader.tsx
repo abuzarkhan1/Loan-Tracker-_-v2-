@@ -22,7 +22,7 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
     <div className={cn("flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between", className)}>
       <div className="flex min-w-0 items-start gap-4">
         {icon ? (
-          <div className="mt-1 flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-appBorder bg-appCard text-appPrimary shadow-sm">
+          <div className="mt-1 flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-appBorder bg-appCard text-appPrimary shadow-level1">
             {icon}
           </div>
         ) : null}

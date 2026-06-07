@@ -19,13 +19,13 @@ export const MobileTopbar: React.FC = () => {
 
   return (
     <>
-      <div className="sticky top-0 z-20 flex h-16 w-full items-center justify-between border-b border-appBorder bg-appCard/95 px-4 shadow-sm backdrop-blur-xl select-none md:hidden">
+      <div className="sticky top-0 z-20 flex h-16 w-full select-none items-center justify-between border-b border-appBorder bg-appCard/95 px-4 shadow-level1 backdrop-blur-xl md:hidden">
         <Link to="/" className="min-w-0">
           <BrandLogo compact markSize="sm" />
         </Link>
         <button
           onClick={() => setMenuOpen(!menuOpen)}
-          className="rounded-2xl border border-appBorder bg-appBgSoft p-2 text-appMuted transition-all hover:text-appText focus:outline-none"
+          className="rounded-md border border-appBorder bg-appSurface p-2 text-appMuted transition-all hover:text-appText focus:outline-none focus:ring-2 focus:ring-appPrimary/20"
           aria-label="Toggle menu"
         >
           {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -34,8 +34,8 @@ export const MobileTopbar: React.FC = () => {
 
       {/* Menu overlay list */}
       {menuOpen && (
-        <div className="fixed inset-x-3 top-[76px] z-40 flex max-h-[calc(100vh-92px)] flex-col overflow-hidden rounded-[28px] border border-appBorder bg-appCard shadow-elevated animate-in slide-in-from-top duration-200 md:hidden">
-          <nav className="flex-1 overflow-y-auto p-3 space-y-1.5">
+        <div className="fixed inset-x-3 top-[76px] z-40 flex max-h-[calc(100vh-92px)] animate-in flex-col overflow-hidden rounded-xl border border-appBorder bg-appCard shadow-elevated slide-in-from-top duration-200 md:hidden">
+          <nav className="flex-1 space-y-1.5 overflow-y-auto p-3">
             {NAV_ITEMS.map((item, i) => {
               const active = isActive(item.path);
               const Icon = item.icon;
@@ -45,13 +45,13 @@ export const MobileTopbar: React.FC = () => {
                   to={item.path}
                   onClick={() => setMenuOpen(false)}
                   className={cn(
-                    "flex items-center gap-3 rounded-2xl px-3 py-3 text-sm font-bold transition-all",
+                    "flex items-center gap-3 rounded-md border-l-2 px-3 py-3 text-sm font-medium transition-all",
                     active 
-                      ? "bg-appPrimary text-white shadow-md shadow-appPrimary/10" 
-                      : "text-appMuted hover:text-appText hover:bg-appBgSoft"
+                      ? "border-appPrimary bg-appSurface text-appPrimary shadow-level1" 
+                      : "border-transparent text-appMuted hover:bg-appSurface hover:text-appText"
                   )}
                 >
-                  <span className={cn("flex h-9 w-9 items-center justify-center rounded-xl", active ? "bg-white/20" : "bg-appBgSoft")}>
+                  <span className={cn("flex h-8 w-8 items-center justify-center rounded-md", active ? "bg-appPrimary/10" : "bg-appSurface")}>
                     <Icon className="h-4 w-4" />
                   </span>
                   <span>{item.label}</span>

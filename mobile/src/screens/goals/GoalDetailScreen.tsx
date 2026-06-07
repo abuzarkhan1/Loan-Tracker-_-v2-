@@ -24,7 +24,7 @@ const DetailAmount = ({ label, value, tone }: { label: string; value: number; to
   return (
     <View className="flex-1 rounded-2xl px-4 py-3" style={{ backgroundColor: theme.backgroundSoft }}>
       <Text style={{ color: theme.muted, fontFamily: fontFamily.bold, fontSize: 11 }}>{label}</Text>
-      <AmountText amount={value} className="mt-1 text-lg font-black" style={{ color, fontFamily: fontFamily.extraBold }} />
+      <AmountText amount={value} className="mt-1 text-lg font-bold" style={{ color, fontFamily: fontFamily.bold }} />
     </View>
   );
 };
@@ -104,7 +104,7 @@ export const GoalDetailScreen = ({ navigation, route }: Props) => {
       >
         <View className="flex-row items-start justify-between gap-3">
           <View className="flex-1">
-            <Text style={{ color: theme.text, fontFamily: fontFamily.extraBold, fontSize: 25 }}>
+            <Text style={{ color: theme.text, fontFamily: fontFamily.bold, fontSize: 25 }}>
               {goal.title}
             </Text>
             <Text style={{ color: theme.muted, fontFamily: fontFamily.semiBold, fontSize: 13, marginTop: 6 }}>
@@ -119,7 +119,7 @@ export const GoalDetailScreen = ({ navigation, route }: Props) => {
             <Text style={{ color: theme.muted, fontFamily: fontFamily.bold, fontSize: 12 }}>
               {goal.progressPercent}% complete
             </Text>
-            <Text style={{ color: theme.primaryDark, fontFamily: fontFamily.extraBold, fontSize: 12 }}>
+            <Text style={{ color: theme.primary, fontFamily: fontFamily.bold, fontSize: 12 }}>
               {isCompleted ? "Ready to buy" : `${formatCurrency(goal.remainingAmount)} left`}
             </Text>
           </View>
@@ -138,7 +138,7 @@ export const GoalDetailScreen = ({ navigation, route }: Props) => {
           <View className="mt-5 flex-row items-start gap-3 rounded-2xl p-4" style={{ backgroundColor: theme.mint }}>
             <CheckCircle2 color={theme.success} size={22} />
             <View className="flex-1">
-              <Text style={{ color: theme.success, fontFamily: fontFamily.extraBold, fontSize: 14 }}>
+              <Text style={{ color: theme.success, fontFamily: fontFamily.bold, fontSize: 14 }}>
                 Goal complete
               </Text>
               <Text style={{ color: theme.success, fontFamily: fontFamily.semiBold, fontSize: 12, marginTop: 4 }}>
@@ -180,7 +180,7 @@ export const GoalDetailScreen = ({ navigation, route }: Props) => {
       </View>
 
       <View className="mt-6 flex-row items-center justify-between">
-        <Text className="text-lg font-black text-dark">Saved Money History</Text>
+        <Text className="text-lg font-bold text-dark">Saved Money History</Text>
         <Text className="text-xs font-bold uppercase text-muted">{contributions.length} records</Text>
       </View>
 
@@ -194,7 +194,7 @@ export const GoalDetailScreen = ({ navigation, route }: Props) => {
             >
               <View className="flex-row items-start justify-between gap-3">
                 <View className="flex-1">
-                  <AmountText amount={contribution.amount} className="text-lg font-black text-dark" />
+                  <AmountText amount={contribution.amount} className="text-lg font-bold text-dark" />
                   <Text style={{ color: theme.muted, fontFamily: fontFamily.bold, fontSize: 12, marginTop: 4 }}>
                     {formatDate(contribution.date)}
                   </Text>
@@ -212,7 +212,7 @@ export const GoalDetailScreen = ({ navigation, route }: Props) => {
                     <Edit3 color={theme.primary} size={17} />
                   </TouchableOpacity>
                   <TouchableOpacity
-                    className="h-9 w-9 items-center justify-center rounded-lg bg-peach"
+                    className="h-9 w-9 items-center justify-center rounded-lg bg-background-soft"
                     onPress={() => confirmDeleteContribution(contribution._id)}
                   >
                     <Trash2 color={theme.danger} size={17} />

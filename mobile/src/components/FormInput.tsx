@@ -33,8 +33,8 @@ export const FormInput = <T extends FieldValues>({
   } = inputProps;
 
   return (
-    <View style={{ gap: 6 }}>
-      <Text style={{ color: theme.muted, fontFamily: fontFamily.bold, fontSize: 13 }}>{label}</Text>
+    <View style={{ gap: 4 }}>
+      <Text style={{ color: theme.text, fontFamily: fontFamily.medium, fontSize: 13 }}>{label}</Text>
       <Controller
         control={control}
         name={name}
@@ -47,19 +47,19 @@ export const FormInput = <T extends FieldValues>({
             returnKeyType={returnKeyType ?? (multiline ? "default" : "done")}
             style={[
               {
-                minHeight: multiline ? 112 : 50,
-                borderRadius: 14,
-                borderWidth: 1,
+                minHeight: multiline ? 104 : 40,
+                borderRadius: 6,
+                borderWidth: focused || error ? 2 : 1,
                 borderColor: error ? theme.danger : focused ? theme.primary : theme.border,
                 backgroundColor: theme.input,
                 color: theme.text,
-                fontFamily: fontFamily.semiBold,
+                fontFamily: fontFamily.regular,
                 fontSize: 15,
-                paddingHorizontal: 18,
-                paddingVertical: 14,
+                paddingHorizontal: 12,
+                paddingVertical: multiline ? 12 : 0,
                 textAlignVertical: multiline ? "top" : "center",
               },
-              focused ? { shadowColor: theme.primary, shadowOpacity: 0.15, shadowRadius: 8, shadowOffset: { width: 0, height: 0 }, elevation: 2 } : null,
+              focused ? { shadowColor: theme.primary, shadowOpacity: 0.18, shadowRadius: 6, shadowOffset: { width: 0, height: 0 }, elevation: 2 } : null,
               inputStyle,
             ]}
             placeholderTextColor={theme.placeholder}
@@ -80,7 +80,7 @@ export const FormInput = <T extends FieldValues>({
           />
         )}
       />
-      {error ? <Text style={{ color: theme.danger, fontFamily: fontFamily.semiBold, fontSize: 12 }}>{error}</Text> : null}
+      {error ? <Text style={{ color: theme.danger, fontFamily: fontFamily.regular, fontSize: 12 }}>{error}</Text> : null}
     </View>
   );
 };

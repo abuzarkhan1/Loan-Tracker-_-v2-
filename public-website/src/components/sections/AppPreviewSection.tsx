@@ -8,11 +8,11 @@ export const AppPreviewSection = () => (
   <Section id="preview" className="lg:py-14">
     <SectionHeader
       eyebrow="App Preview"
-      title="Mobile screens that feel focused, warm, and easy to scan."
-      description="These CSS mockups mirror the app style while real store screenshots can be dropped in later."
+      title="Mobile screens that stay focused and easy to scan."
+      description="Product previews show the main workflows without adding extra visual noise."
     />
 
-    <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+    <div className="mt-7 grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
       {previewScreens.map((screen, index) => (
         <motion.div
           key={screen.id}
@@ -24,8 +24,8 @@ export const AppPreviewSection = () => (
         >
           <PhoneMockup screen={screen.id as ScreenId} compact />
           <div className="mx-auto mt-4 max-w-[250px] text-center">
-            <h3 className="text-base font-extrabold text-dark">{screen.title}</h3>
-            <p className="mt-2 text-sm font-medium leading-6 text-muted">{screen.description}</p>
+            <h3 className="text-sm font-semibold text-dark">{screen.title}</h3>
+            <p className="mt-2 text-sm font-normal leading-6 text-muted">{screen.description}</p>
           </div>
         </motion.div>
       ))}

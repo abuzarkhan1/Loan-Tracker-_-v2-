@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Plus, Trash2, Eye, EyeOff, FolderOpen, Layers, CheckCircle2 } from "lucide-react";
+import { Plus, Trash2, Eye, EyeOff, FolderOpen, Layers } from "lucide-react";
 import Card from "../../components/common/Card";
 import Button from "../../components/common/Button";
 import Input from "../../components/common/Input";
 import Select from "../../components/common/Select";
 import Badge from "../../components/common/Badge";
 import LoadingState from "../../components/common/LoadingState";
+import PageHeader from "../../components/common/PageHeader";
 import { useTransactions } from "../../hooks/useTransactions";
 
 const categorySchema = z.object({
@@ -82,25 +83,27 @@ export const Categories: React.FC = () => {
 
   return (
     <div className="space-y-6 max-w-4xl mx-auto">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-extrabold text-appText">Categories</h1>
-          <p className="text-sm text-appMuted">Customize simple expense and income categories.</p>
-        </div>
-        <Button
-          variant="primary"
-          size="sm"
-          leftIcon={<Plus className="h-4 w-4" />}
-          onClick={() => setFormOpen(!formOpen)}
-        >
-          {formOpen ? "Close Drawer" : "Create Category"}
-        </Button>
-      </div>
+      <PageHeader
+        kicker="Money setup"
+        title="Categories"
+        description="Customize simple expense and income categories."
+        icon={<Layers className="h-6 w-6" />}
+        actions={
+          <Button
+            variant="primary"
+            size="sm"
+            leftIcon={<Plus className="h-4 w-4" />}
+            onClick={() => setFormOpen(!formOpen)}
+          >
+            {formOpen ? "Close" : "Create Category"}
+          </Button>
+        }
+      />
 
       {/* Add New Category Card */}
       {formOpen && (
         <Card variant="bordered" className="border-appBorder/50 bg-appCard">
-          <h3 className="font-bold text-appText mb-4">Create New Category</h3>
+          <h3 className="mb-4 text-sm font-semibold text-appText">Create New Category</h3>
           <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 sm:grid-cols-4 gap-4 items-end">
             <div className="sm:col-span-2">
               <Input
@@ -138,7 +141,7 @@ export const Categories: React.FC = () => {
             </div>
           </form>
           {formError && (
-            <p className="text-xs text-rose-500 mt-2 font-medium">{formError}</p>
+            <p className="mt-2 text-xs font-medium text-appDanger">{formError}</p>
           )}
         </Card>
       )}
@@ -147,13 +150,13 @@ export const Categories: React.FC = () => {
       <div className="flex border-b border-appBorder">
         <button
           onClick={() => setActiveTab("EXPENSE")}
-          className={`px-4 py-2.5 font-semibold text-sm border-b-2 transition-all ${activeTab === "EXPENSE" ? "border-rose-500 text-rose-600 dark:text-rose-400" : "border-transparent text-appMuted hover:text-appText"}`}
+          className={`border-b-2 px-4 py-2.5 text-sm font-semibold transition-all ${activeTab === "EXPENSE" ? "border-appDanger text-appDanger" : "border-transparent text-appMuted hover:text-appText"}`}
         >
           Expense Categories ({expenseCategories.length})
         </button>
         <button
           onClick={() => setActiveTab("INCOME")}
-          className={`px-4 py-2.5 font-semibold text-sm border-b-2 transition-all ${activeTab === "INCOME" ? "border-emerald-500 text-emerald-600 dark:text-emerald-400" : "border-transparent text-appMuted hover:text-appText"}`}
+          className={`border-b-2 px-4 py-2.5 text-sm font-semibold transition-all ${activeTab === "INCOME" ? "border-appSuccess text-appSuccess" : "border-transparent text-appMuted hover:text-appText"}`}
         >
           Income Categories ({incomeCategories.length})
         </button>
@@ -174,12 +177,12 @@ export const Categories: React.FC = () => {
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="h-9 w-9 rounded-xl bg-appBgSoft border border-appBorder flex items-center justify-center text-appMuted shrink-0">
-                    <FolderOpen className="h-4 w-4 text-indigo-500" />
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-appBorder bg-appBgSoft text-appMuted">
+                    <FolderOpen className="h-4 w-4 text-appPrimary" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-appText text-sm sm:text-base">{cat.name}</h4>
-                    <span className="text-[10px] text-appMuted capitalize">{cat.type.toLowerCase()} envelope</span>
+                    <h4 className="text-sm font-semibold text-appText">{cat.name}</h4>
+                    <span className="text-xs capitalize text-appMuted">{cat.type.toLowerCase()} envelope</span>
                   </div>
                 </div>
 
@@ -190,11 +193,11 @@ export const Categories: React.FC = () => {
                     className="p-1.5 hover:bg-appBgSoft rounded-lg text-appMuted transition-colors"
                     title={cat.isActive ? "Deactivate" : "Activate"}
                   >
-                    {cat.isActive ? <Eye className="h-4 w-4 text-emerald-500" /> : <EyeOff className="h-4 w-4" />}
+                    {cat.isActive ? <Eye className="h-4 w-4 text-appSuccess" /> : <EyeOff className="h-4 w-4" />}
                   </button>
                   <button
                     onClick={() => handleDelete(cat._id)}
-                    className="p-1.5 hover:bg-appBgSoft rounded-lg text-rose-500 hover:text-rose-600 transition-colors"
+                    className="rounded-lg p-1.5 text-appDanger transition-colors hover:bg-appBgSoft hover:text-appDanger"
                     title="Deactivate / Delete"
                   >
                     <Trash2 className="h-4 w-4" />
@@ -203,7 +206,7 @@ export const Categories: React.FC = () => {
               </div>
 
               {/* Status footer pill */}
-              <div className="mt-3 pt-2 border-t border-appBorder flex justify-between items-center text-[10px]">
+              <div className="mt-3 flex items-center justify-between border-t border-appBorder pt-2 text-xs">
                 <span className="text-appMuted">Created: {new Date(cat.createdAt).toLocaleDateString()}</span>
                 <Badge variant={cat.isActive ? "success" : "muted"}>
                   {cat.isActive ? "Active" : "Disabled"}

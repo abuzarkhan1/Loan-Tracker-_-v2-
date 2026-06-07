@@ -7,19 +7,19 @@ export type ScreenId = "dashboard" | "loans" | "detail" | "payment" | "expenses"
 
 const MiniCard = ({ label, value, tone = "primary" }: { label: string; value: string; tone?: "primary" | "success" | "warning" | "danger" }) => {
   const toneClass = {
-    primary: "bg-background-soft text-primary",
+    primary: "bg-primary/10 text-primary",
     success: "bg-mint text-success",
     warning: "bg-yellow text-warning",
-    danger: "bg-peach text-primary-dark",
+    danger: "bg-primary/10 text-danger",
   }[tone];
 
   return (
-    <div className="rounded-[22px] border border-border bg-card p-3 shadow-soft">
-      <div className={cn("mb-3 grid size-9 place-items-center rounded-[12px]", toneClass)}>
+    <div className="rounded-xl border border-border bg-card p-3 shadow-soft">
+      <div className={cn("mb-3 grid size-9 place-items-center rounded-lg", toneClass)}>
         {tone === "success" ? <ArrowDownLeft size={15} /> : tone === "danger" ? <ArrowUpRight size={15} /> : <ReceiptText size={15} />}
       </div>
-      <p className="text-[9px] font-extrabold uppercase text-muted">{label}</p>
-      <p className="mt-1 text-sm font-extrabold text-dark">{value}</p>
+      <p className="text-[10px] font-semibold uppercase tracking-[0.05em] text-muted">{label}</p>
+      <p className="mt-1 text-sm font-semibold text-dark">{value}</p>
     </div>
   );
 };
@@ -33,17 +33,17 @@ const Progress = ({ value }: { value: number }) => (
 const PhoneShell = ({ children, compact = false }: { children: ReactNode; compact?: boolean }) => (
   <div
     className={cn(
-      "phone-shadow relative mx-auto w-full max-w-[280px] rounded-[36px] border border-border bg-[#2b2631] p-2.5 sm:max-w-[292px] sm:rounded-[40px] sm:p-3",
+      "phone-shadow relative mx-auto w-full max-w-[280px] rounded-[32px] border border-[#0a2540] bg-[#0a2540] p-2.5 dark:border-[#2a3441] dark:bg-[#070c18] sm:max-w-[292px] sm:rounded-[34px] sm:p-3",
       compact && "max-w-[218px] rounded-[32px] sm:max-w-[226px] sm:rounded-[34px]",
     )}
   >
     <div
       className={cn(
-        "h-[500px] overflow-hidden rounded-[28px] bg-app-gradient px-3.5 pb-5 pt-5 text-dark sm:h-[540px] sm:rounded-[32px] sm:px-4",
-        compact && "h-[410px] rounded-[26px] px-3 sm:h-[438px] sm:rounded-[28px]",
+        "h-[500px] overflow-hidden rounded-[24px] bg-app-gradient px-3.5 pb-5 pt-5 text-dark sm:h-[540px] sm:rounded-[26px] sm:px-4",
+        compact && "h-[410px] rounded-xl px-3 sm:h-[438px] sm:rounded-xl",
       )}
     >
-      <div className={cn("mx-auto mb-5 h-1.5 w-16 rounded-full bg-[#2b2631]", compact && "mb-4 w-12")} />
+      <div className={cn("mx-auto mb-5 h-1.5 w-16 rounded-full bg-[#0a2540] dark:bg-[#070c18]", compact && "mb-4 w-12")} />
       {children}
     </div>
   </div>
@@ -52,10 +52,10 @@ const PhoneShell = ({ children, compact = false }: { children: ReactNode; compac
 const Header = ({ title, subtitle }: { title: string; subtitle: string }) => (
   <div className="mb-4 flex items-center justify-between gap-3 sm:mb-5">
     <div>
-      <p className="text-lg font-extrabold text-dark sm:text-xl">{title}</p>
-      <p className="mt-1 text-[11px] font-bold text-muted">{subtitle}</p>
+      <p className="text-lg font-semibold text-dark sm:text-xl">{title}</p>
+      <p className="mt-1 text-[11px] font-medium text-muted">{subtitle}</p>
     </div>
-    <button type="button" aria-label="Add" className="grid size-10 shrink-0 place-items-center rounded-full bg-primary text-white shadow-primary-glow sm:size-11">
+    <button type="button" aria-label="Add" className="grid size-9 shrink-0 place-items-center rounded-md bg-primary text-white shadow-primary-glow sm:size-10">
       <Plus size={18} />
     </button>
   </div>
@@ -70,18 +70,18 @@ const DashboardScreen = () => (
       <MiniCard label="Total Wapis Mila" value="Rs 51k" tone="primary" />
       <MiniCard label="Baqi Raqam" value="Rs 47k" tone="warning" />
     </div>
-    <div className="mt-3 rounded-[22px] border border-border bg-card p-3.5 shadow-soft sm:mt-4 sm:rounded-[24px] sm:p-4">
+    <div className="mt-3 rounded-xl border border-border bg-card p-3.5 shadow-soft sm:mt-4 sm:rounded-xl sm:p-4">
       <div className="mb-4 flex items-center justify-between">
-        <p className="text-sm font-extrabold text-dark">Monthly Flow</p>
-        <p className="text-[10px] font-bold text-muted">6 months</p>
+        <p className="text-sm font-semibold text-dark">Monthly Flow</p>
+        <p className="text-[10px] font-medium text-muted">6 months</p>
       </div>
       <div className="flex h-24 items-end gap-2.5 sm:h-28 sm:gap-3">
         {[42, 68, 52, 78, 61, 88].map((height, index) => (
           <div key={index} className="flex flex-1 flex-col items-center gap-2">
-            <div className="w-full rounded-full bg-peach">
+            <div className="w-full rounded-full bg-primary/10">
               <div className="rounded-full bg-primary" style={{ height }} />
             </div>
-            <span className="text-[9px] font-bold text-muted">{index + 1}</span>
+            <span className="text-[9px] font-medium text-muted">{index + 1}</span>
           </div>
         ))}
       </div>
@@ -98,17 +98,17 @@ const LoansScreen = () => (
         ["Bilal", "Mujhe Dene Hain", "Rs 12,500", 35, "danger"],
         ["Sara", "Partial", "Rs 8,000", 82, "warning"],
       ].map(([name, badge, amount, progress, tone]) => (
-        <div key={name} className="rounded-[24px] border border-border bg-card p-3.5 shadow-soft sm:rounded-[26px] sm:p-4">
+        <div key={name} className="rounded-xl border border-border bg-card p-3.5 shadow-soft sm:rounded-xl sm:p-4">
           <div className="mb-4 flex items-start justify-between gap-3">
             <div>
-              <p className="text-base font-extrabold text-dark">{name}</p>
-              <p className="mt-1 text-[11px] font-bold text-muted">Due 12 Jun</p>
+              <p className="text-base font-semibold text-dark">{name}</p>
+              <p className="mt-1 text-[11px] font-medium text-muted">Due 12 Jun</p>
             </div>
-            <span className={cn("rounded-full px-3 py-1 text-[10px] font-extrabold", tone === "success" ? "bg-mint text-success" : tone === "danger" ? "bg-peach text-primary-dark" : "bg-yellow text-warning")}>
+            <span className={cn("rounded-md border px-2.5 py-1 text-[10px] font-medium", tone === "success" ? "border-success/20 bg-mint text-success" : tone === "danger" ? "border-danger/20 bg-danger/10 text-danger" : "border-warning/20 bg-yellow text-warning")}>
               {badge}
             </span>
           </div>
-          <div className="mb-2 flex items-center justify-between text-[10px] font-extrabold text-muted">
+          <div className="mb-2 flex items-center justify-between text-[10px] font-semibold text-muted">
             <span>Paid {progress}%</span>
             <span>{amount}</span>
           </div>
@@ -122,16 +122,16 @@ const LoansScreen = () => (
 const DetailScreen = () => (
   <>
     <Header title="Loan Detail" subtitle="Payment History" />
-    <div className="rounded-[26px] border border-border bg-card p-4 shadow-soft sm:rounded-[28px] sm:p-5">
+    <div className="rounded-xl border border-border bg-card p-4 shadow-soft sm:rounded-xl sm:p-5">
       <div className="flex items-start justify-between">
         <div>
-          <p className="text-2xl font-extrabold text-dark">Rs 20,000</p>
-          <p className="mt-1 text-xs font-bold text-muted">Ahmed Khan</p>
+          <p className="text-2xl font-semibold text-dark">Rs 20,000</p>
+          <p className="mt-1 text-xs font-medium text-muted">Ahmed Khan</p>
         </div>
-        <span className="rounded-full bg-yellow px-3 py-1 text-[10px] font-extrabold text-warning">Partial</span>
+        <span className="rounded-md border border-warning/20 bg-yellow px-2.5 py-1 text-[10px] font-medium text-warning">Partial</span>
       </div>
       <div className="mt-5">
-        <div className="mb-2 flex justify-between text-[11px] font-extrabold text-muted">
+        <div className="mb-2 flex justify-between text-[11px] font-semibold text-muted">
           <span>Paid 65%</span>
           <span>Baqi Rs 7,000</span>
         </div>
@@ -144,12 +144,12 @@ const DetailScreen = () => (
         ["Rs 4,000", "Bank", "18 May, 3:10 PM"],
         ["Rs 4,000", "EasyPaisa", "10 May, 12:20 PM"],
       ].map(([amount, method, date]) => (
-        <div key={`${amount}-${date}`} className="flex items-center justify-between rounded-[20px] border border-border bg-card p-3.5 shadow-soft sm:rounded-[22px] sm:p-4">
+        <div key={`${amount}-${date}`} className="flex items-center justify-between rounded-lg border border-border bg-card p-3.5 shadow-soft sm:rounded-xl sm:p-4">
           <div>
-            <p className="font-extrabold text-dark">{amount}</p>
-            <p className="mt-1 text-[11px] font-bold text-muted">{method}</p>
+            <p className="font-semibold text-dark">{amount}</p>
+            <p className="mt-1 text-[11px] font-medium text-muted">{method}</p>
           </div>
-          <p className="text-right text-[10px] font-bold text-muted">{date}</p>
+          <p className="text-right text-[10px] font-medium text-muted">{date}</p>
         </div>
       ))}
     </div>
@@ -159,20 +159,20 @@ const DetailScreen = () => (
 const PaymentScreen = () => (
   <>
     <Header title="Nayi Payment" subtitle="Partial repayment save karein." />
-    <div className="rounded-[26px] border border-border bg-card p-4 shadow-soft sm:rounded-[28px] sm:p-5">
-      <label className="text-xs font-extrabold uppercase text-muted">Amount</label>
-      <div className="mt-2 rounded-full border border-border bg-input px-5 py-4 text-lg font-extrabold text-dark">Rs 5,000</div>
-      <label className="mt-5 block text-xs font-extrabold uppercase text-muted">Method</label>
+    <div className="rounded-xl border border-border bg-card p-4 shadow-soft sm:rounded-xl sm:p-5">
+      <label className="text-xs font-semibold uppercase tracking-[0.05em] text-muted">Amount</label>
+      <div className="mt-2 rounded-md border border-border bg-input px-4 py-3 text-lg font-semibold text-dark">Rs 5,000</div>
+      <label className="mt-5 block text-xs font-semibold uppercase tracking-[0.05em] text-muted">Method</label>
       <div className="mt-3 grid grid-cols-2 gap-2">
         {["Cash", "Bank", "JazzCash", "Other"].map((method, index) => (
-          <span key={method} className={cn("rounded-full border px-4 py-3 text-center text-xs font-extrabold", index === 0 ? "border-primary bg-primary text-white" : "border-border bg-background-soft text-muted")}>
+          <span key={method} className={cn("rounded-md border px-3 py-2.5 text-center text-xs font-medium", index === 0 ? "border-primary bg-primary text-white" : "border-border bg-background-soft text-muted")}>
             {method}
           </span>
         ))}
       </div>
-      <label className="mt-5 block text-xs font-extrabold uppercase text-muted">Payment Date</label>
-      <div className="mt-2 rounded-full border border-border bg-input px-5 py-4 text-sm font-extrabold text-dark">May 28, 2026</div>
-      <button type="button" className="mt-6 min-h-12 w-full rounded-full bg-primary text-sm font-extrabold text-white shadow-primary-glow">
+      <label className="mt-5 block text-xs font-semibold uppercase tracking-[0.05em] text-muted">Payment Date</label>
+      <div className="mt-2 rounded-md border border-border bg-input px-4 py-3 text-sm font-semibold text-dark">May 28, 2026</div>
+      <button type="button" className="mt-6 h-10 w-full rounded-md bg-primary text-sm font-medium text-white shadow-primary-glow">
         Save Payment
       </button>
     </div>
@@ -183,38 +183,38 @@ const ExpensesScreen = () => (
   <>
     <Header title="Expenses" subtitle="Income aur kharch track karein." />
     <div className="grid gap-3">
-      <div className="rounded-[24px] border border-border bg-card p-3.5 shadow-soft sm:rounded-[26px] sm:p-4">
+      <div className="rounded-xl border border-border bg-card p-3.5 shadow-soft sm:rounded-xl sm:p-4">
         <div className="mb-4 flex items-center gap-2">
           <WalletCards className="text-primary" size={18} />
-          <p className="text-sm font-extrabold text-dark">Transactions</p>
+          <p className="text-sm font-semibold text-dark">Transactions</p>
         </div>
         {[
           ["Grocery", "Expense", "Rs 4,500", "danger"],
           ["Freelance", "Income", "Rs 18,000", "success"],
           ["Loan Recovery", "Received", "Rs 5,000", "primary"],
         ].map(([title, label, value, tone]) => (
-          <div key={title} className="mt-3 flex items-center justify-between rounded-[18px] bg-background-soft p-3">
+          <div key={title} className="mt-3 flex items-center justify-between rounded-lg bg-background-soft p-3">
             <div>
-              <p className="text-xs font-extrabold text-dark">{title}</p>
-              <p className="mt-1 text-[10px] font-bold uppercase text-muted">{label}</p>
+              <p className="text-xs font-semibold text-dark">{title}</p>
+              <p className="mt-1 text-[10px] font-medium uppercase text-muted">{label}</p>
             </div>
-            <p className={cn("text-sm font-extrabold", tone === "danger" ? "text-primary-dark" : tone === "success" ? "text-success" : "text-primary")}>
+            <p className={cn("text-sm font-semibold", tone === "danger" ? "text-danger" : tone === "success" ? "text-success" : "text-primary")}>
               {value}
             </p>
           </div>
         ))}
       </div>
-      <div className="rounded-[24px] border border-border bg-card p-3.5 shadow-soft sm:rounded-[26px] sm:p-4">
-        <p className="text-sm font-extrabold text-dark">Cash Summary</p>
+      <div className="rounded-xl border border-border bg-card p-3.5 shadow-soft sm:rounded-xl sm:p-4">
+        <p className="text-sm font-semibold text-dark">Cash Summary</p>
         <div className="mt-5 grid grid-cols-2 gap-3">
           {([
             ["Rs 18k", "Income", ArrowDownLeft],
             ["Rs 4.5k", "Expense", ArrowUpRight],
           ] satisfies [string, string, LucideIcon][]).map(([value, label, Icon]) => (
-            <div key={label} className="rounded-[20px] bg-background-soft p-3 text-center">
+            <div key={label} className="rounded-lg bg-background-soft p-3 text-center">
               <Icon className="mx-auto text-primary" size={17} />
-              <p className="mt-2 text-lg font-extrabold text-dark">{value}</p>
-              <p className="text-[10px] font-bold text-muted">{label}</p>
+              <p className="mt-2 text-lg font-semibold text-dark">{value}</p>
+              <p className="text-[10px] font-medium text-muted">{label}</p>
             </div>
           ))}
         </div>

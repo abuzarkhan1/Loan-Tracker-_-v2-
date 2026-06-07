@@ -26,21 +26,21 @@ export const GoalCard = ({ goal, onPress }: GoalCardProps) => {
             style={{
               height: 46,
               width: 46,
-              borderRadius: 16,
+              borderRadius: 8,
               alignItems: "center",
               justifyContent: "center",
-              backgroundColor: goal.status === "COMPLETED" ? theme.mint : theme.peach,
+              backgroundColor: goal.status === "COMPLETED" ? theme.mint : theme.surface,
             }}
           >
-            <Target color={goal.status === "COMPLETED" ? theme.success : theme.primaryDark} size={21} />
+            <Target color={goal.status === "COMPLETED" ? theme.success : theme.primary} size={21} />
           </View>
           <View className="min-w-0 flex-1">
             <View className="flex-row items-start justify-between gap-2">
               <View className="min-w-0 flex-1">
-                <Text numberOfLines={1} style={{ color: theme.text, fontFamily: fontFamily.extraBold, fontSize: 16 }}>
+                <Text numberOfLines={1} style={{ color: theme.text, fontFamily: fontFamily.semiBold, fontSize: 16 }}>
                   {goal.title}
                 </Text>
-                <Text style={{ color: theme.muted, fontFamily: fontFamily.semiBold, fontSize: 12, marginTop: 4 }}>
+                <Text style={{ color: theme.muted, fontFamily: fontFamily.regular, fontSize: 13, marginTop: 4 }}>
                   {formatCurrency(goal.savedAmount)} saved of {formatCurrency(goal.targetAmount)}
                 </Text>
               </View>
@@ -49,10 +49,10 @@ export const GoalCard = ({ goal, onPress }: GoalCardProps) => {
 
             <View className="mt-4 gap-2">
               <View className="flex-row items-center justify-between">
-                <Text style={{ color: theme.muted, fontFamily: fontFamily.bold, fontSize: 11 }}>
+                <Text style={{ color: theme.muted, fontFamily: fontFamily.medium, fontSize: 12 }}>
                   {goal.progressPercent}% complete
                 </Text>
-                <Text style={{ color: theme.primaryDark, fontFamily: fontFamily.extraBold, fontSize: 11 }}>
+                <Text style={{ color: theme.primary, fontFamily: fontFamily.medium, fontSize: 12 }}>
                   {goal.status === "COMPLETED" ? "Ready" : `${formatCurrency(goal.remainingAmount)} left`}
                 </Text>
               </View>

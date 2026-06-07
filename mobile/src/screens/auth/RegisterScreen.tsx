@@ -43,14 +43,14 @@ export const RegisterScreen = ({ navigation }: Props) => {
       <View className="mb-10 items-center gap-4">
         <BrandLogo size={72} />
         <View className="items-center">
-          <Text className="text-3xl font-black text-dark">Create Account</Text>
-          <Text className="mt-2 text-center text-sm font-medium text-muted">
+          <Text className="text-3xl font-bold text-dark">Create Account</Text>
+          <Text className="mt-2 text-center text-[15px] font-normal leading-6 text-muted">
             Apni lending aur borrowing ko clean tareeqe se track karein.
           </Text>
         </View>
       </View>
 
-      <View className="gap-4 rounded-lg border border-border bg-card p-5" style={theme.shadowSoft}>
+      <View className="gap-4 rounded-3xl border border-border bg-card p-6" style={theme.shadowSoft}>
         <FormInput control={control} name="name" label="Name" placeholder="Your name" error={errors.name?.message} />
         <FormInput
           control={control}
@@ -80,7 +80,7 @@ export const RegisterScreen = ({ navigation }: Props) => {
       </View>
 
       <TouchableOpacity className="mt-6 items-center" onPress={() => navigation.navigate("Login")}>
-        <Text className="text-sm font-semibold text-muted">
+        <Text className="text-sm font-normal text-muted">
           Already have an account? <Text style={{ color: theme.primary }}>Login</Text>
         </Text>
       </TouchableOpacity>

@@ -19,19 +19,19 @@ const CategoryCard = ({ category, onEdit, onHide }: { category: Category; onEdit
   const { theme } = useAppTheme();
   return (
     <View className="flex-row items-center gap-4 rounded-3xl border border-border bg-card p-4" style={theme.shadowSoft}>
-      <View className="h-12 w-12 items-center justify-center rounded-2xl bg-background-soft">
-        <Text className="text-lg font-black text-primary">{category.icon || category.name.charAt(0)}</Text>
+      <View className="h-11 w-11 items-center justify-center rounded-xl bg-background-soft">
+        <Text className="text-lg font-semibold text-primary">{category.icon || category.name.charAt(0)}</Text>
       </View>
       <View className="flex-1">
-        <Text className="text-base font-black text-dark">{category.name}</Text>
-        <Text className="mt-1 text-xs font-semibold text-muted">
+        <Text className="text-base font-semibold text-dark">{category.name}</Text>
+        <Text className="mt-1 text-[13px] font-normal text-muted">
           {category.isDefault ? "Default" : "Custom"} · {category.isActive ? "Active" : "Hidden"}
         </Text>
       </View>
-      <TouchableOpacity activeOpacity={0.86} onPress={onEdit} className="h-10 w-10 items-center justify-center rounded-full bg-background-soft">
+      <TouchableOpacity activeOpacity={0.86} onPress={onEdit} className="h-10 w-10 items-center justify-center rounded-lg bg-background-soft">
         <Pencil color={theme.primary} size={17} />
       </TouchableOpacity>
-      <TouchableOpacity activeOpacity={0.86} onPress={onHide} className="h-10 w-10 items-center justify-center rounded-full bg-background-soft">
+      <TouchableOpacity activeOpacity={0.86} onPress={onHide} className="h-10 w-10 items-center justify-center rounded-lg bg-background-soft">
         <EyeOff color={theme.muted} size={17} />
       </TouchableOpacity>
     </View>
@@ -67,13 +67,13 @@ export const CategoriesScreen = () => {
     <Screen className="gap-5 pt-5">
       <View className="flex-row items-center justify-between">
         <View>
-          <Text className="text-2xl font-black text-dark" style={{ fontFamily: fontFamily.extraBold }}>Categories</Text>
-          <Text className="mt-1 text-sm font-medium text-muted">Income aur expense categories.</Text>
+          <Text className="text-[32px] font-bold leading-10 text-dark" style={{ fontFamily: fontFamily.bold }}>Categories</Text>
+          <Text className="mt-1 text-[15px] font-normal leading-6 text-muted">Income aur expense categories.</Text>
         </View>
         <TouchableOpacity
           activeOpacity={0.86}
           onPress={() => navigation.navigate("AddEditCategory", { type })}
-          className="h-11 w-11 items-center justify-center rounded-2xl bg-primary"
+          className="h-10 w-10 items-center justify-center rounded-lg bg-primary"
           style={theme.shadowSoft}
         >
           <Plus color={theme.white} size={22} />
@@ -88,10 +88,10 @@ export const CategoriesScreen = () => {
               key={option}
               activeOpacity={0.86}
               onPress={() => setType(option)}
-              className="flex-1 rounded-full border py-3"
+              className="flex-1 rounded-lg border py-2.5"
               style={{ borderColor: active ? theme.primary : theme.border, backgroundColor: active ? theme.primary : theme.pill }}
             >
-              <Text className="text-center text-sm font-black" style={{ color: active ? theme.white : theme.muted }}>
+              <Text className="text-center text-sm font-medium" style={{ color: active ? theme.white : theme.muted }}>
                 {option === "EXPENSE" ? "Expense" : "Income"}
               </Text>
             </TouchableOpacity>

@@ -13,7 +13,7 @@ export const HowItWorksSection = () => (
       description="The workflow is intentionally straightforward, so daily personal finance tracking stays calm."
     />
 
-    <div className="relative mt-8 grid gap-5 lg:grid-cols-4">
+    <div className="relative mt-7 grid gap-4 lg:grid-cols-4">
       <div className="absolute left-0 right-0 top-12 hidden h-px bg-border lg:block" />
       {howItWorksSteps.map((step, index) => (
         <motion.div
@@ -24,13 +24,13 @@ export const HowItWorksSection = () => (
           transition={{ duration: 0.42, ease: "easeOut", delay: index * 0.06 }}
           className="relative"
         >
-          <Card className="h-full p-6" interactive>
+          <Card className="h-full p-5" interactive>
             <div className="flex items-center justify-between">
               <IconBadge icon={step.icon} />
-              <span className="text-4xl font-extrabold text-peach">{step.step}</span>
+              <span className="font-code text-sm font-medium text-primary">{step.step}</span>
             </div>
-            <h3 className="mt-7 text-xl font-extrabold text-dark">{step.title}</h3>
-            <p className="mt-3 text-sm font-medium leading-7 text-muted">{step.description}</p>
+            <h3 className="mt-5 text-base font-semibold text-dark">{step.title}</h3>
+            <p className="mt-2 text-sm font-normal leading-6 text-muted">{step.description}</p>
           </Card>
         </motion.div>
       ))}

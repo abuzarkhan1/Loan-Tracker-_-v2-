@@ -31,7 +31,7 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop */}
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
+      <div className="absolute inset-0 bg-appSecondary/55 backdrop-blur-sm" onClick={onClose} />
       
       {/* Dialogue box */}
       <Card variant="elevated" className="relative z-10 w-full max-w-md animate-in fade-in zoom-in-95 duration-150">
@@ -44,10 +44,10 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
 
         <div className="flex flex-col gap-4">
           <div className="flex items-center gap-3">
-            <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full ${isDestructive ? 'bg-appDanger bg-opacity-10 text-appDanger' : 'bg-appWarning bg-opacity-10 text-appWarning'}`}>
+            <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${isDestructive ? 'bg-appDanger/10 text-appDanger' : 'bg-appWarning/10 text-appWarning'}`}>
               <AlertTriangle className="h-5 w-5" />
             </div>
-            <h3 className="text-lg font-bold text-appText">{title}</h3>
+            <h3 className="text-lg font-semibold text-appText">{title}</h3>
           </div>
 
           <p className="text-sm text-appMuted leading-relaxed">{message}</p>

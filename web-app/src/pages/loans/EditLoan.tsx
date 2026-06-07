@@ -77,11 +77,11 @@ export const EditLoan: React.FC = () => {
           onClick={() => navigate(ROUTES.LOAN_DETAIL.replace(":id", id!))}
           className="text-appMuted hover:text-appText p-1.5 rounded-lg hover:bg-appBgSoft border border-transparent hover:border-appBorder transition-all"
         >
-          <ArrowLeft className="h-5 w-5" />
+          <ArrowLeft className="h-4 w-4" />
         </button>
         <div>
-          <h2 className="text-xl font-extrabold text-appText flex items-center gap-2">
-            <HandCoins className="h-5 w-5 text-appPrimary animate-pulse" /> Edit Loan Record
+          <h2 className="text-lg font-semibold text-appText flex items-center gap-2">
+            <HandCoins className="h-5 w-5 text-appPrimary" /> Edit Loan Record
           </h2>
           <p className="text-xs text-appMuted mt-0.5">Modify loan metadata, due dates, or descriptions.</p>
         </div>
@@ -91,15 +91,15 @@ export const EditLoan: React.FC = () => {
       <Card variant="bordered" className="border border-appBorder/50">
         <form onSubmit={handleSubmit(onSubmit as any)} className="space-y-4">
           {formError && (
-            <div className="rounded-xl bg-appDanger/10 border border-appDanger/25 p-3.5 text-center text-xs font-semibold text-appDanger">
+            <div className="rounded-lg border border-appDanger/25 bg-appDanger/10 p-3.5 text-center text-xs font-semibold text-appDanger">
               {formError}
             </div>
           )}
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="flex flex-col gap-1.5">
-              <span className="text-xs font-semibold uppercase tracking-wider text-appMuted">Linked Contact</span>
-              <div className="w-full rounded-xl border border-appBorder/50 bg-appBgSoft/40 px-4 py-2.5 text-sm font-semibold text-appMuted select-none">
+              <span className="text-xs font-semibold uppercase tracking-[0.05em] text-appMuted">Linked Contact</span>
+              <div className="w-full rounded-md border border-appBorder bg-appSurface px-4 py-2.5 text-sm font-normal text-appMuted select-none">
                 {(loanDetail.loan.contactId as any)?.name || "Unknown"}
               </div>
             </div>

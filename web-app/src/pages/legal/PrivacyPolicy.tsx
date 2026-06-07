@@ -6,14 +6,14 @@ import Card from "../../components/common/Card";
 export const PrivacyPolicy: React.FC = () => {
   return (
     <div className="mx-auto max-w-3xl space-y-6 px-4 py-8">
-      <Link to="/" className="flex items-center gap-1 text-xs font-bold text-appPrimary hover:underline">
+      <Link to="/" className="flex items-center gap-1 text-xs font-medium text-appPrimary hover:underline">
         <ArrowLeft className="h-3.5 w-3.5" />
         Back to Application
       </Link>
 
       <div>
-        <h1 className="flex items-center gap-2 text-2xl font-extrabold text-appText">
-          <ShieldCheck className="h-6 w-6 text-appPrimary" />
+        <h1 className="flex items-center gap-2 text-xl font-semibold text-appText">
+          <ShieldCheck className="h-5 w-5 text-appPrimary" />
           Privacy Policy
         </h1>
         <p className="text-sm text-appMuted">
@@ -21,9 +21,9 @@ export const PrivacyPolicy: React.FC = () => {
         </p>
       </div>
 
-      <Card variant="bordered" className="space-y-5 p-6 text-xs leading-relaxed text-appMuted">
+      <Card variant="bordered" className="space-y-5 text-xs leading-relaxed text-appMuted">
         <section className="space-y-2">
-          <h2 className="flex items-center gap-1 text-sm font-extrabold text-appText">
+          <h2 className="flex items-center gap-1 text-sm font-semibold text-appText">
             <Lock className="h-4 w-4 text-appPrimary" />
             1. Data We Store
           </h2>
@@ -34,7 +34,7 @@ export const PrivacyPolicy: React.FC = () => {
         </section>
 
         <section className="space-y-2">
-          <h2 className="flex items-center gap-1 text-sm font-extrabold text-appText">
+          <h2 className="flex items-center gap-1 text-sm font-semibold text-appText">
             <CheckCircle className="h-4 w-4 text-appSuccess" />
             2. Phone Contacts
           </h2>
@@ -45,7 +45,7 @@ export const PrivacyPolicy: React.FC = () => {
         </section>
 
         <section className="space-y-2">
-          <h2 className="text-sm font-extrabold text-appText">3. Removed Advanced Features</h2>
+          <h2 className="text-sm font-semibold text-appText">3. Removed Advanced Features</h2>
           <p>
             The simplified product is focused on contacts, loans, payments, expenses, income, categories,
             dashboard cards, and simple charts.
@@ -53,7 +53,7 @@ export const PrivacyPolicy: React.FC = () => {
         </section>
 
         <section className="space-y-2">
-          <h2 className="text-sm font-extrabold text-appText">4. Security</h2>
+          <h2 className="text-sm font-semibold text-appText">4. Security</h2>
           <p>
             Your records are transmitted to the backend API over HTTPS where available. You are responsible for keeping
             your login credentials private.

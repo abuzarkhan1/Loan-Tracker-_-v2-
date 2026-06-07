@@ -13,6 +13,7 @@ import { RootStackParamList } from "../../navigation/types";
 import { useAppTheme } from "../../providers/ThemeProvider";
 import { getErrorMessage } from "../../utils/errors";
 import { formatCurrency } from "../../utils/format";
+import { fontFamily } from "../../utils/theme";
 
 type Props = NativeStackScreenProps<RootStackParamList, "QuickAddPayment">;
 const methods: PaymentMethod[] = ["CASH", "BANK", "JAZZCASH", "EASYPAISA", "OTHER"];
@@ -87,28 +88,28 @@ export const QuickAddPaymentScreen = ({ navigation, route }: Props) => {
   return (
     <Screen className="pt-5">
       <View>
-        <Text className="text-2xl font-black text-dark">Quick Add Payment</Text>
+        <Text className="text-2xl font-bold text-dark">Quick Add Payment</Text>
         <Text className="mt-1 text-sm font-medium text-muted">Fast partial payment entry.</Text>
       </View>
 
       <View className="mt-5 rounded-3xl border border-border bg-card p-5" style={theme.shadowSoft}>
-        <View className="h-12 w-12 items-center justify-center rounded-2xl bg-peach">
-          <HandCoins color={theme.primaryDark} size={24} />
+        <View className="h-12 w-12 items-center justify-center rounded-xl bg-background-soft">
+          <HandCoins color={theme.primary} size={24} />
         </View>
-        <Text className="mt-4 text-xs font-black uppercase text-muted">Amount</Text>
+        <Text className="mt-4 text-xs font-bold uppercase text-muted">Amount</Text>
         <TextInput
           value={amount}
           onChangeText={setAmount}
           keyboardType="numeric"
           placeholder="0"
           placeholderTextColor={theme.placeholder}
-          className="mt-1 text-4xl font-black text-dark"
+          className="mt-1 text-4xl font-bold text-dark"
         />
         {selectedLoan ? <Text className="mt-2 text-sm font-semibold text-muted">Remaining {formatCurrency(selectedLoan.remainingAmount)}</Text> : null}
       </View>
 
       <View className="mt-5 gap-3">
-        <Text className="text-base font-black text-dark">Select Loan</Text>
+        <Text className="text-base font-bold text-dark">Select Loan</Text>
         {availableLoans.length ? availableLoans.map((loan) => {
           const active = (selectedLoanId || selectedLoan?._id) === loan._id;
           return (
@@ -120,7 +121,7 @@ export const QuickAddPaymentScreen = ({ navigation, route }: Props) => {
               style={theme.shadowSoft}
             >
               <View className="flex-1">
-                <Text className="text-sm font-black text-dark">{loanTitle(loan)}</Text>
+                <Text className="text-sm font-bold text-dark">{loanTitle(loan)}</Text>
                 <Text className="mt-1 text-xs font-semibold text-muted">{formatCurrency(loan.remainingAmount)} remaining</Text>
               </View>
               {active ? <CheckCircle2 color={theme.success} size={20} /> : null}
@@ -132,17 +133,17 @@ export const QuickAddPaymentScreen = ({ navigation, route }: Props) => {
       </View>
 
       <View className="mt-5">
-        <Text className="mb-3 text-base font-black text-dark">Method</Text>
+        <Text className="mb-3 text-base font-bold text-dark">Method</Text>
         <View className="flex-row flex-wrap gap-2">
           {methods.map((item) => (
             <TouchableOpacity
               key={item}
               activeOpacity={0.85}
               onPress={() => setMethod(item)}
-              className="rounded-full border px-4 py-3"
-              style={{ borderColor: method === item ? theme.primary : theme.border, backgroundColor: method === item ? theme.peach : theme.card }}
+              className="rounded-lg border px-3 py-2.5"
+              style={{ borderColor: method === item ? theme.primary : theme.border, backgroundColor: method === item ? theme.primary : theme.pill }}
             >
-              <Text style={{ color: method === item ? theme.primaryDark : theme.muted, fontWeight: "800" }}>{item}</Text>
+              <Text style={{ color: method === item ? theme.white : theme.muted, fontFamily: fontFamily.medium, fontSize: 13 }}>{item}</Text>
             </TouchableOpacity>
           ))}
         </View>

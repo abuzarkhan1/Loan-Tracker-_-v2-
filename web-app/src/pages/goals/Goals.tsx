@@ -29,38 +29,38 @@ const statusVariant = (status: GoalStatus) => {
 const GoalCard = ({ goal, onClick }: { goal: Goal; onClick: () => void }) => (
   <button
     onClick={onClick}
-    className="group w-full rounded-2xl border border-appBorder bg-appCard p-5 text-left shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-soft"
+    className="group w-full rounded-xl border border-appBorder bg-appCard p-4 text-left shadow-level1 transition-all hover:-translate-y-0.5 hover:shadow-level2"
   >
     <div className="flex items-start justify-between gap-4">
       <div className="min-w-0">
         <div className="mb-3 flex flex-wrap items-center gap-2">
           <Badge variant={statusVariant(goal.status)} size="sm">{goal.status}</Badge>
-          <span className="text-[10px] font-black uppercase tracking-widest text-appMuted">
+          <span className="text-xs font-semibold uppercase tracking-[0.05em] text-appMuted">
             {goal.progressPercent}% complete
           </span>
         </div>
-        <h3 className="truncate text-base font-extrabold text-appText">{goal.title}</h3>
-        <p className="mt-1 line-clamp-2 text-xs font-semibold leading-5 text-appMuted">
+        <h3 className="truncate text-base font-semibold text-appText">{goal.title}</h3>
+        <p className="mt-1 line-clamp-2 text-xs font-normal leading-5 text-appMuted">
           {goal.note || "Simple saving target"}
         </p>
       </div>
-      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-appPeach text-appPrimary">
+      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-appPrimary/10 text-appPrimary">
         <Target className="h-5 w-5" />
       </div>
     </div>
 
     <div className="mt-5 grid grid-cols-3 gap-3">
       <div>
-        <p className="text-[10px] font-black uppercase tracking-widest text-appMuted">Target</p>
-        <AmountText amount={goal.targetAmount} className="mt-1 block text-sm font-extrabold text-appText" />
+        <p className="text-xs font-semibold uppercase tracking-[0.05em] text-appMuted">Target</p>
+        <AmountText amount={goal.targetAmount} className="mt-1 block text-sm font-semibold text-appText" />
       </div>
       <div>
-        <p className="text-[10px] font-black uppercase tracking-widest text-appMuted">Saved</p>
-        <AmountText amount={goal.savedAmount} className="mt-1 block text-sm font-extrabold text-appSuccess" />
+        <p className="text-xs font-semibold uppercase tracking-[0.05em] text-appMuted">Saved</p>
+        <AmountText amount={goal.savedAmount} className="mt-1 block text-sm font-semibold text-appSuccess" />
       </div>
       <div>
-        <p className="text-[10px] font-black uppercase tracking-widest text-appMuted">Left</p>
-        <AmountText amount={goal.remainingAmount} className="mt-1 block text-sm font-extrabold text-appPrimary" />
+        <p className="text-xs font-semibold uppercase tracking-[0.05em] text-appMuted">Left</p>
+        <AmountText amount={goal.remainingAmount} className="mt-1 block text-sm font-semibold text-appPrimary" />
       </div>
     </div>
 
@@ -68,7 +68,7 @@ const GoalCard = ({ goal, onClick }: { goal: Goal; onClick: () => void }) => (
       <div className="h-full rounded-full bg-appPrimary" style={{ width: `${goal.progressPercent}%` }} />
     </div>
 
-    <div className="mt-4 flex items-center justify-end text-xs font-bold text-appPrimary">
+    <div className="mt-4 flex items-center justify-end text-xs font-medium text-appPrimary">
       Open Goal <ChevronRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-0.5" />
     </div>
   </button>
@@ -106,10 +106,10 @@ export const Goals: React.FC = () => {
             key={option.value}
             onClick={() => setStatus(option.value)}
             className={cn(
-              "rounded-xl px-4 py-2 text-xs font-black uppercase tracking-widest transition-all",
+              "rounded-md border px-3 py-1.5 text-xs font-medium uppercase tracking-[0.05em] transition-all",
               status === option.value
-                ? "bg-appPrimary text-white shadow-sm"
-                : "bg-appCard text-appMuted hover:text-appText",
+                ? "border-appPrimary bg-appPrimary text-white shadow-sm"
+                : "border-appBorder bg-appCard text-appMuted hover:bg-appBgSoft hover:text-appText",
             )}
           >
             {option.label}

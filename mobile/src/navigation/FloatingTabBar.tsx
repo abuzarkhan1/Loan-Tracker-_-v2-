@@ -22,8 +22,8 @@ export const FloatingTabBar = ({ state, navigation }: BottomTabBarProps) => {
       pointerEvents="box-none"
       style={{
         position: "absolute",
-        left: 18,
-        right: 18,
+        left: 24,
+        right: 24,
         bottom: Math.max(insets.bottom, 10),
       }}
     >
@@ -31,7 +31,7 @@ export const FloatingTabBar = ({ state, navigation }: BottomTabBarProps) => {
         style={[
           {
             minHeight: 64,
-            borderRadius: 999,
+            borderRadius: 12,
             borderWidth: 1,
             borderColor: theme.border,
             backgroundColor: theme.card,
@@ -39,7 +39,7 @@ export const FloatingTabBar = ({ state, navigation }: BottomTabBarProps) => {
             flexDirection: "row",
             alignItems: "center",
             justifyContent: "space-between",
-            gap: 6,
+            gap: 4,
           },
           theme.shadowElevated,
         ]}
@@ -69,28 +69,28 @@ export const FloatingTabBar = ({ state, navigation }: BottomTabBarProps) => {
               accessibilityState={focused ? { selected: true } : {}}
               onPress={onPress}
               style={{
-                minHeight: 50,
-                flex: focused ? 1.34 : 0.74,
-                borderRadius: 999,
+                minHeight: 48,
+                flex: focused ? 1.22 : 0.82,
+                borderRadius: 6,
                 alignItems: "center",
                 justifyContent: "center",
                 flexDirection: focused ? "row" : "column",
                 gap: focused ? 6 : 3,
                 backgroundColor: focused ? theme.primary : "transparent",
-                shadowColor: focused ? theme.primaryDark : "transparent",
-                shadowOpacity: focused ? 0.22 : 0,
-                shadowRadius: focused ? 18 : 0,
-                shadowOffset: { width: 0, height: 8 },
-                elevation: focused ? 5 : 0,
+                shadowColor: focused ? theme.primary : "transparent",
+                shadowOpacity: focused ? 0.16 : 0,
+                shadowRadius: focused ? 12 : 0,
+                shadowOffset: { width: 0, height: 5 },
+                elevation: focused ? 4 : 0,
               }}
             >
-              <Icon color={focused ? theme.white : theme.muted} size={focused ? 17 : 18} />
+              <Icon color={focused ? theme.white : theme.muted} size={focused ? 16 : 18} />
               <Text
                 numberOfLines={1}
                 style={{
                   color: focused ? theme.white : theme.muted,
-                  fontFamily: focused ? fontFamily.extraBold : fontFamily.bold,
-                  fontSize: focused ? 11 : 9.5,
+                  fontFamily: focused ? fontFamily.medium : fontFamily.medium,
+                  fontSize: focused ? 13 : 10,
                 }}
               >
                 {meta.label}

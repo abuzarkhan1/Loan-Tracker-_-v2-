@@ -70,7 +70,7 @@ export const ContactFormScreen = ({ navigation, route }: Props) => {
   return (
     <Screen className="gap-4 pt-5">
       <View>
-        <Text className="text-2xl font-black text-dark">{isEditing ? "Edit Contact" : "Add Contact"}</Text>
+        <Text className="text-2xl font-bold text-dark">{isEditing ? "Edit Contact" : "Add Contact"}</Text>
         <Text className="mt-1 text-sm font-medium text-muted">Naam aur basic details save karein.</Text>
       </View>
 

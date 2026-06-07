@@ -31,7 +31,7 @@ export const ContactLedgerScreen = ({ route }: Props) => {
   return (
     <Screen className="pt-5">
       <View>
-        <Text className="text-2xl font-black text-dark">{contact.name} Ledger</Text>
+        <Text className="text-2xl font-bold text-dark">{contact.name} Ledger</Text>
         <Text className="mt-1 text-sm font-medium text-muted">Complete hisaab aur transaction timeline.</Text>
       </View>
 
@@ -44,14 +44,14 @@ export const ContactLedgerScreen = ({ route }: Props) => {
 
       <View className="mt-5 rounded-lg border border-border bg-card p-5" style={theme.shadowSoft}>
         <Text className="text-base font-bold text-dark">Net Balance</Text>
-        <Text className="mt-2 text-3xl font-black text-dark">{formatCurrency(summary.overallBalance)}</Text>
+        <Text className="mt-2 text-3xl font-bold text-dark">{formatCurrency(summary.overallBalance)}</Text>
         <Text className="mt-2 text-sm font-semibold text-muted">
           Active {summary.activeLoans} · Completed {summary.completedLoans} · Overdue {summary.overdueLoans}
         </Text>
       </View>
 
       <View className="mt-6">
-        <Text className="text-lg font-black text-dark">Transaction Timeline</Text>
+        <Text className="text-lg font-bold text-dark">Transaction Timeline</Text>
       </View>
 
       <View className="mt-4 gap-3">
@@ -59,17 +59,17 @@ export const ContactLedgerScreen = ({ route }: Props) => {
           <View key={`${item.kind}-${item.id}`} className="rounded-lg border border-border bg-card p-4" style={theme.shadowSoft}>
             <View className="flex-row justify-between gap-3">
               <View className="flex-1">
-                <Text style={{ color: theme.text, fontFamily: fontFamily.extraBold, fontSize: 15 }}>
+                <Text style={{ color: theme.text, fontFamily: fontFamily.bold, fontSize: 15 }}>
                   {item.kind === "LOAN" ? "Loan" : "Payment"} · {item.type}
                 </Text>
                 <Text style={{ color: theme.muted, fontFamily: fontFamily.bold, fontSize: 12, marginTop: 5 }}>
                   {formatDate(item.date)}
                 </Text>
               </View>
-              <Text className="text-base font-black text-dark">{formatCurrency(item.amount)}</Text>
+              <Text className="text-base font-bold text-dark">{formatCurrency(item.amount)}</Text>
             </View>
-            {item.status ? <Text className="mt-2 text-xs font-black uppercase text-muted">{item.status}</Text> : null}
-            {item.method ? <Text className="mt-2 text-xs font-black uppercase text-muted">{item.method}</Text> : null}
+            {item.status ? <Text className="mt-2 text-xs font-bold uppercase text-muted">{item.status}</Text> : null}
+            {item.method ? <Text className="mt-2 text-xs font-bold uppercase text-muted">{item.method}</Text> : null}
             {item.description || item.note ? (
               <Text className="mt-2 text-sm font-medium text-muted">{item.description || item.note}</Text>
             ) : null}

@@ -22,20 +22,20 @@ export const StatusBadge = ({ value }: { value: LoanStatus | LoanType | string }
   const backgroundColor =
     value === "COMPLETED" || value === "GIVEN" ? theme.mint : value === "PARTIALLY_PAID" ? theme.yellow : theme.peach;
   const color =
-    value === "COMPLETED" || value === "GIVEN" ? theme.success : value === "PARTIALLY_PAID" ? theme.warning : theme.primaryDark;
+    value === "COMPLETED" || value === "GIVEN" ? theme.success : value === "PARTIALLY_PAID" ? theme.warning : theme.danger;
 
   return (
     <View
       style={{
-        borderRadius: 999,
+        borderRadius: 6,
         paddingHorizontal: isType ? 12 : 10,
         paddingVertical: 4,
         backgroundColor,
-        borderWidth: theme.mode === "dark" ? 1 : 0,
+        borderWidth: 1,
         borderColor: theme.border,
       }}
     >
-      <Text style={{ color, fontFamily: fontFamily.extraBold, fontSize: 11 }}>{labels[value] || value}</Text>
+      <Text style={{ color, fontFamily: fontFamily.medium, fontSize: 12 }}>{labels[value] || value}</Text>
     </View>
   );
 };

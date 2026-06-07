@@ -96,7 +96,7 @@ export const EditPayment: React.FC = () => {
   if (!payment) {
     return (
       <Card variant="bordered" className="p-6 text-center max-w-2xl mx-auto mt-10">
-        <h3 className="text-base font-extrabold text-appText">Payment Record Not Found</h3>
+        <h3 className="text-base font-semibold text-appText">Payment Record Not Found</h3>
         <p className="text-xs text-appMuted mt-1 mb-4">Could not load payment file details.</p>
         <Button variant="outline" className="mx-auto" onClick={() => navigate(-1)}>
           Go Back
@@ -116,11 +116,11 @@ export const EditPayment: React.FC = () => {
           onClick={() => navigate(-1)}
           className="text-appMuted hover:text-appText p-1.5 rounded-lg hover:bg-appBgSoft border border-transparent hover:border-appBorder transition-all"
         >
-          <ArrowLeft className="h-5 w-5" />
+          <ArrowLeft className="h-4 w-4" />
         </button>
         <div>
-          <h2 className="text-xl font-extrabold text-appText flex items-center gap-2">
-            <Edit className="h-5 w-5 text-appPrimary animate-pulse" /> Edit Repayment Record
+          <h2 className="text-lg font-semibold text-appText flex items-center gap-2">
+            <Edit className="h-5 w-5 text-appPrimary" /> Edit Repayment Record
           </h2>
           <p className="text-xs text-appMuted mt-0.5">
             Modify payment amount or channel logged for {contactName}'s loan "{loanDesc}".
@@ -132,7 +132,7 @@ export const EditPayment: React.FC = () => {
       <Card variant="bordered" className="border border-appBorder/50">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           {formError && (
-            <div className="rounded-xl bg-appDanger/10 border border-appDanger/25 p-3.5 text-center text-xs font-semibold text-appDanger">
+            <div className="rounded-lg border border-appDanger/25 bg-appDanger/10 p-3.5 text-center text-xs font-semibold text-appDanger">
               {formError}
             </div>
           )}

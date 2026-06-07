@@ -82,33 +82,33 @@ export const AddTransaction: React.FC = () => {
           onClick={() => navigate(-1)}
           className="rounded-lg border border-transparent p-1.5 text-appMuted transition-all hover:border-appBorder hover:bg-appBgSoft hover:text-appText"
         >
-          <ArrowLeft className="h-5 w-5" />
+          <ArrowLeft className="h-4 w-4" />
         </button>
         <div>
-          <h1 className="text-xl font-extrabold text-appText">
+          <h1 className="text-lg font-semibold text-appText">
             Add {selectedType === "INCOME" ? "Income" : "Expense"}
           </h1>
-          <p className="text-xs font-semibold text-appMuted">Record a simple personal cash-flow entry.</p>
+          <p className="text-xs font-normal text-appMuted">Record a simple personal cash-flow entry.</p>
         </div>
       </div>
 
       <Card variant="bordered" className="border-appBorder/50">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           {formError && (
-            <div className="flex items-center gap-2 rounded-xl border border-appDanger/25 bg-appDanger/10 p-3 text-xs font-semibold text-appDanger">
+            <div className="flex items-center gap-2 rounded-lg border border-appDanger/25 bg-appDanger/10 p-3 text-xs font-semibold text-appDanger">
               <AlertCircle className="h-4 w-4 shrink-0" />
               <span>{formError}</span>
             </div>
           )}
 
-          <div className="grid grid-cols-2 gap-2 rounded-2xl bg-appBgSoft p-1">
+          <div className="grid grid-cols-2 gap-2 rounded-lg bg-appBgSoft p-1">
             <button
               type="button"
               onClick={() => {
                 setValue("type", "EXPENSE");
                 setValue("categoryId", "");
               }}
-              className={`rounded-xl py-2 text-sm font-bold transition-all ${
+              className={`rounded-md py-2 text-sm font-medium transition-all ${
                 selectedType === "EXPENSE" ? "bg-appDanger text-white shadow-sm" : "text-appMuted hover:text-appText"
               }`}
             >
@@ -120,7 +120,7 @@ export const AddTransaction: React.FC = () => {
                 setValue("type", "INCOME");
                 setValue("categoryId", "");
               }}
-              className={`rounded-xl py-2 text-sm font-bold transition-all ${
+              className={`rounded-md py-2 text-sm font-medium transition-all ${
                 selectedType === "INCOME" ? "bg-appSuccess text-white shadow-sm" : "text-appMuted hover:text-appText"
               }`}
             >

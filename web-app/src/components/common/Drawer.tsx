@@ -39,7 +39,7 @@ export const Drawer: React.FC<DrawerProps> = ({
       {/* Backdrop */}
       <div
         className={cn(
-          "absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300",
+          "absolute inset-0 bg-appSecondary/55 backdrop-blur-sm transition-opacity duration-300",
           isOpen ? "opacity-100" : "opacity-0"
         )}
         onClick={onClose}
@@ -49,17 +49,17 @@ export const Drawer: React.FC<DrawerProps> = ({
       <div className="absolute inset-y-0 right-0 flex max-w-full pl-10">
         <div
           className={cn(
-            "w-screen transform bg-appCard border-l border-appBorder shadow-elevated transition-transform duration-300 ease-in-out flex flex-col h-full",
+            "flex h-full w-screen transform flex-col border-l border-appBorder bg-appCard shadow-elevated transition-transform duration-300 ease-in-out",
             sizes[size],
             isOpen ? "translate-x-0" : "translate-x-full"
           )}
         >
           {/* Header */}
-          <div className="flex items-center justify-between px-6 py-4 border-b border-appBorder bg-appBgSoft/40">
-            <h3 className="text-base font-bold text-appText">{title}</h3>
+          <div className="flex items-center justify-between border-b border-appBorder bg-appSurface px-6 py-4">
+            <h3 className="text-base font-semibold text-appText">{title}</h3>
             <button
               onClick={onClose}
-              className="text-appMuted hover:text-appText p-1.5 rounded-lg hover:bg-appBgSoft transition-all focus:outline-none"
+              className="rounded-md p-1.5 text-appMuted transition-all hover:bg-appBgSoft hover:text-appText focus:outline-none focus:ring-2 focus:ring-appPrimary/20"
               aria-label="Close drawer"
             >
               <X className="h-5 w-5" />

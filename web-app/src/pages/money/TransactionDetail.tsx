@@ -34,7 +34,7 @@ export const TransactionDetail: React.FC = () => {
   }
 
   if (!tx) {
-    return <div className="text-center py-10">Transaction record not found.</div>;
+    return <div className="py-10 text-center text-sm text-appMuted">Transaction record not found.</div>;
   }
 
   const isIncome = tx.type === "INCOME" || tx.type === "LOAN_RECOVERY";
@@ -53,7 +53,7 @@ export const TransactionDetail: React.FC = () => {
             <ArrowLeft className="h-5 w-5" />
           </button>
           <div>
-            <h1 className="text-xl font-extrabold text-appText">Transaction Record</h1>
+            <h1 className="text-lg font-semibold text-appText">Transaction Record</h1>
             <p className="text-xs text-appMuted">Detailed view of logged cash flow ledger entry.</p>
           </div>
         </div>
@@ -70,11 +70,11 @@ export const TransactionDetail: React.FC = () => {
       </div>
 
       {/* Main card representation */}
-      <Card variant="bordered" className="space-y-6">
+      <Card variant="bordered" className="space-y-5">
         {/* Header showing large amount */}
-        <div className="text-center py-6 border-b border-appBorder">
-          <span className="text-[10px] text-appMuted font-bold uppercase tracking-widest block">Logged Amount</span>
-          <h2 className={`text-4xl font-black mt-2 ${isIncome ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"}`}>
+        <div className="border-b border-appBorder py-5 text-center">
+          <span className="block text-xs font-semibold uppercase tracking-[0.05em] text-appMuted">Logged Amount</span>
+          <h2 className={`mt-2 text-3xl font-semibold ${isIncome ? "text-appSuccess" : "text-appDanger"}`}>
             {isIncome ? "+" : "-"}<AmountText amount={tx.amount} />
           </h2>
           <span className="inline-block mt-3">
@@ -85,46 +85,46 @@ export const TransactionDetail: React.FC = () => {
         </div>
 
         {/* Detailed items list */}
-        <div className="space-y-4 text-xs sm:text-sm">
-          <div className="flex items-center justify-between py-2 border-b border-appBorder">
+        <div className="space-y-3 text-xs sm:text-sm">
+          <div className="flex items-center justify-between border-b border-appBorder py-2">
             <div className="flex items-center gap-2 text-appMuted">
               <FileText className="h-4 w-4" />
               <span>Description / Note</span>
             </div>
-            <span className="font-semibold text-appText">{tx.note || catName}</span>
+            <span className="font-medium text-appText">{tx.note || catName}</span>
           </div>
 
-          <div className="flex items-center justify-between py-2 border-b border-appBorder">
+          <div className="flex items-center justify-between border-b border-appBorder py-2">
             <div className="flex items-center gap-2 text-appMuted">
-              <Layers className="h-4 w-4 text-indigo-500" />
+              <Layers className="h-4 w-4 text-appPrimary" />
               <span>Category Envelope</span>
             </div>
-            <span className="font-semibold text-appText">{catName}</span>
+            <span className="font-medium text-appText">{catName}</span>
           </div>
 
-          <div className="flex items-center justify-between py-2 border-b border-appBorder">
+          <div className="flex items-center justify-between border-b border-appBorder py-2">
             <div className="flex items-center gap-2 text-appMuted">
               <Calendar className="h-4 w-4" />
               <span>Transaction Date</span>
             </div>
-            <span className="font-semibold text-appText">{new Date(tx.date || tx.createdAt).toLocaleDateString()}</span>
+            <span className="font-medium text-appText">{new Date(tx.date || tx.createdAt).toLocaleDateString()}</span>
           </div>
 
-          <div className="flex items-center justify-between py-2 border-b border-appBorder">
+          <div className="flex items-center justify-between border-b border-appBorder py-2">
             <div className="flex items-center gap-2 text-appMuted">
-              <CreditCard className="h-4 w-4 text-amber-500" />
+              <CreditCard className="h-4 w-4 text-appWarning" />
               <span>Payment Method</span>
             </div>
-            <span className="font-bold text-appText uppercase bg-appBgSoft px-1.5 py-0.5 rounded">{tx.paymentMethod}</span>
+            <span className="rounded-md border border-appBorder bg-appBgSoft px-2 py-0.5 text-xs font-medium text-appText">{tx.paymentMethod}</span>
           </div>
 
           {contactName && (
-            <div className="flex items-center justify-between py-2 border-b border-appBorder">
+            <div className="flex items-center justify-between border-b border-appBorder py-2">
               <div className="flex items-center gap-2 text-appMuted">
-                <User className="h-4 w-4 text-emerald-500" />
+                <User className="h-4 w-4 text-appSuccess" />
                 <span>Linked Contact</span>
               </div>
-              <span className="font-semibold text-appText">{contactName}</span>
+              <span className="font-medium text-appText">{contactName}</span>
             </div>
           )}
         </div>

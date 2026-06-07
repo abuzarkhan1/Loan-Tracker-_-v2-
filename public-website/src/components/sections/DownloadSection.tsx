@@ -22,15 +22,15 @@ export const DownloadSection = ({ full = false }: { full?: boolean }) => (
         description="The APK link is centralized in one config file and currently points to the official GitHub release asset."
       />
 
-      <Card className="rounded-2xl p-5 sm:p-7">
+      <Card className="p-5 sm:p-6">
         <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-4">
-            <span className="grid size-16 place-items-center rounded-[20px] bg-peach text-primary">
-              <Smartphone size={28} />
+            <span className="grid size-12 place-items-center rounded-lg bg-primary/10 text-primary">
+              <Smartphone size={22} />
             </span>
             <div>
-              <h3 className="text-2xl font-extrabold text-dark">{APP_CONFIG.appName} APK</h3>
-              <p className="mt-1 text-sm font-bold text-muted">Android app download</p>
+              <h3 className="text-lg font-semibold text-dark">{APP_CONFIG.appName} APK</h3>
+              <p className="mt-1 text-sm font-normal text-muted">Android app download</p>
             </div>
           </div>
           <DownloadApkButton size="lg">
@@ -40,17 +40,17 @@ export const DownloadSection = ({ full = false }: { full?: boolean }) => (
 
         <div className="mt-7 grid gap-3 sm:grid-cols-2">
           {details.map(([label, value]) => (
-            <div key={label} className="rounded-xl border border-border bg-background-soft p-4">
-              <p className="text-xs font-extrabold uppercase text-muted">{label}</p>
-              <p className="mt-1 text-base font-extrabold text-dark">{value}</p>
+            <div key={label} className="rounded-lg border border-border bg-background-soft p-4">
+              <p className="text-xs font-semibold uppercase tracking-[0.05em] text-muted">{label}</p>
+              <p className="mt-1 text-sm font-semibold text-dark">{value}</p>
             </div>
           ))}
         </div>
 
         {full ? (
-          <div className="mt-7 rounded-xl border border-border bg-card p-5">
-            <h4 className="text-lg font-extrabold text-dark">Installation guide</h4>
-            <ol className="mt-4 grid gap-3 text-sm font-bold leading-7 text-muted">
+          <div className="mt-7 rounded-lg border border-border bg-card p-5">
+            <h4 className="text-base font-semibold text-dark">Installation guide</h4>
+            <ol className="mt-4 grid gap-3 text-sm font-normal leading-6 text-muted">
               <li>1. Download the APK from the button above.</li>
               <li>2. Open the downloaded file on your Android phone.</li>
               <li>3. Allow installation from your browser if Android asks for permission.</li>

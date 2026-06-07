@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ArrowDownLeft, ArrowUpRight, Plus, SlidersHorizontal, WalletCards } from "lucide-react-native";
 import { useMemo, useState } from "react";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 import { api } from "../../api/client";
 import { TransactionType } from "../../api/types";
 import { TransactionCard } from "../../components/TransactionCard";
@@ -50,18 +51,18 @@ const MonthChip = ({ label, active, onPress }: { label: string; active: boolean;
       activeOpacity={0.86}
       onPress={onPress}
       style={{
-        minHeight: 38,
+        minHeight: 34,
         minWidth: 66,
-        borderRadius: 999,
+        borderRadius: 6,
         borderWidth: 1,
         borderColor: active ? theme.primary : theme.border,
-        backgroundColor: active ? theme.peach : theme.card,
+        backgroundColor: active ? theme.primary : theme.pill,
         alignItems: "center",
         justifyContent: "center",
         paddingHorizontal: 15,
       }}
     >
-      <Text style={{ color: active ? theme.primaryDark : theme.muted, fontFamily: fontFamily.extraBold, fontSize: 12.5 }}>
+      <Text style={{ color: active ? theme.white : theme.muted, fontFamily: fontFamily.medium, fontSize: 13 }}>
         {label}
       </Text>
     </TouchableOpacity>
@@ -83,10 +84,10 @@ const TypeChip = ({
     <TouchableOpacity
       activeOpacity={0.86}
       onPress={onPress}
-      className="rounded-full border px-4 py-2"
-      style={{ borderColor: active ? theme.primary : theme.border, backgroundColor: active ? theme.peach : theme.pill }}
+      className="border px-3 py-2"
+      style={{ borderRadius: 6, borderColor: active ? theme.primary : theme.border, backgroundColor: active ? theme.primary : theme.pill }}
     >
-      <Text style={{ color: active ? theme.primaryDark : theme.muted, fontFamily: fontFamily.bold, fontSize: 11.5 }}>
+      <Text style={{ color: active ? theme.white : theme.muted, fontFamily: fontFamily.medium, fontSize: 13 }}>
         {label}
       </Text>
     </TouchableOpacity>
@@ -97,20 +98,28 @@ const SummaryTile = ({
   label,
   amount,
   positive,
+  onDark = false,
 }: {
   label: string;
   amount: number;
   positive: boolean;
+  onDark?: boolean;
 }) => {
   const { theme } = useAppTheme();
   const Icon = positive ? ArrowDownLeft : ArrowUpRight;
   const toneColor = positive ? theme.success : theme.danger;
   const toneBg = positive ? theme.mint : theme.peach;
+  const onHeroDark = onDark && theme.mode === "dark";
 
   return (
     <View
-      className="flex-1 rounded-2xl px-4 py-4"
-      style={{ backgroundColor: theme.backgroundSoft }}
+      className="flex-1 px-4 py-4"
+      style={{
+        borderRadius: 8,
+        backgroundColor: onHeroDark ? "rgba(240,246,252,0.06)" : onDark ? "rgba(246,249,252,0.08)" : theme.surface,
+        borderWidth: onDark ? 1 : 0,
+        borderColor: onHeroDark ? "rgba(42,52,65,0.9)" : "rgba(227,232,238,0.10)",
+      }}
     >
       <View className="flex-row items-center gap-2">
         <View
@@ -125,7 +134,7 @@ const SummaryTile = ({
         >
           <Icon color={toneColor} size={13} strokeWidth={2.5} />
         </View>
-        <Text style={{ color: theme.muted, fontFamily: fontFamily.bold, fontSize: 12 }}>
+        <Text style={{ color: onHeroDark ? "#8B9CB5" : onDark ? "#C7D2E1" : theme.muted, fontFamily: fontFamily.medium, fontSize: 13 }}>
           {label}
         </Text>
       </View>
@@ -133,7 +142,7 @@ const SummaryTile = ({
         numberOfLines={1}
         adjustsFontSizeToFit
         minimumFontScale={0.74}
-        style={{ color: theme.text, fontFamily: fontFamily.extraBold, fontSize: 18, marginTop: 11 }}
+        style={{ color: onDark ? theme.white : theme.text, fontFamily: fontFamily.semiBold, fontSize: 18, marginTop: 11 }}
       >
         {formatDashboardCurrency(amount)}
       </Text>
@@ -153,28 +162,36 @@ const CashFlowSummary = ({
   net: number;
 }) => {
   const { theme } = useAppTheme();
-  const positive = net >= 0;
+  const panelColors = theme.mode === "dark"
+    ? (["#070C18", "#0F1D33", "#1A2B4A"] as const)
+    : (["#0A2540", "#123456"] as const);
+  const panelMuted = theme.mode === "dark" ? "#8B9CB5" : "#A3ACB9";
+  const panelSecondary = theme.mode === "dark" ? "#F0F6FC" : "#C7D2E1";
+  const panelBorder = theme.mode === "dark" ? "#2A3441" : "rgba(255,255,255,0.12)";
+  const iconBg = theme.mode === "dark" ? "rgba(124,115,255,0.20)" : "rgba(99,91,255,0.18)";
 
   return (
-    <View
+    <LinearGradient
       className="mt-5"
+      colors={panelColors}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 1 }}
       style={[
         {
-          borderRadius: 28,
-          backgroundColor: theme.card,
+          borderRadius: 12,
           borderWidth: 1,
-          borderColor: theme.border,
-          padding: 18,
+          borderColor: panelBorder,
+          padding: 24,
         },
         theme.shadowElevated,
       ]}
     >
       <View className="flex-row items-start justify-between gap-3">
         <View className="flex-1">
-          <Text style={{ color: theme.muted, fontFamily: fontFamily.extraBold, fontSize: 10.5 }}>
+          <Text style={{ color: panelMuted, fontFamily: fontFamily.semiBold, fontSize: 12 }}>
             {monthLabel.toUpperCase()} CASH FLOW
           </Text>
-          <Text style={{ color: theme.muted, fontFamily: fontFamily.bold, fontSize: 11.5, marginTop: 4 }}>
+          <Text style={{ color: panelSecondary, fontFamily: fontFamily.regular, fontSize: 13, marginTop: 4 }}>
             Income minus expenses
           </Text>
         </View>
@@ -182,13 +199,13 @@ const CashFlowSummary = ({
           style={{
             height: 42,
             width: 42,
-            borderRadius: 15,
+            borderRadius: 8,
             alignItems: "center",
             justifyContent: "center",
-            backgroundColor: positive ? theme.mint : theme.peach,
+            backgroundColor: iconBg,
           }}
         >
-          <WalletCards color={positive ? theme.success : theme.primaryDark} size={19} strokeWidth={2.4} />
+          <WalletCards color={theme.white} size={19} strokeWidth={2.4} />
         </View>
       </View>
 
@@ -196,16 +213,16 @@ const CashFlowSummary = ({
         numberOfLines={1}
         adjustsFontSizeToFit
         minimumFontScale={0.72}
-        style={{ color: theme.text, fontFamily: fontFamily.extraBold, fontSize: 34, marginTop: 13 }}
+        style={{ color: theme.white, fontFamily: fontFamily.bold, fontSize: 40, lineHeight: 48, marginTop: 18 }}
       >
         {formatDashboardCurrency(net)}
       </Text>
 
       <View className="mt-5 flex-row gap-3">
-        <SummaryTile label="Amdani" amount={income} positive />
-        <SummaryTile label="Kharchay" amount={expense} positive={false} />
+        <SummaryTile label="Amdani" amount={income} positive onDark />
+        <SummaryTile label="Kharchay" amount={expense} positive={false} onDark />
       </View>
-    </View>
+    </LinearGradient>
   );
 };
 
@@ -243,8 +260,8 @@ export const TransactionsScreen = () => {
     <Screen className="pt-1">
       <View className="flex-row items-start justify-between gap-4">
         <View className="flex-1">
-          <Text style={{ color: theme.text, fontFamily: fontFamily.extraBold, fontSize: 26 }}>Expenses</Text>
-          <Text style={{ color: theme.muted, fontFamily: fontFamily.semiBold, fontSize: 12.5, marginTop: 5 }}>
+          <Text style={{ color: theme.text, fontFamily: fontFamily.bold, fontSize: 32, lineHeight: 40 }}>Expenses</Text>
+          <Text style={{ color: theme.textSecondary, fontFamily: fontFamily.regular, fontSize: 15, lineHeight: 22, marginTop: 2 }}>
             Income, expenses, and loan cash flow
           </Text>
         </View>
@@ -252,20 +269,20 @@ export const TransactionsScreen = () => {
           activeOpacity={0.86}
           onPress={() => navigation.navigate("AddTransaction")}
           style={{
-            height: 48,
-            width: 48,
-            borderRadius: 17,
+            height: 40,
+            width: 40,
+            borderRadius: 6,
             alignItems: "center",
             justifyContent: "center",
             backgroundColor: theme.primary,
-            shadowColor: theme.primaryDark,
+            shadowColor: theme.primary,
             shadowOpacity: 0.18,
-            shadowRadius: 16,
-            shadowOffset: { width: 0, height: 8 },
-            elevation: 5,
+            shadowRadius: 12,
+            shadowOffset: { width: 0, height: 4 },
+            elevation: 4,
           }}
         >
-          <Plus color={theme.white} size={25} strokeWidth={2.1} />
+          <Plus color={theme.white} size={22} strokeWidth={2.1} />
         </TouchableOpacity>
       </View>
 
@@ -279,8 +296,8 @@ export const TransactionsScreen = () => {
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
-        className="mt-5 -mx-5"
-        contentContainerStyle={{ gap: 8, paddingHorizontal: 20 }}
+        className="mt-5 -mx-6"
+        contentContainerStyle={{ gap: 8, paddingHorizontal: 24 }}
       >
         {monthOptions.map((month) => (
           <MonthChip
@@ -294,19 +311,19 @@ export const TransactionsScreen = () => {
 
       <View className="mt-6 flex-row items-center justify-between">
         <View>
-          <Text style={{ color: theme.text, fontFamily: fontFamily.extraBold, fontSize: 20 }}>Transactions</Text>
-          <Text style={{ color: theme.muted, fontFamily: fontFamily.semiBold, fontSize: 11.5, marginTop: 2 }}>
+          <Text style={{ color: theme.text, fontFamily: fontFamily.semiBold, fontSize: 20 }}>Transactions</Text>
+          <Text style={{ color: theme.muted, fontFamily: fontFamily.regular, fontSize: 13, marginTop: 2 }}>
             {transactions.length} records
           </Text>
         </View>
         <TouchableOpacity
           activeOpacity={0.86}
-          className="flex-row items-center gap-2 rounded-full border px-3 py-2"
+          className="flex-row items-center gap-2 border px-3 py-2"
           onPress={() => setShowFilters((value) => !value)}
-          style={{ borderColor: showFilters ? theme.primary : theme.border, backgroundColor: showFilters ? theme.peach : theme.card }}
+          style={{ borderRadius: 6, borderColor: showFilters ? theme.primary : theme.border, backgroundColor: showFilters ? theme.primary : theme.card }}
         >
-          <SlidersHorizontal color={theme.primaryDark} size={16} />
-          <Text style={{ color: theme.primaryDark, fontFamily: fontFamily.extraBold, fontSize: 12 }}>
+          <SlidersHorizontal color={showFilters ? theme.white : theme.primary} size={16} />
+          <Text style={{ color: showFilters ? theme.white : theme.primary, fontFamily: fontFamily.medium, fontSize: 13 }}>
             Filter
           </Text>
         </TouchableOpacity>

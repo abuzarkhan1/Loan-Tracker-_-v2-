@@ -5,7 +5,7 @@ export const ProgressBar = ({ progress }: { progress: number }) => {
   const { theme } = useAppTheme();
 
   return (
-    <View style={{ height: 8, overflow: "hidden", borderRadius: 999, backgroundColor: theme.backgroundSoft }}>
+    <View style={{ height: 6, overflow: "hidden", borderRadius: 999, backgroundColor: theme.surface }}>
       <View
         style={{
           height: "100%",

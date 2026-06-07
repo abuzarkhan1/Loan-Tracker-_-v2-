@@ -42,15 +42,15 @@ export const PrivacyPolicy = () => (
     <Section className="pt-4">
       <div className="mx-auto grid max-w-4xl gap-4">
         {sections.map((section) => (
-          <Card key={section.title} className="rounded-xl p-6">
-            <h2 className="text-2xl font-extrabold text-dark">{section.title}</h2>
-            <p className="mt-3 text-sm font-medium leading-7 text-muted">{section.body}</p>
+          <Card key={section.title} className="p-5">
+            <h2 className="text-base font-semibold text-dark">{section.title}</h2>
+            <p className="mt-2 text-sm font-normal leading-6 text-muted">{section.body}</p>
           </Card>
         ))}
-        <Card className="rounded-xl p-6">
-          <h2 className="text-2xl font-extrabold text-dark">Contact</h2>
-          <p className="mt-3 text-sm font-medium leading-7 text-muted">
-            For privacy questions, contact us at <a className="font-extrabold text-primary" href={APP_CONFIG.supportEmailHref}>{APP_CONFIG.supportEmail}</a>.
+        <Card className="p-5">
+          <h2 className="text-base font-semibold text-dark">Contact</h2>
+          <p className="mt-2 text-sm font-normal leading-6 text-muted">
+            For privacy questions, contact us at <a className="font-semibold text-primary" href={APP_CONFIG.supportEmailHref}>{APP_CONFIG.supportEmail}</a>.
           </p>
         </Card>
       </div>

@@ -8,6 +8,7 @@ import { ROUTES } from "../../config/routes.config";
 import Input from "../../components/common/Input";
 import Button from "../../components/common/Button";
 import Card from "../../components/common/Card";
+import BrandLogo from "../../components/common/BrandLogo";
 
 const forgotSchema = zod.object({
   email: zod.string().min(1, "Email is required").email("Invalid email address"),
@@ -41,10 +42,8 @@ export const ForgotPassword: React.FC = () => {
       <div className="w-full max-w-md space-y-6">
         {/* Branding header */}
         <div className="flex flex-col items-center text-center gap-2">
-          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-appPrimary text-white font-extrabold text-xl shadow-lg">
-            LT
-          </div>
-          <h2 className="text-2xl font-extrabold text-appText tracking-tight">
+          <BrandLogo showText={false} markSize="md" />
+          <h2 className="text-xl font-semibold tracking-tight text-appText">
             Reset password
           </h2>
           <p className="text-sm text-appMuted max-w-xs">
@@ -67,18 +66,18 @@ export const ForgotPassword: React.FC = () => {
                 {...register("email" as any)}
               />
 
-              <Button type="submit" variant="primary" fullWidth isLoading={loading} className="mt-2 py-3">
+              <Button type="submit" variant="primary" fullWidth isLoading={loading} className="mt-2">
                 Send Recovery Instructions
               </Button>
             </form>
           ) : (
             <div className="space-y-5 text-center py-4">
-              <div className="rounded-xl bg-appSuccess/10 border border-appSuccess/20 p-4 text-xs font-semibold text-appSuccess leading-relaxed">
+              <div className="rounded-lg border border-appSuccess/20 bg-appSuccess/10 p-4 text-xs font-medium leading-relaxed text-appSuccess">
                 Instructions have been dispatched successfully. Please check your spam folder if you do not receive it shortly.
               </div>
               <Link
                 to={ROUTES.LOGIN}
-                className="inline-flex items-center gap-2 text-xs font-bold text-appPrimary hover:text-appPrimaryDark transition-colors"
+                className="inline-flex items-center gap-2 text-xs font-medium text-appPrimary transition-colors hover:text-appPrimaryHover"
               >
                 <ArrowLeft className="h-3.5 w-3.5" /> Back to Login
               </Link>
@@ -88,11 +87,11 @@ export const ForgotPassword: React.FC = () => {
 
         {/* Footer links */}
         {!success && (
-          <p className="text-center text-xs font-semibold text-appMuted">
+          <p className="text-center text-xs font-normal text-appMuted">
             Remembered your password?{" "}
             <Link
               to={ROUTES.LOGIN}
-              className="font-bold text-appPrimary hover:text-appPrimaryDark transition-colors"
+              className="font-medium text-appPrimary transition-colors hover:text-appPrimaryHover"
             >
               Log in here
             </Link>

@@ -15,10 +15,10 @@ export const StatsSection = () => (
           viewport={{ once: true, margin: "-70px" }}
           transition={{ duration: 0.4, ease: "easeOut", delay: index * 0.04 }}
         >
-          <Card className="h-full p-5" interactive>
+          <Card className="h-full p-4" interactive>
             <IconBadge icon={stat.icon} tone={stat.tone as Tone} />
-            <p className="mt-5 text-xs font-extrabold uppercase text-muted">{stat.label}</p>
-            <p className="mt-1 text-2xl font-extrabold text-dark">{stat.value}</p>
+            <p className="mt-4 text-xs font-semibold uppercase tracking-[0.05em] text-muted">{stat.label}</p>
+            <p className="mt-1 text-xl font-semibold text-dark">{stat.value}</p>
           </Card>
         </motion.div>
       ))}

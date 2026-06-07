@@ -40,43 +40,43 @@ export const DatePickerField = ({
   };
 
   return (
-    <View style={{ gap: 6 }}>
-      <Text style={{ color: theme.muted, fontFamily: fontFamily.bold, fontSize: 13 }}>{label}</Text>
+    <View style={{ gap: 4 }}>
+      <Text style={{ color: theme.text, fontFamily: fontFamily.medium, fontSize: 13 }}>{label}</Text>
       <TouchableOpacity
         activeOpacity={0.85}
         onPress={() => setOpen(true)}
         style={[
           {
-            minHeight: 50,
-            borderRadius: 14,
-            borderWidth: 1,
+            minHeight: 40,
+            borderRadius: 6,
+            borderWidth: open || error ? 2 : 1,
             borderColor: error ? theme.danger : theme.border,
             backgroundColor: theme.input,
-            paddingHorizontal: 18,
+            paddingHorizontal: 12,
             flexDirection: "row",
             alignItems: "center",
             justifyContent: "space-between",
           },
-          open ? { shadowColor: theme.primary, shadowOpacity: 0.15, shadowRadius: 8, shadowOffset: { width: 0, height: 0 }, elevation: 2 } : null,
+          open ? { shadowColor: theme.primary, shadowOpacity: 0.18, shadowRadius: 6, shadowOffset: { width: 0, height: 0 }, elevation: 2 } : null,
         ]}
       >
-        <Text style={{ color: value ? theme.text : theme.placeholder, fontFamily: fontFamily.semiBold, fontSize: 15 }}>
+        <Text style={{ color: value ? theme.text : theme.placeholder, fontFamily: fontFamily.regular, fontSize: 15 }}>
           {value ? formatDate(value) : "Select date"}
         </Text>
         <View
           style={{
             height: 34,
             width: 34,
-            borderRadius: 12,
+            borderRadius: 8,
             alignItems: "center",
             justifyContent: "center",
-            backgroundColor: theme.peach,
+            backgroundColor: theme.surface,
           }}
         >
-          <CalendarDays color={theme.primaryDark} size={18} />
+          <CalendarDays color={theme.primary} size={18} />
         </View>
       </TouchableOpacity>
-      {error ? <Text style={{ color: theme.danger, fontFamily: fontFamily.semiBold, fontSize: 12 }}>{error}</Text> : null}
+      {error ? <Text style={{ color: theme.danger, fontFamily: fontFamily.regular, fontSize: 12 }}>{error}</Text> : null}
 
       {open ? (
         <DateTimePicker

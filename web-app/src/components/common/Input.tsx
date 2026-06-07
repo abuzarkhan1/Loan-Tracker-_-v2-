@@ -17,13 +17,13 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     const actualType = isPassword ? (showPassword ? "text" : "password") : type;
 
     return (
-      <div className="flex w-full flex-col gap-1.5">
+      <div className="flex w-full flex-col gap-1">
         {label && (
-          <label htmlFor={id} className="text-xs font-semibold uppercase tracking-wider text-appMuted">
+          <label htmlFor={id} className="text-[13px] font-medium leading-4 text-appText">
             {label}
           </label>
         )}
-        <div className="relative flex items-center rounded-2xl bg-appInput shadow-sm">
+        <div className="relative flex items-center rounded-md bg-appInput">
           {leftIcon && (
             <div className="absolute left-3.5 flex items-center text-appMuted pointer-events-none">
               {leftIcon}
@@ -34,7 +34,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             id={id}
             type={actualType}
             className={cn(
-              "w-full rounded-2xl border border-appBorder bg-transparent px-4 py-3 text-sm font-semibold text-appText transition-all placeholder:text-appMuted focus:border-appPrimary focus:outline-none focus:ring-2 focus:ring-appPrimary/20 disabled:cursor-not-allowed disabled:opacity-50",
+              "h-10 w-full rounded-md border border-appBorder bg-transparent px-3 text-[15px] font-normal text-appText transition-all placeholder:text-appMuted focus:border-appPrimary focus:outline-none focus:ring-[3px] focus:ring-appPrimary/10 disabled:cursor-not-allowed disabled:opacity-50",
               leftIcon && "pl-10",
               (rightIcon || isPassword) && "pr-10",
               error && "border-appDanger focus:border-appDanger focus:ring-appDanger",

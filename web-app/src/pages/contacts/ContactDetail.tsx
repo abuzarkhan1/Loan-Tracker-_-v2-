@@ -56,7 +56,7 @@ export const ContactDetail: React.FC = () => {
     <div className="mx-auto max-w-5xl space-y-6">
       <button
         onClick={() => navigate(ROUTES.CONTACTS)}
-        className="flex items-center gap-1.5 text-sm font-bold text-appMuted transition-colors hover:text-appText"
+        className="flex items-center gap-1.5 text-xs font-medium text-appMuted transition-colors hover:text-appText"
       >
         <ArrowLeft className="h-4 w-4" /> Back to Contacts
       </button>
@@ -64,15 +64,15 @@ export const ContactDetail: React.FC = () => {
       <Card variant="bordered" className="border-appBorder/50">
         <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
           <div className="flex min-w-0 items-start gap-4">
-            <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-appPrimary/10 text-2xl font-extrabold text-appPrimary">
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-appPrimary/10 text-base font-semibold text-appPrimary">
               {contact.name.trim().charAt(0).toUpperCase()}
             </div>
             <div className="min-w-0">
               <div className="flex flex-wrap items-center gap-3">
-                <h1 className="truncate text-2xl font-extrabold text-appText">{contact.name}</h1>
+                <h1 className="truncate text-xl font-semibold text-appText">{contact.name}</h1>
                 <Badge variant="muted" size="sm">{sourceLabel}</Badge>
               </div>
-              <div className="mt-2 flex flex-wrap items-center gap-3 text-sm font-semibold text-appMuted">
+              <div className="mt-2 flex flex-wrap items-center gap-3 text-sm font-normal text-appMuted">
                 {contact.phone && (
                   <span className="inline-flex items-center gap-1.5">
                     <Phone className="h-4 w-4" /> {contact.phone}
@@ -98,27 +98,27 @@ export const ContactDetail: React.FC = () => {
           </Button>
         </div>
 
-        <div className="mt-6 rounded-2xl bg-appBgSoft p-5">
-          <p className="text-[10px] font-black uppercase tracking-widest text-appMuted">Net Balance</p>
-          <p className={`mt-1 text-3xl font-extrabold ${summary.overallBalance >= 0 ? "text-appSuccess" : "text-appDanger"}`}>
+        <div className="mt-5 rounded-lg border border-appBorder bg-appSurface p-4">
+          <p className="text-xs font-semibold uppercase tracking-[0.05em] text-appMuted">Net Balance</p>
+          <p className={`mt-1 text-2xl font-semibold ${summary.overallBalance >= 0 ? "text-appSuccess" : "text-appDanger"}`}>
             <AmountText amount={Math.abs(summary.overallBalance)} />
           </p>
-          <p className="mt-1 text-xs font-semibold text-appMuted">
+          <p className="mt-1 text-xs font-normal text-appMuted">
             {summary.overallBalance >= 0 ? "Mujhe lene hain" : "Mujhe dene hain"}
           </p>
         </div>
 
         <div className="mt-5 grid grid-cols-2 gap-3 lg:grid-cols-4">
           {summaryCards.map(([key, label, tone]) => (
-            <div key={key} className="rounded-2xl border border-appBorder/50 bg-appCard p-4">
-              <p className="text-[10px] font-black uppercase tracking-widest text-appMuted">{label}</p>
-              <p className={`mt-1 text-base font-extrabold ${
+            <div key={key} className="rounded-lg border border-appBorder bg-appCard p-4">
+              <p className="text-xs font-semibold uppercase tracking-[0.05em] text-appMuted">{label}</p>
+              <p className={`mt-1 text-base font-semibold ${
                 tone === "success"
                   ? "text-appSuccess"
                   : tone === "danger"
                     ? "text-appDanger"
                     : tone === "warning"
-                      ? "text-appYellow"
+                      ? "text-appWarning"
                       : "text-appPrimary"
               }`}>
                 <AmountText amount={summary[key] || 0} />
@@ -166,8 +166,8 @@ export const ContactDetail: React.FC = () => {
       <Card variant="bordered" className="border-appBorder/50">
         <div className="mb-4 flex items-center justify-between gap-4">
           <div>
-            <h2 className="text-lg font-extrabold text-appText">Recent Loans</h2>
-            <p className="text-xs font-semibold text-appMuted">Simple loan records and payment progress.</p>
+            <h2 className="text-lg font-semibold text-appText">Recent Loans</h2>
+            <p className="text-xs font-normal text-appMuted">Simple loan records and payment progress.</p>
           </div>
         </div>
 
@@ -186,22 +186,22 @@ export const ContactDetail: React.FC = () => {
                 <button
                   key={loan._id}
                   onClick={() => navigate(ROUTES.LOAN_DETAIL.replace(":id", loan._id))}
-                  className="w-full rounded-2xl border border-appBorder/50 bg-appBgSoft/50 p-4 text-left transition-colors hover:bg-appBgSoft"
+                  className="w-full rounded-lg border border-appBorder bg-appCard p-4 text-left shadow-level1 transition-colors hover:bg-appSurface"
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div className="min-w-0">
                       <div className="mb-2 flex flex-wrap items-center gap-2">
                         <StatusBadge status={loan.status} />
-                        <span className={`text-[10px] font-black uppercase tracking-widest ${loan.type === "GIVEN" ? "text-appSuccess" : "text-appDanger"}`}>
+                        <span className={`text-xs font-semibold uppercase tracking-[0.05em] ${loan.type === "GIVEN" ? "text-appSuccess" : "text-appDanger"}`}>
                           {loan.type === "GIVEN" ? "Given" : "Taken"}
                         </span>
                       </div>
-                      <p className="truncate text-sm font-extrabold text-appText">{loan.description || "Loan"}</p>
-                      <p className="mt-1 text-xs font-semibold text-appMuted">Due {loan.dueDate ? formatDate(loan.dueDate) : "not set"}</p>
+                      <p className="truncate text-sm font-semibold text-appText">{loan.description || "Loan"}</p>
+                      <p className="mt-1 text-xs font-normal text-appMuted">Due {loan.dueDate ? formatDate(loan.dueDate) : "not set"}</p>
                     </div>
                     <div className="shrink-0 text-right">
-                      <p className="text-[10px] font-black uppercase tracking-widest text-appMuted">Remaining</p>
-                      <AmountText amount={loan.remainingAmount} className="text-sm font-extrabold text-appText" />
+                      <p className="text-xs font-semibold uppercase tracking-[0.05em] text-appMuted">Remaining</p>
+                      <AmountText amount={loan.remainingAmount} className="text-sm font-semibold text-appText" />
                     </div>
                     <ChevronRight className="mt-1 h-4 w-4 shrink-0 text-appMuted" />
                   </div>

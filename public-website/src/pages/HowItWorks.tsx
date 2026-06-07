@@ -19,9 +19,9 @@ export const HowItWorks = () => (
     />
     <HowItWorksSection />
     <Section className="pt-2">
-      <Card className="rounded-2xl p-7 text-center sm:p-10">
-        <h2 className="text-3xl font-extrabold text-dark">Ready to keep your next loan clean from day one?</h2>
-        <p className="mx-auto mt-4 max-w-2xl text-sm font-medium leading-7 text-muted">
+      <Card className="p-6 text-center sm:p-8">
+        <h2 className="text-2xl font-semibold text-dark">Ready to keep your next loan clean from day one?</h2>
+        <p className="mx-auto mt-3 max-w-2xl text-sm font-normal leading-6 text-muted">
           Download the Android APK, create your account, and start with your first contact and loan entry.
         </p>
         <DownloadApkButton className="mt-7">

@@ -107,8 +107,8 @@ export const LoginScreen = ({ navigation }: Props) => {
       <View className="mb-10 items-center gap-4">
         <BrandLogo size={72} />
         <View className="items-center">
-          <Text className="text-3xl font-black text-dark">Loan Tracker</Text>
-          <Text className="mt-2 text-center text-sm font-medium text-muted">
+          <Text className="text-3xl font-bold text-dark">Loan Tracker</Text>
+          <Text className="mt-2 text-center text-[15px] font-normal leading-6 text-muted">
             Raqam, contacts, aur payments ek jagah.
           </Text>
         </View>
@@ -127,11 +127,11 @@ export const LoginScreen = ({ navigation }: Props) => {
             onPress={() => biometricMutation.mutate()}
           />
           <View className="mt-3 flex-row items-center justify-between gap-3">
-            <Text numberOfLines={1} style={{ color: theme.muted, fontFamily: fontFamily.semiBold, fontSize: 12, flex: 1 }}>
+            <Text numberOfLines={1} style={{ color: theme.muted, fontFamily: fontFamily.regular, fontSize: 13, flex: 1 }}>
               Saved for {savedEmail}
             </Text>
             <TouchableOpacity activeOpacity={0.82} onPress={resetSavedLogin}>
-              <Text style={{ color: theme.primaryDark, fontFamily: fontFamily.extraBold, fontSize: 12 }}>
+              <Text style={{ color: theme.primary, fontFamily: fontFamily.medium, fontSize: 13 }}>
                 Remove
               </Text>
             </TouchableOpacity>
@@ -142,7 +142,7 @@ export const LoginScreen = ({ navigation }: Props) => {
         </View>
       ) : null}
 
-      <View className="gap-4 rounded-3xl border border-border bg-card p-5" style={theme.shadowSoft}>
+      <View className="gap-4 rounded-3xl border border-border bg-card p-6" style={theme.shadowSoft}>
         <FormInput
           control={control}
           name="email"
@@ -167,14 +167,14 @@ export const LoginScreen = ({ navigation }: Props) => {
             className="flex-row items-center gap-3 rounded-2xl border px-3.5 py-3"
             style={{
               borderColor: rememberBiometric ? theme.primary : theme.border,
-              backgroundColor: rememberBiometric ? theme.peach : theme.backgroundSoft,
+              backgroundColor: rememberBiometric ? theme.surface : theme.backgroundSoft,
             }}
           >
             <View
               style={{
                 height: 32,
                 width: 32,
-                borderRadius: 12,
+                borderRadius: 8,
                 alignItems: "center",
                 justifyContent: "center",
                 backgroundColor: rememberBiometric ? theme.primary : theme.pill,
@@ -183,10 +183,10 @@ export const LoginScreen = ({ navigation }: Props) => {
               <ShieldCheck color={rememberBiometric ? theme.white : theme.muted} size={16} strokeWidth={2.5} />
             </View>
             <View className="flex-1">
-              <Text style={{ color: theme.text, fontFamily: fontFamily.extraBold, fontSize: 13 }}>
+              <Text style={{ color: theme.text, fontFamily: fontFamily.semiBold, fontSize: 15 }}>
                 Enable quick login
               </Text>
-              <Text style={{ color: theme.muted, fontFamily: fontFamily.medium, fontSize: 11.5, marginTop: 2 }}>
+              <Text style={{ color: theme.muted, fontFamily: fontFamily.regular, fontSize: 13, marginTop: 2 }}>
                 Use {biometricLabel} next time instead of typing again.
               </Text>
             </View>
@@ -199,7 +199,7 @@ export const LoginScreen = ({ navigation }: Props) => {
       </View>
 
       <TouchableOpacity className="mt-6 items-center" onPress={() => navigation.navigate("Register")}>
-        <Text className="text-sm font-semibold text-muted">
+        <Text className="text-sm font-normal text-muted">
           New here? <Text style={{ color: theme.primary }}>Create account</Text>
         </Text>
       </TouchableOpacity>

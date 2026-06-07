@@ -40,24 +40,24 @@ export const ContactLoanProfileScreen = ({ navigation, route }: Props) => {
     <Screen className="pt-5">
       <View className="rounded-3xl border border-border bg-card p-5" style={theme.shadowSoft}>
         <View className="flex-row items-start gap-4">
-          <View className="h-14 w-14 items-center justify-center rounded-2xl bg-peach">
-            <Text className="text-lg font-black text-primary">{contact.name.trim().charAt(0).toUpperCase()}</Text>
+          <View className="h-14 w-14 items-center justify-center rounded-full bg-background-soft">
+            <Text className="text-lg font-bold text-primary">{contact.name.trim().charAt(0).toUpperCase()}</Text>
           </View>
           <View className="flex-1">
-            <Text className="text-2xl font-black text-dark">{contact.name}</Text>
+            <Text className="text-2xl font-bold text-dark">{contact.name}</Text>
             <Text className="mt-2 text-sm font-semibold text-muted">{contact.phone || contact.email || "No phone or email"}</Text>
-            <View className="mt-3 self-start rounded-full bg-background-soft px-3 py-1">
-              <Text className="text-[10px] font-black uppercase text-muted">{sourceLabel(contact.source)}</Text>
+            <View className="mt-3 self-start rounded-lg bg-background-soft px-3 py-1">
+              <Text className="text-[10px] font-bold uppercase text-muted">{sourceLabel(contact.source)}</Text>
             </View>
           </View>
         </View>
 
         <View className="mt-5 rounded-2xl bg-background-soft p-4">
-          <Text className="text-xs font-black uppercase text-muted">Net Balance</Text>
+          <Text className="text-xs font-bold uppercase text-muted">Net Balance</Text>
           <AmountText
             amount={summary.overallBalance}
-            className="mt-1 text-2xl font-black"
-            style={{ color: summary.overallBalance >= 0 ? theme.success : theme.danger, fontFamily: fontFamily.extraBold }}
+            className="mt-1 text-2xl font-bold"
+            style={{ color: summary.overallBalance >= 0 ? theme.success : theme.danger, fontFamily: fontFamily.bold }}
           />
           <Text className="mt-1 text-xs font-semibold text-muted">
             Positive ka matlab mujhe lene hain, negative ka matlab mujhe dene hain.
@@ -95,8 +95,8 @@ export const ContactLoanProfileScreen = ({ navigation, route }: Props) => {
       </View>
 
       <View className="mt-6 flex-row items-center justify-between">
-        <Text className="text-lg font-black text-dark">Active Loans</Text>
-        <Text className="text-xs font-black uppercase text-muted">{activeLoans.length} active</Text>
+        <Text className="text-lg font-bold text-dark">Active Loans</Text>
+        <Text className="text-xs font-bold uppercase text-muted">{activeLoans.length} active</Text>
       </View>
       <View className="mt-4 gap-3">
         {activeLoans.length ? (
@@ -109,8 +109,8 @@ export const ContactLoanProfileScreen = ({ navigation, route }: Props) => {
       </View>
 
       <View className="mt-6 flex-row items-center justify-between">
-        <Text className="text-lg font-black text-dark">Recent Loans</Text>
-        <Text className="text-xs font-black uppercase text-muted">{recentLoans.length} total</Text>
+        <Text className="text-lg font-bold text-dark">Recent Loans</Text>
+        <Text className="text-xs font-bold uppercase text-muted">{recentLoans.length} total</Text>
       </View>
       <View className="mt-4 gap-3">
         {recentLoans.length ? (

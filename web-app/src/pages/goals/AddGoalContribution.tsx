@@ -104,14 +104,14 @@ export const AddGoalContribution: React.FC = () => {
     <div className="mx-auto max-w-xl space-y-6">
       <button
         onClick={() => navigate(ROUTES.GOAL_DETAIL.replace(":id", id))}
-        className="flex items-center gap-1.5 text-sm font-bold text-appMuted transition-colors hover:text-appText"
+        className="flex items-center gap-1.5 text-xs font-medium text-appMuted transition-colors hover:text-appText"
       >
         <ArrowLeft className="h-4 w-4" /> Back to Goal
       </button>
 
       <div>
-        <h1 className="text-2xl font-extrabold text-appText">{isEditing ? "Edit Saved Money" : "Add Money"}</h1>
-        <p className="text-sm font-semibold text-appMuted">
+        <h1 className="text-xl font-semibold text-appText">{isEditing ? "Edit Saved Money" : "Add Money"}</h1>
+        <p className="text-sm font-normal text-appMuted">
           Add progress toward <span className="text-appText">{goal.title}</span>.
         </p>
       </div>
@@ -119,10 +119,10 @@ export const AddGoalContribution: React.FC = () => {
       <Card variant="flat" className="border border-appBorder/30">
         <div className="flex items-center justify-between gap-4">
           <div>
-            <p className="text-[10px] font-black uppercase tracking-widest text-appMuted">Remaining</p>
-            <AmountText amount={goal.remainingAmount} className="mt-1 block text-xl font-extrabold text-appPrimary" />
+            <p className="text-xs font-semibold uppercase tracking-[0.05em] text-appMuted">Remaining</p>
+            <AmountText amount={goal.remainingAmount} className="mt-1 block text-lg font-semibold text-appPrimary" />
           </div>
-          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-appPeach text-appPrimary">
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-appPrimary/10 text-appPrimary">
             <HandCoins className="h-5 w-5" />
           </div>
         </div>
@@ -134,7 +134,7 @@ export const AddGoalContribution: React.FC = () => {
       <Card variant="bordered" className="border-appBorder/50">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           {formError && (
-            <div className="flex items-center gap-2 rounded-xl border border-appDanger/25 bg-appDanger/10 p-3 text-xs font-semibold text-appDanger">
+            <div className="flex items-center gap-2 rounded-lg border border-appDanger/25 bg-appDanger/10 p-3 text-xs font-semibold text-appDanger">
               <AlertCircle className="h-4 w-4 shrink-0" />
               <span>{formError}</span>
             </div>

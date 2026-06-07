@@ -21,11 +21,11 @@ export const EmptyState = ({ title, subtitle }: { title: string; subtitle?: stri
   return (
     <View
       className="items-center justify-center gap-2 p-8"
-      style={[{ borderRadius: 28, borderWidth: 1, borderColor: theme.border, backgroundColor: theme.card }, theme.shadowSoft]}
+      style={[{ borderRadius: 12, borderWidth: 1, borderColor: theme.border, backgroundColor: theme.card }, theme.shadowSoft]}
     >
       <Inbox color={theme.muted} size={28} />
-      <Text style={{ color: theme.text, fontFamily: fontFamily.bold, fontSize: 16 }}>{title}</Text>
-      {subtitle ? <Text style={{ color: theme.muted, fontFamily: fontFamily.medium, fontSize: 14, textAlign: "center" }}>{subtitle}</Text> : null}
+      <Text style={{ color: theme.text, fontFamily: fontFamily.semiBold, fontSize: 16 }}>{title}</Text>
+      {subtitle ? <Text style={{ color: theme.muted, fontFamily: fontFamily.regular, fontSize: 14, textAlign: "center" }}>{subtitle}</Text> : null}
     </View>
   );
 };
@@ -36,10 +36,10 @@ export const ErrorState = ({ message, onRetry }: { message: string; onRetry?: ()
   return (
     <View
       className="items-center justify-center gap-3 p-8"
-      style={[{ borderRadius: 28, borderWidth: 1, borderColor: theme.border, backgroundColor: theme.card }, theme.shadowSoft]}
+      style={[{ borderRadius: 12, borderWidth: 1, borderColor: theme.border, backgroundColor: theme.card }, theme.shadowSoft]}
     >
       <AlertCircle color={theme.danger} size={28} />
-      <Text style={{ color: theme.text, fontFamily: fontFamily.medium, fontSize: 14, textAlign: "center" }}>{message}</Text>
+      <Text style={{ color: theme.text, fontFamily: fontFamily.regular, fontSize: 14, textAlign: "center" }}>{message}</Text>
       {onRetry ? <AppButton title="Retry" onPress={onRetry} variant="secondary" /> : null}
     </View>
   );

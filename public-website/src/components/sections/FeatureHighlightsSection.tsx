@@ -13,7 +13,7 @@ export const FeatureHighlightsSection = ({ compact = false }: { compact?: boolea
       description="From given and taken loans to expenses, income, and statuses, each workflow is built around clarity."
     />
 
-    <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {featureHighlights.slice(0, compact ? 6 : featureHighlights.length).map((feature, index) => (
         <motion.div
           key={feature.title}
@@ -22,10 +22,10 @@ export const FeatureHighlightsSection = ({ compact = false }: { compact?: boolea
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.38, ease: "easeOut", delay: index * 0.025 }}
         >
-          <Card className="h-full p-6" interactive>
+          <Card className="h-full p-5" interactive>
             <IconBadge icon={feature.icon} tone={feature.tone as Tone} />
-            <h3 className="mt-5 text-xl font-extrabold text-dark">{feature.title}</h3>
-            <p className="mt-3 text-sm font-medium leading-7 text-muted">{feature.description}</p>
+            <h3 className="mt-4 text-base font-semibold text-dark">{feature.title}</h3>
+            <p className="mt-2 text-sm font-normal leading-6 text-muted">{feature.description}</p>
           </Card>
         </motion.div>
       ))}

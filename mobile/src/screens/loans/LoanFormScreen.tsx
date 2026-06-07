@@ -110,7 +110,7 @@ export const LoanFormScreen = ({ navigation, route }: Props) => {
   return (
     <Screen className="gap-4 pt-5">
       <View>
-        <Text className="text-2xl font-black text-dark">{isEditing ? "Edit Loan" : "Naya Loan"}</Text>
+        <Text className="text-2xl font-bold text-dark">{isEditing ? "Edit Loan" : "Naya Loan"}</Text>
         <Text className="mt-1 text-sm font-medium text-muted">Basic amount, date, and clear description.</Text>
       </View>
 

@@ -17,18 +17,18 @@ export interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
 export const Select = forwardRef<HTMLSelectElement, SelectProps>(
   ({ className, label, options, error, helperText, placeholder, id, ...props }, ref) => {
     return (
-      <div className="flex w-full flex-col gap-1.5">
+      <div className="flex w-full flex-col gap-1">
         {label && (
-          <label htmlFor={id} className="text-xs font-semibold uppercase tracking-wider text-appMuted">
+          <label htmlFor={id} className="text-[13px] font-medium leading-4 text-appText">
             {label}
           </label>
         )}
-        <div className="relative flex items-center bg-appInput rounded-2xl shadow-sm">
+        <div className="relative flex items-center rounded-md bg-appInput">
           <select
             id={id}
             className={cn(
-              "w-full rounded-2xl border border-appBorder bg-transparent px-4 py-3 text-sm font-semibold text-appText transition-all placeholder:text-appMuted focus:border-appPrimary focus:outline-none focus:ring-2 focus:ring-appPrimary/20 disabled:cursor-not-allowed disabled:opacity-50 appearance-none cursor-pointer",
-              error && "border-appDanger focus:border-appDanger focus:ring-appDanger",
+              "h-10 w-full cursor-pointer appearance-none rounded-md border border-appBorder bg-transparent px-3 pr-10 text-[15px] font-normal text-appText transition-all placeholder:text-appMuted focus:border-appPrimary focus:outline-none focus:ring-[3px] focus:ring-appPrimary/10 disabled:cursor-not-allowed disabled:opacity-50",
+              error && "border-appDanger focus:border-appDanger focus:ring-appDanger/10",
               className
             )}
             ref={ref}

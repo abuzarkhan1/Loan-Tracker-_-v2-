@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { User as UserIcon, Mail, CheckCircle, AlertTriangle, ArrowLeft } from "lucide-react";
+import { User as UserIcon, CheckCircle, AlertTriangle, ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 import Card from "../../components/common/Card";
 import Button from "../../components/common/Button";
@@ -46,16 +46,16 @@ export const Profile: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6 max-w-2xl mx-auto">
+    <div className="mx-auto max-w-2xl space-y-6">
       {/* Header back nav */}
-      <Link to={ROUTES.SETTINGS} className="text-xs font-bold text-appPrimary flex items-center gap-1 hover:underline">
+      <Link to={ROUTES.SETTINGS} className="flex items-center gap-1 text-xs font-medium text-appPrimary hover:underline">
         <ArrowLeft className="h-3.5 w-3.5" />
         Back to Settings Hub
       </Link>
 
       <div>
-        <h1 className="text-2xl font-extrabold text-appText flex items-center gap-2">
-          <UserIcon className="h-6 w-6 text-appPrimary" />
+        <h1 className="flex items-center gap-2 text-xl font-semibold text-appText">
+          <UserIcon className="h-5 w-5 text-appPrimary" />
           Profile Details
         </h1>
         <p className="text-sm text-appMuted">
@@ -63,10 +63,10 @@ export const Profile: React.FC = () => {
         </p>
       </div>
 
-      <Card variant="bordered" className="p-6">
+      <Card variant="bordered">
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-bold text-appMuted uppercase tracking-wider mb-1">
+            <label className="mb-1 block text-xs font-semibold uppercase tracking-[0.05em] text-appMuted">
               Full Name
             </label>
             <Input
@@ -79,7 +79,7 @@ export const Profile: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-appMuted uppercase tracking-wider mb-1">
+            <label className="mb-1 block text-xs font-semibold uppercase tracking-[0.05em] text-appMuted">
               Email Address
             </label>
             <Input
@@ -92,14 +92,14 @@ export const Profile: React.FC = () => {
           </div>
 
           {success && (
-            <p className="text-xs text-appSuccess font-bold flex items-center gap-1 bg-appMint/20 p-2.5 rounded-lg border border-appSuccess/25 animate-fadeIn">
+            <p className="flex animate-fadeIn items-center gap-1 rounded-lg border border-appSuccess/25 bg-appSuccess/10 p-2.5 text-xs font-semibold text-appSuccess">
               <CheckCircle className="h-4 w-4 shrink-0 text-appSuccess" />
               Profile updated successfully!
             </p>
           )}
 
           {error && (
-            <p className="text-xs text-appDanger font-semibold bg-appPeach/15 p-2.5 rounded-lg border border-appDanger/20 flex items-center gap-1">
+            <p className="flex items-center gap-1 rounded-lg border border-appDanger/20 bg-appDanger/10 p-2.5 text-xs font-semibold text-appDanger">
               <AlertTriangle className="h-4 w-4 shrink-0" />
               {error}
             </p>
@@ -116,7 +116,7 @@ export const Profile: React.FC = () => {
               variant="primary"
               isLoading={isUpdating}
               disabled={name === user?.name && email === user?.email}
-              className="px-6 font-bold"
+              className="px-6 font-medium"
             >
               Save Changes
             </Button>

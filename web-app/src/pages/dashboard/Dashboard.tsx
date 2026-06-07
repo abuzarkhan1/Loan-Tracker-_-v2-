@@ -48,8 +48,8 @@ const chartPalette = {
 const tooltipStyle = {
   backgroundColor: chartPalette.card,
   border: `1px solid ${chartPalette.border}`,
-  borderRadius: 16,
-  boxShadow: "0 12px 40px var(--shadow-color)",
+  borderRadius: 8,
+  boxShadow: "0 12px 24px var(--shadow-color-strong)",
   color: chartPalette.text,
 };
 
@@ -69,24 +69,24 @@ const toneClass = {
 };
 
 const toneBg = {
-  primary: "bg-appPeach",
-  success: "bg-appMint",
+  primary: "bg-appPrimary/10",
+  success: "bg-appSuccess/10",
   danger: "bg-appDanger/10",
-  warning: "bg-appYellow",
+  warning: "bg-appWarning/10",
 };
 
 const MetricCard = ({ label, value, icon: Icon, tone, isCount }: MetricCardProps) => (
-  <Card hoverable className="border-appBorder/60">
+  <Card hoverable>
     <div className="flex items-start justify-between gap-4">
       <div className="min-w-0">
-        <p className="text-[10px] font-black uppercase tracking-[0.18em] text-appMuted">{label}</p>
+        <p className="text-xs font-semibold uppercase tracking-[0.05em] text-appMuted">{label}</p>
         {isCount ? (
-          <p className={cn("mt-2 text-3xl font-extrabold tracking-tight", toneClass[tone])}>{value}</p>
+          <p className={cn("mt-2 text-2xl font-semibold tracking-tight", toneClass[tone])}>{value}</p>
         ) : (
-          <AmountText amount={value} className={cn("mt-2 block text-2xl font-extrabold tracking-tight", toneClass[tone])} />
+          <AmountText amount={value} className={cn("mt-2 block text-xl font-semibold tracking-tight", toneClass[tone])} />
         )}
       </div>
-      <div className={cn("flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl", toneBg[tone], toneClass[tone])}>
+      <div className={cn("flex h-10 w-10 shrink-0 items-center justify-center rounded-lg", toneBg[tone], toneClass[tone])}>
         <Icon className="h-5 w-5" />
       </div>
     </div>
@@ -106,15 +106,15 @@ const QuickAction = ({
 }) => (
   <button
     onClick={onClick}
-    className="premium-card-hover group rounded-[24px] border border-appBorder bg-appCard p-4 text-left shadow-sm"
+    className="premium-card-hover group rounded-xl border border-appBorder bg-appCard p-4 text-left shadow-level1"
   >
     <div className="flex items-start gap-3">
-      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-appPeach text-appPrimary">
+      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-appPrimary/10 text-appPrimary">
         <Icon className="h-5 w-5" />
       </div>
       <div className="min-w-0">
-        <p className="text-sm font-extrabold text-appText">{label}</p>
-        <p className="mt-1 text-xs font-semibold leading-5 text-appMuted">{description}</p>
+        <p className="text-sm font-semibold text-appText">{label}</p>
+        <p className="mt-1 text-xs font-normal leading-5 text-appMuted">{description}</p>
       </div>
     </div>
   </button>
@@ -131,11 +131,11 @@ const ChartCard = ({
   children: React.ReactNode;
   className?: string;
 }) => (
-  <Card className={cn("border-appBorder/60", className)}>
-    <div className="mb-5 flex items-start justify-between gap-4">
+  <Card className={cn(className)}>
+    <div className="mb-4 flex items-start justify-between gap-4">
       <div>
-        <h3 className="text-sm font-extrabold text-appText">{title}</h3>
-        <p className="mt-1 text-xs font-semibold leading-5 text-appMuted">{subtitle}</p>
+        <h3 className="text-lg font-semibold leading-7 text-appText">{title}</h3>
+        <p className="mt-1 text-sm font-normal leading-6 text-appTextSecondary">{subtitle}</p>
       </div>
     </div>
     {children}
@@ -200,21 +200,20 @@ export const Dashboard: React.FC = () => {
       />
 
       <div className="grid grid-cols-1 gap-5 xl:grid-cols-[1.35fr_0.65fr]">
-        <Card variant="elevated" className="border-appBorder/60">
-          <div className="grid grid-cols-1 gap-7 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
+        <div className="navy-panel rounded-xl p-5 sm:p-6">
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
             <div>
               <Badge variant={balance >= 0 ? "success" : "danger"} size="sm">
                 {balance >= 0 ? "Positive balance" : "Payable balance"}
               </Badge>
-              <p className="mt-5 text-[10px] font-black uppercase tracking-[0.22em] text-appMuted">Overall Balance</p>
+              <p className="mt-5 text-xs font-semibold uppercase tracking-[0.05em] text-[#a3acb9] dark:text-[#8b949e]">Overall Balance</p>
               <AmountText
                 amount={Math.abs(balance)}
                 className={cn(
-                  "mt-2 block text-4xl font-extrabold tracking-tight sm:text-5xl",
-                  balance >= 0 ? "text-appText" : "text-appDanger",
+                  "mt-2 block text-3xl font-bold tracking-tight text-white sm:text-4xl",
                 )}
               />
-              <p className="mt-4 max-w-xl text-sm font-semibold leading-6 text-appMuted">
+              <p className="mt-4 max-w-xl text-[15px] font-normal leading-6 text-[#c7d2e1] dark:text-[#8b9cb5]">
                 {balance >= 0
                   ? "Net receivable is higher than payable. Aapka hisaab positive hai."
                   : "Net payable is higher than receivable. Payback planning zaroori hai."}
@@ -222,59 +221,59 @@ export const Dashboard: React.FC = () => {
             </div>
 
             <div className="grid grid-cols-2 gap-3">
-              <div className="rounded-2xl border border-appBorder/60 bg-appBgSoft p-4">
-                <p className="text-[10px] font-black uppercase tracking-widest text-appMuted">Active</p>
-                <p className="mt-1 text-2xl font-extrabold text-appText">{summary?.activeLoans || 0}</p>
+              <div className="rounded-lg border border-white/10 bg-white/[0.08] p-3.5 dark:border-[#2a3441] dark:bg-white/[0.06]">
+                <p className="text-xs font-medium text-[#a3acb9] dark:text-[#8b949e]">Active</p>
+                <p className="mt-1 text-xl font-semibold text-white">{summary?.activeLoans || 0}</p>
               </div>
-              <div className="rounded-2xl border border-appBorder/60 bg-appBgSoft p-4">
-                <p className="text-[10px] font-black uppercase tracking-widest text-appMuted">Completed</p>
-                <p className="mt-1 text-2xl font-extrabold text-appSuccess">{summary?.completedLoans || 0}</p>
+              <div className="rounded-lg border border-white/10 bg-white/[0.08] p-3.5 dark:border-[#2a3441] dark:bg-white/[0.06]">
+                <p className="text-xs font-medium text-[#a3acb9] dark:text-[#8b949e]">Completed</p>
+                <p className="mt-1 text-xl font-semibold text-white">{summary?.completedLoans || 0}</p>
               </div>
-              <div className="col-span-2 rounded-2xl border border-appBorder/60 bg-appBgSoft p-4">
-                <p className="text-[10px] font-black uppercase tracking-widest text-appMuted">Total Loan Volume</p>
+              <div className="col-span-2 rounded-lg border border-white/10 bg-white/[0.08] p-3.5 dark:border-[#2a3441] dark:bg-white/[0.06]">
+                <p className="text-xs font-medium text-[#a3acb9] dark:text-[#8b949e]">Total Loan Volume</p>
                 <AmountText
                   amount={(summary?.totalLoanGiven || 0) + (summary?.totalLoanTaken || 0)}
-                  className="mt-1 block text-2xl font-extrabold text-appText"
+                  className="mt-1 block text-xl font-semibold text-white"
                 />
               </div>
             </div>
           </div>
-        </Card>
+        </div>
 
-        <Card hoverable className="border-appBorder/60" onClick={() => navigate(ROUTES.GOALS)}>
+        <Card hoverable onClick={() => navigate(ROUTES.GOALS)}>
           <div className="flex h-full flex-col justify-between gap-6">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-appMuted">Saving Goals</p>
-                <h2 className="mt-2 text-xl font-extrabold text-appText">
+                <p className="text-xs font-semibold uppercase tracking-[0.05em] text-appMuted">Saving Goals</p>
+                <h2 className="mt-2 text-xl font-semibold text-appText">
                   {goalSummary?.activeGoals ? `${goalSummary.activeGoals} active` : "No active goals"}
                 </h2>
-                <p className="mt-2 text-xs font-semibold leading-5 text-appMuted">
+                <p className="mt-2 text-sm font-normal leading-6 text-appTextSecondary">
                   {nearestGoal
                     ? `${nearestGoal.progressPercent}% complete for ${nearestGoal.title}`
                     : "Add a target and save money step by step."}
                 </p>
               </div>
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-appPeach text-appPrimary">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-appPrimary/10 text-appPrimary">
                 <Target className="h-5 w-5" />
               </div>
             </div>
             <div>
-              <div className="mb-2 flex items-center justify-between text-[10px] font-black uppercase tracking-widest text-appMuted">
+              <div className="mb-2 flex items-center justify-between text-xs font-medium text-appMuted">
                 <span>Progress</span>
                 <span>{goalProgress}%</span>
               </div>
-              <div className="h-2 overflow-hidden rounded-full bg-appBorder">
+              <div className="h-1.5 overflow-hidden rounded-full bg-appBorder">
                 <div className="h-full rounded-full bg-appPrimary transition-all duration-500 ease-out" style={{ width: `${goalProgress}%` }} />
               </div>
               <div className="mt-4 grid grid-cols-2 gap-3">
-                <div className="rounded-2xl bg-appBgSoft p-3">
-                  <p className="text-[10px] font-black uppercase tracking-widest text-appMuted">Saved</p>
-                  <AmountText amount={goalSummary?.totalSavedAmount || 0} className="mt-1 block text-sm font-extrabold text-appSuccess" />
+                <div className="rounded-lg bg-appSurface p-3">
+                  <p className="text-xs font-medium text-appMuted">Saved</p>
+                  <AmountText amount={goalSummary?.totalSavedAmount || 0} className="mt-1 block text-sm font-semibold text-appSuccess" />
                 </div>
-                <div className="rounded-2xl bg-appBgSoft p-3">
-                  <p className="text-[10px] font-black uppercase tracking-widest text-appMuted">Target</p>
-                  <AmountText amount={goalSummary?.totalTargetAmount || 0} className="mt-1 block text-sm font-extrabold text-appText" />
+                <div className="rounded-lg bg-appSurface p-3">
+                  <p className="text-xs font-medium text-appMuted">Target</p>
+                  <AmountText amount={goalSummary?.totalTargetAmount || 0} className="mt-1 block text-sm font-semibold text-appText" />
                 </div>
               </div>
             </div>
@@ -319,14 +318,14 @@ export const Dashboard: React.FC = () => {
           subtitle="Given, taken, received, and paid trend."
           className="lg:col-span-2"
         >
-          <div className="h-72">
+          <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <ReBarChart data={chartData}>
                 <CartesianGrid strokeDasharray="3 3" stroke={chartPalette.border} opacity={0.7} vertical={false} />
                 <XAxis dataKey="month" fontSize={11} tickLine={false} axisLine={false} stroke={chartPalette.mutedText} />
                 <YAxis fontSize={11} tickLine={false} axisLine={false} stroke={chartPalette.mutedText} />
-                <Tooltip contentStyle={tooltipStyle} labelStyle={{ color: chartPalette.text, fontWeight: 800 }} cursor={{ fill: "var(--background-soft)" }} />
-                <Legend iconType="circle" wrapperStyle={{ fontSize: 12, fontWeight: 700, color: chartPalette.mutedText }} />
+                <Tooltip contentStyle={tooltipStyle} labelStyle={{ color: chartPalette.text, fontWeight: 600 }} cursor={{ fill: "var(--background-soft)" }} />
+                <Legend iconType="circle" wrapperStyle={{ fontSize: 12, fontWeight: 600, color: chartPalette.mutedText }} />
                 <Bar name="Given" dataKey="given" fill={chartPalette.primary} radius={[8, 8, 0, 0]} />
                 <Bar name="Taken" dataKey="taken" fill={chartPalette.muted} radius={[8, 8, 0, 0]} />
                 <Bar name="Received" dataKey="received" fill={chartPalette.success} radius={[8, 8, 0, 0]} />
@@ -337,14 +336,14 @@ export const Dashboard: React.FC = () => {
         </ChartCard>
 
         <ChartCard title="Loan Type Split" subtitle="Given vs taken principal.">
-          <div className="h-72">
+          <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie data={pieData} cx="50%" cy="50%" innerRadius={62} outerRadius={88} dataKey="value" paddingAngle={4}>
                   {pieData.map((_item, index) => <Cell key={index} fill={pieColors[index % pieColors.length]} />)}
                 </Pie>
-                <Tooltip contentStyle={tooltipStyle} labelStyle={{ color: chartPalette.text, fontWeight: 800 }} />
-                <Legend iconType="circle" wrapperStyle={{ fontSize: 12, fontWeight: 700, color: chartPalette.mutedText }} />
+                <Tooltip contentStyle={tooltipStyle} labelStyle={{ color: chartPalette.text, fontWeight: 600 }} />
+                <Legend iconType="circle" wrapperStyle={{ fontSize: 12, fontWeight: 600, color: chartPalette.mutedText }} />
               </PieChart>
             </ResponsiveContainer>
           </div>

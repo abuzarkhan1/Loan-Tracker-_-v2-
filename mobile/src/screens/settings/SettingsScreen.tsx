@@ -18,6 +18,7 @@ import {
 } from "lucide-react-native";
 import { useEffect, useState } from "react";
 import { Switch, Text, TouchableOpacity, View } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { AppButton } from "../../components/AppButton";
@@ -50,7 +51,7 @@ const SectionHeader = ({ title, icon: Icon }: { title: string; icon: LucideIcon 
   return (
     <View className="mt-6 flex-row items-center gap-2">
       <Icon color={theme.primary} size={14} />
-      <Text style={{ color: theme.text, fontFamily: fontFamily.extraBold, fontSize: 12, letterSpacing: 0 }}>
+      <Text style={{ color: theme.text, fontFamily: fontFamily.semiBold, fontSize: 12, letterSpacing: 0 }}>
         {title}
       </Text>
     </View>
@@ -104,20 +105,20 @@ const SettingsRow = ({
           style={{
             height: 36,
             width: 36,
-            borderRadius: 12,
+            borderRadius: 8,
             alignItems: "center",
             justifyContent: "center",
-            backgroundColor: danger ? theme.peach : theme.backgroundSoft,
+            backgroundColor: danger ? theme.peach : theme.surface,
           }}
         >
           <Icon color={danger ? theme.danger : theme.muted} size={17} />
         </View>
         <View className="min-w-0 flex-1">
-          <Text numberOfLines={1} style={{ color, fontFamily: fontFamily.bold, fontSize: 14 }}>
+          <Text numberOfLines={1} style={{ color, fontFamily: fontFamily.semiBold, fontSize: 15 }}>
             {title}
           </Text>
           {subtitle ? (
-            <Text numberOfLines={1} style={{ color: theme.muted, fontFamily: fontFamily.medium, fontSize: 11.5, marginTop: 3 }}>
+            <Text numberOfLines={1} style={{ color: theme.muted, fontFamily: fontFamily.regular, fontSize: 13, marginTop: 3 }}>
               {subtitle}
             </Text>
           ) : null}
@@ -126,13 +127,13 @@ const SettingsRow = ({
           <Switch
             value={switchValue}
             onValueChange={onSwitchChange}
-            trackColor={{ false: "rgba(111,101,119,0.25)", true: theme.primary }}
+            trackColor={{ false: theme.border, true: theme.primary }}
             thumbColor={theme.white}
           />
         ) : (
           <>
             {value ? (
-              <Text style={{ color: theme.muted, fontFamily: fontFamily.medium, fontSize: 12.5 }}>
+              <Text style={{ color: theme.muted, fontFamily: fontFamily.regular, fontSize: 13 }}>
                 {value}
               </Text>
             ) : null}
@@ -155,6 +156,11 @@ export const SettingsScreen = () => {
   const [biometricEnabled, setBiometricEnabled] = useState(false);
   const [biometricLabel, setBiometricLabel] = useState("Biometric");
   const [savedBiometricEmail, setSavedBiometricEmail] = useState<string | null>(null);
+  const profileGradient = theme.mode === "dark"
+    ? (["#070C18", "#0F1D33", "#1A2B4A"] as const)
+    : (["#0A2540", "#123456"] as const);
+  const profileBorder = theme.mode === "dark" ? "#2A3441" : "rgba(255,255,255,0.12)";
+  const profileSecondaryText = theme.mode === "dark" ? "#8B9CB5" : "#C7D2E1";
 
   const {
     control,
@@ -246,21 +252,25 @@ export const SettingsScreen = () => {
     <Screen className="pt-1">
       <View className="flex-row items-start justify-between gap-4">
         <View className="flex-1">
-          <Text style={{ color: theme.muted, fontFamily: fontFamily.medium, fontSize: 11 }}>ترتیبات</Text>
-          <Text style={{ color: theme.text, fontFamily: fontFamily.extraBold, fontSize: 28, marginTop: 4 }}>Settings</Text>
+          <Text style={{ color: theme.muted, fontFamily: fontFamily.regular, fontSize: 13 }}>ترتیبات</Text>
+          <Text style={{ color: theme.text, fontFamily: fontFamily.bold, fontSize: 32, lineHeight: 40, marginTop: 2 }}>Settings</Text>
         </View>
       </View>
 
-      <View
+      <LinearGradient
         className="mt-5 overflow-hidden rounded-3xl"
+        colors={profileGradient}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
         style={{
-          backgroundColor: theme.primary,
-          padding: 18,
-          shadowColor: theme.primaryDark,
-          shadowOpacity: 0.18,
-          shadowRadius: 20,
-          shadowOffset: { width: 0, height: 10 },
-          elevation: 6,
+          borderWidth: 1,
+          borderColor: profileBorder,
+          padding: 24,
+          shadowColor: theme.mode === "dark" ? "#000000" : theme.secondary,
+          shadowOpacity: theme.mode === "dark" ? 0.5 : 0.14,
+          shadowRadius: theme.mode === "dark" ? 16 : 24,
+          shadowOffset: { width: 0, height: theme.mode === "dark" ? 4 : 12 },
+          elevation: theme.mode === "dark" ? 8 : 7,
         }}
       >
         <View className="flex-row items-center gap-4">
@@ -268,21 +278,21 @@ export const SettingsScreen = () => {
             style={{
               height: 54,
               width: 54,
-              borderRadius: 16,
+              borderRadius: 999,
               alignItems: "center",
               justifyContent: "center",
               backgroundColor: "rgba(255,255,255,0.17)",
             }}
           >
-            <Text style={{ color: theme.white, fontFamily: fontFamily.extraBold, fontSize: 20 }}>
+            <Text style={{ color: theme.white, fontFamily: fontFamily.bold, fontSize: 20 }}>
               {initials(user?.name)}
             </Text>
           </View>
           <View className="min-w-0 flex-1">
-            <Text numberOfLines={1} style={{ color: theme.white, fontFamily: fontFamily.extraBold, fontSize: 18 }}>
+            <Text numberOfLines={1} style={{ color: theme.white, fontFamily: fontFamily.semiBold, fontSize: 20 }}>
               {user?.name || "User"}
             </Text>
-            <Text numberOfLines={1} style={{ color: "rgba(255,255,255,0.82)", fontFamily: fontFamily.medium, fontSize: 12.5, marginTop: 5 }}>
+            <Text numberOfLines={1} style={{ color: profileSecondaryText, fontFamily: fontFamily.regular, fontSize: 13, marginTop: 5 }}>
               {user?.email || "No email"}
             </Text>
           </View>
@@ -327,13 +337,14 @@ export const SettingsScreen = () => {
           <TouchableOpacity
             activeOpacity={0.86}
             onPress={() => setIsEditing(true)}
-            className="mt-4 flex-row items-center justify-center gap-2 rounded-2xl bg-white py-3"
+            className="mt-4 flex-row items-center justify-center gap-2 bg-white py-3"
+            style={{ borderRadius: 6 }}
           >
             <UserRoundPen color={theme.primary} size={16} />
-            <Text style={{ color: theme.primary, fontFamily: fontFamily.extraBold, fontSize: 13 }}>Edit Profile</Text>
+            <Text style={{ color: theme.primary, fontFamily: fontFamily.medium, fontSize: 14 }}>Edit Profile</Text>
           </TouchableOpacity>
         )}
-      </View>
+      </LinearGradient>
 
       <SectionHeader title="APP SETTINGS" icon={SlidersHorizontal} />
       <SettingsGroup>
@@ -362,11 +373,11 @@ export const SettingsScreen = () => {
       <TouchableOpacity
         activeOpacity={0.86}
         onPress={handleLogout}
-        className="mt-7 flex-row items-center justify-center gap-2 rounded-2xl border py-4"
-        style={{ borderColor: theme.primary }}
+        className="mt-7 flex-row items-center justify-center gap-2 border py-3"
+        style={{ borderColor: theme.primary, borderRadius: 6 }}
       >
         <LogOut color={theme.primary} size={17} />
-        <Text style={{ color: theme.primary, fontFamily: fontFamily.extraBold, fontSize: 14 }}>Logout</Text>
+        <Text style={{ color: theme.primary, fontFamily: fontFamily.medium, fontSize: 14 }}>Logout</Text>
       </TouchableOpacity>
     </Screen>
   );

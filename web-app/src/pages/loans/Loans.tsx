@@ -83,10 +83,10 @@ export const Loans: React.FC = () => {
               <button
                 key={value}
                 onClick={() => setType(value)}
-                className={`rounded-xl px-3 py-1.5 text-xs font-bold uppercase tracking-wider transition-all ${
+                className={`rounded-md border px-3 py-1.5 text-xs font-medium uppercase tracking-[0.05em] transition-all ${
                   type === value
-                    ? "bg-appPrimary text-white shadow-sm"
-                    : "bg-appBgSoft text-appMuted hover:bg-appBorder hover:text-appText"
+                    ? "border-appPrimary bg-appPrimary text-white shadow-sm"
+                    : "border-appBorder bg-appCard text-appMuted hover:bg-appBgSoft hover:text-appText"
                 }`}
               >
                 {value === "ALL" ? "All" : value === "GIVEN" ? "Given" : "Taken"}
@@ -98,20 +98,20 @@ export const Loans: React.FC = () => {
               <button
                 key={value}
                 onClick={() => setStatus(value)}
-                className={`rounded-xl px-3 py-1.5 text-xs font-bold uppercase tracking-wider transition-all ${
+                className={`rounded-md border px-3 py-1.5 text-xs font-medium uppercase tracking-[0.05em] transition-all ${
                   status === value
-                    ? "bg-[#6f6577] text-white shadow-sm"
-                    : "bg-appBgSoft text-appMuted hover:bg-appBorder hover:text-appText"
+                    ? "border-appPrimary bg-appPrimary text-white shadow-sm"
+                    : "border-appBorder bg-appCard text-appMuted hover:bg-appBgSoft hover:text-appText"
                 }`}
               >
                 {value === "ALL" ? "All Status" : value.replace("_", " ")}
               </button>
             ))}
           </div>
-          <div className="flex w-fit items-center gap-2 rounded-xl bg-appBgSoft p-1">
+          <div className="flex w-fit items-center gap-1.5 rounded-md bg-appBgSoft p-1">
             <button
               onClick={() => setViewMode("grid")}
-              className={`rounded-lg p-2 transition-colors ${
+              className={`rounded-md p-2 transition-colors ${
                 viewMode === "grid" ? "bg-appCard text-appPrimary shadow-sm" : "text-appMuted hover:text-appText"
               }`}
               title="Grid view"
@@ -120,7 +120,7 @@ export const Loans: React.FC = () => {
             </button>
             <button
               onClick={() => setViewMode("list")}
-              className={`rounded-lg p-2 transition-colors ${
+              className={`rounded-md p-2 transition-colors ${
                 viewMode === "list" ? "bg-appCard text-appPrimary shadow-sm" : "text-appMuted hover:text-appText"
               }`}
               title="List view"
@@ -153,36 +153,36 @@ export const Loans: React.FC = () => {
                 <div className="space-y-4">
                   <div className="flex flex-wrap items-center gap-2">
                     <StatusBadge status={loan.status} />
-                    <span className={`text-[10px] font-black uppercase tracking-widest ${loan.type === "GIVEN" ? "text-appSuccess" : "text-appDanger"}`}>
+                    <span className={`text-xs font-semibold uppercase tracking-[0.05em] ${loan.type === "GIVEN" ? "text-appSuccess" : "text-appDanger"}`}>
                       {loan.type === "GIVEN" ? "Given" : "Taken"}
                     </span>
                   </div>
 
                   <div>
-                    <h3 className="truncate text-sm font-extrabold text-appText">
+                    <h3 className="truncate text-sm font-semibold text-appText">
                       {loan.description || "Loan"}
                     </h3>
-                    <p className="mt-1 flex items-center gap-1.5 text-xs font-semibold text-appMuted">
+                    <p className="mt-1 flex items-center gap-1.5 text-xs font-normal text-appMuted">
                       <User className="h-3.5 w-3.5" /> {contactName(loan)}
                     </p>
-                    <p className="mt-1 flex items-center gap-1.5 text-xs font-semibold text-appMuted">
+                    <p className="mt-1 flex items-center gap-1.5 text-xs font-normal text-appMuted">
                       <Calendar className="h-3.5 w-3.5" /> Due {loan.dueDate ? formatDate(loan.dueDate) : "not set"}
                     </p>
                   </div>
 
                   <div className="grid grid-cols-2 gap-3 border-t border-appBorder/40 pt-4">
                     <div>
-                      <p className="text-[10px] font-black uppercase tracking-widest text-appMuted">Amount</p>
-                      <AmountText amount={loan.amount} className="text-sm font-extrabold text-appText" />
+                      <p className="text-xs font-semibold uppercase tracking-[0.05em] text-appMuted">Amount</p>
+                      <AmountText amount={loan.amount} className="text-sm font-semibold text-appText" />
                     </div>
                     <div>
-                      <p className="text-[10px] font-black uppercase tracking-widest text-appMuted">Remaining</p>
-                      <AmountText amount={loan.remainingAmount} className="text-sm font-extrabold text-appPrimary" />
+                      <p className="text-xs font-semibold uppercase tracking-[0.05em] text-appMuted">Remaining</p>
+                      <AmountText amount={loan.remainingAmount} className="text-sm font-semibold text-appPrimary" />
                     </div>
                   </div>
 
                   <div className="space-y-1.5">
-                    <div className="flex items-center justify-between text-[10px] font-semibold text-appMuted">
+                    <div className="flex items-center justify-between text-xs font-medium text-appMuted">
                       <span>Progress</span>
                       <span>{progress}% paid</span>
                     </div>
@@ -198,8 +198,8 @@ export const Loans: React.FC = () => {
       ) : (
         <Card variant="bordered" padding="none" className="overflow-hidden border-appBorder/50">
           <div className="w-full overflow-x-auto">
-            <table className="w-full border-collapse text-left text-xs">
-              <thead className="border-b border-appBorder bg-appBgSoft/60 font-bold uppercase tracking-widest text-appMuted">
+            <table className="w-full border-collapse text-left text-sm">
+              <thead className="border-b border-appBorder bg-appBgSoft/60 text-xs font-semibold uppercase tracking-[0.05em] text-appMuted">
                 <tr>
                   <th className="px-6 py-4">Loan</th>
                   <th className="px-6 py-4">Contact</th>
@@ -217,9 +217,9 @@ export const Loans: React.FC = () => {
                     onClick={() => navigate(ROUTES.LOAN_DETAIL.replace(":id", loan._id))}
                     className="cursor-pointer transition-colors hover:bg-appBgSoft/40"
                   >
-                    <td className="px-6 py-4 font-bold text-appText">{loan.description || "Loan"}</td>
-                    <td className="px-6 py-4 font-semibold text-appMuted">{contactName(loan)}</td>
-                    <td className={`px-6 py-4 font-semibold ${loan.type === "GIVEN" ? "text-appSuccess" : "text-appDanger"}`}>
+                    <td className="px-6 py-4 font-medium text-appText">{loan.description || "Loan"}</td>
+                    <td className="px-6 py-4 text-appMuted">{contactName(loan)}</td>
+                    <td className={`px-6 py-4 font-medium ${loan.type === "GIVEN" ? "text-appSuccess" : "text-appDanger"}`}>
                       {loan.type === "GIVEN" ? "Given" : "Taken"}
                     </td>
                     <td className="px-6 py-4 text-appMuted">{loan.dueDate ? formatDate(loan.dueDate) : "-"}</td>
@@ -227,7 +227,7 @@ export const Loans: React.FC = () => {
                     <td className="px-6 py-4 text-right font-semibold text-appText">
                       <AmountText amount={loan.amount} />
                     </td>
-                    <td className="px-6 py-4 text-right font-extrabold text-appPrimary">
+                    <td className="px-6 py-4 text-right font-semibold text-appPrimary">
                       <AmountText amount={loan.remainingAmount} />
                     </td>
                   </tr>

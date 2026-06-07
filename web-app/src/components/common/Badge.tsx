@@ -15,38 +15,38 @@ export const Badge: React.FC<BadgeProps> = ({
   outlined = false,
   ...props
 }) => {
-  const baseStyles = "inline-flex items-center justify-center font-semibold rounded-full tracking-wider transition-colors duration-150 uppercase";
+  const baseStyles = "inline-flex items-center justify-center rounded-md border font-medium transition-colors duration-150";
 
   const variants = {
     primary: outlined 
       ? "border border-appPrimary text-appPrimary bg-transparent" 
-      : "bg-appPrimary bg-opacity-10 text-appPrimary",
+      : "border-appPrimary/15 bg-appPrimary/10 text-appPrimary",
     success: outlined 
       ? "border border-appSuccess text-appSuccess bg-transparent" 
-      : "bg-appSuccess bg-opacity-10 text-appSuccess",
+      : "border-appSuccess/15 bg-appSuccess/10 text-appSuccess",
     warning: outlined 
       ? "border border-appWarning text-appWarning bg-transparent" 
-      : "bg-appWarning bg-opacity-10 text-appWarning",
+      : "border-appWarning/20 bg-appWarning/10 text-appWarning",
     danger: outlined 
       ? "border border-appDanger text-appDanger bg-transparent" 
-      : "bg-appDanger bg-opacity-10 text-appDanger",
+      : "border-appDanger/15 bg-appDanger/10 text-appDanger",
     muted: outlined 
       ? "border border-appMuted text-appMuted bg-transparent" 
-      : "bg-appMuted bg-opacity-10 text-appMuted",
+      : "border-appBorder bg-appMuted/10 text-appMuted",
     peach: outlined 
-      ? "border border-[#f36f56] text-[#f36f56] bg-transparent" 
-      : "bg-[#ffe4d3] text-[#d95441] dark:bg-opacity-10 dark:text-[#f36f56]",
+      ? "border border-appDanger text-appDanger bg-transparent" 
+      : "border-appDanger/15 bg-appDanger/10 text-appDanger",
     mint: outlined 
-      ? "border border-[#1b7d62] text-[#1b7d62] bg-transparent" 
-      : "bg-[#d9f1d7] text-[#1b7d62] dark:bg-opacity-10 dark:text-[#d9f1d7]",
+      ? "border border-appSuccess text-appSuccess bg-transparent" 
+      : "border-appSuccess/15 bg-appSuccess/10 text-appSuccess",
     yellow: outlined 
-      ? "border border-[#ffd56a] text-[#ffd56a] bg-transparent" 
-      : "bg-[#ffd56a] bg-opacity-20 text-[#8a6d1f] dark:text-[#ffd56a]",
+      ? "border border-appWarning text-appWarning bg-transparent" 
+      : "border-appWarning/20 bg-appWarning/10 text-appWarning",
   };
 
   const sizes = {
-    sm: "px-2 py-0.5 text-[10px]",
-    md: "px-2.5 py-1 text-xs",
+    sm: "px-2 py-0.5 text-xs leading-4",
+    md: "px-3 py-1 text-[13px] leading-5",
   };
 
   return (

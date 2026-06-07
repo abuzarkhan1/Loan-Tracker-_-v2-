@@ -118,10 +118,10 @@ export const Contacts: React.FC = () => {
               placeholder="Search by name, phone, or email..."
             />
           </div>
-          <div className="flex items-center gap-2 rounded-xl bg-appBgSoft p-1">
+          <div className="flex items-center gap-1.5 rounded-md bg-appBgSoft p-1">
             <button
               onClick={() => setViewMode("grid")}
-              className={`rounded-lg p-2 transition-colors ${
+              className={`rounded-md p-2 transition-colors ${
                 viewMode === "grid" ? "bg-appCard text-appPrimary shadow-sm" : "text-appMuted hover:text-appText"
               }`}
               title="Grid view"
@@ -130,7 +130,7 @@ export const Contacts: React.FC = () => {
             </button>
             <button
               onClick={() => setViewMode("list")}
-              className={`rounded-lg p-2 transition-colors ${
+              className={`rounded-md p-2 transition-colors ${
                 viewMode === "list" ? "bg-appCard text-appPrimary shadow-sm" : "text-appMuted hover:text-appText"
               }`}
               title="List view"
@@ -163,12 +163,12 @@ export const Contacts: React.FC = () => {
               >
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex min-w-0 items-start gap-4">
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-appPrimary/10 text-sm font-extrabold text-appPrimary">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-appPrimary/10 text-sm font-semibold text-appPrimary">
                       {getInitials(contact.name)}
                     </div>
                     <div className="min-w-0">
-                      <h3 className="truncate text-sm font-extrabold text-appText">{contact.name}</h3>
-                      <p className="mt-1 flex items-center gap-1.5 text-xs font-semibold text-appMuted">
+                      <h3 className="truncate text-sm font-semibold text-appText">{contact.name}</h3>
+                      <p className="mt-1 flex items-center gap-1.5 text-xs font-normal text-appMuted">
                         {contact.phone ? <Phone className="h-3.5 w-3.5" /> : <Mail className="h-3.5 w-3.5" />}
                         <span className="truncate">{contact.phone || contact.email || "No contact detail"}</span>
                       </p>
@@ -177,7 +177,7 @@ export const Contacts: React.FC = () => {
                   <ChevronRight className="mt-1 h-4 w-4 shrink-0 text-appMuted" />
                 </div>
                 <div className="mt-4 flex items-center gap-2 border-t border-appBorder/40 pt-4">
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-appBgSoft px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-appMuted">
+                  <span className="inline-flex items-center gap-1.5 rounded-md border border-appBorder bg-appBgSoft px-2.5 py-1 text-xs font-medium text-appMuted">
                     {isPhoneContact && <Smartphone className="h-3 w-3" />}
                     {isPhoneContact ? "Phone Contact" : "Manual"}
                   </span>
@@ -189,8 +189,8 @@ export const Contacts: React.FC = () => {
       ) : (
         <Card variant="bordered" padding="none" className="overflow-hidden border-appBorder/50">
           <div className="w-full overflow-x-auto">
-            <table className="w-full border-collapse text-left text-xs">
-              <thead className="border-b border-appBorder bg-appBgSoft/60 font-bold uppercase tracking-widest text-appMuted">
+            <table className="w-full border-collapse text-left text-sm">
+              <thead className="border-b border-appBorder bg-appBgSoft/60 text-xs font-semibold uppercase tracking-[0.05em] text-appMuted">
                 <tr>
                   <th className="px-6 py-4">Name</th>
                   <th className="px-6 py-4">Phone</th>
@@ -205,10 +205,10 @@ export const Contacts: React.FC = () => {
                     onClick={() => navigate(ROUTES.CONTACT_DETAIL.replace(":id", contact._id))}
                     className="cursor-pointer transition-colors hover:bg-appBgSoft/40"
                   >
-                    <td className="px-6 py-4 font-bold text-appText">{contact.name}</td>
-                    <td className="px-6 py-4 font-semibold text-appMuted">{contact.phone || "-"}</td>
-                    <td className="px-6 py-4 font-semibold text-appMuted">{contact.email || "-"}</td>
-                    <td className="px-6 py-4 font-semibold text-appMuted">
+                    <td className="px-6 py-4 font-medium text-appText">{contact.name}</td>
+                    <td className="px-6 py-4 text-appMuted">{contact.phone || "-"}</td>
+                    <td className="px-6 py-4 text-appMuted">{contact.email || "-"}</td>
+                    <td className="px-6 py-4 text-appMuted">
                       {contact.source === "DEVICE_CONTACT" ? "Phone Contact" : "Manual"}
                     </td>
                   </tr>
@@ -222,7 +222,7 @@ export const Contacts: React.FC = () => {
       <Modal isOpen={addOpen} onClose={() => setAddOpen(false)} title="Add Contact">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           {formError && (
-            <div className="rounded-xl border border-appDanger/25 bg-appDanger/10 p-3 text-sm font-semibold text-appDanger">
+            <div className="rounded-lg border border-appDanger/25 bg-appDanger/10 p-3 text-sm font-medium text-appDanger">
               {formError}
             </div>
           )}

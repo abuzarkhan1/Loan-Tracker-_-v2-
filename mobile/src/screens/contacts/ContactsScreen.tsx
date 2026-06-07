@@ -65,17 +65,17 @@ const FilterChip = ({ label, active, onPress }: { label: string; active: boolean
       activeOpacity={0.86}
       onPress={onPress}
       style={{
-        minHeight: 38,
-        borderRadius: 999,
+        minHeight: 34,
+        borderRadius: 6,
         borderWidth: 1,
         borderColor: active ? theme.primary : theme.border,
-        backgroundColor: active ? theme.primary : theme.card,
-        paddingHorizontal: 18,
+        backgroundColor: active ? theme.primary : theme.pill,
+        paddingHorizontal: 12,
         alignItems: "center",
         justifyContent: "center",
       }}
     >
-      <Text style={{ color: active ? theme.white : theme.muted, fontFamily: fontFamily.extraBold, fontSize: 13 }}>
+      <Text style={{ color: active ? theme.white : theme.muted, fontFamily: fontFamily.medium, fontSize: 13 }}>
         {label}
       </Text>
     </TouchableOpacity>
@@ -102,52 +102,55 @@ const ContactRow = ({
     <TouchableOpacity
       activeOpacity={0.86}
       onPress={onPress}
-      style={{
-        minHeight: 84,
-        borderRadius: 24,
-        borderWidth: 1,
-        borderColor: theme.border,
-        backgroundColor: theme.card,
-        paddingHorizontal: 16,
-        paddingVertical: 14,
-        flexDirection: "row",
-        alignItems: "center",
-        gap: 13,
-      }}
+      style={[
+        {
+          minHeight: 80,
+          borderRadius: 12,
+          borderWidth: 1,
+          borderColor: theme.border,
+          backgroundColor: theme.card,
+          paddingHorizontal: 16,
+          paddingVertical: 14,
+          flexDirection: "row",
+          alignItems: "center",
+          gap: 13,
+        },
+        theme.shadowSoft,
+      ]}
     >
       <View
         style={{
-          height: 50,
-          width: 50,
+          height: 44,
+          width: 44,
           borderRadius: 25,
           alignItems: "center",
           justifyContent: "center",
           backgroundColor: avatarBackground,
         }}
       >
-        <Text style={{ color: toneColor, fontFamily: fontFamily.extraBold, fontSize: 16 }}>
+        <Text style={{ color: toneColor, fontFamily: fontFamily.bold, fontSize: 15 }}>
           {initials(contact.name)}
         </Text>
       </View>
 
       <View className="min-w-0 flex-1">
-        <Text numberOfLines={1} style={{ color: theme.text, fontFamily: fontFamily.extraBold, fontSize: 16 }}>
+        <Text numberOfLines={1} style={{ color: theme.text, fontFamily: fontFamily.semiBold, fontSize: 16 }}>
           {contact.name}
         </Text>
-        <Text numberOfLines={1} style={{ color: theme.muted, fontFamily: fontFamily.medium, fontSize: 12.5, marginTop: 5 }}>
+        <Text numberOfLines={1} style={{ color: theme.muted, fontFamily: fontFamily.regular, fontSize: 13, marginTop: 4 }}>
           {contact.phone || contact.email || "No phone"}
         </Text>
       </View>
 
       <View className="items-end">
-        <Text style={{ color: theme.muted, fontFamily: fontFamily.medium, fontSize: 11.5 }}>
+        <Text style={{ color: theme.muted, fontFamily: fontFamily.regular, fontSize: 12 }}>
           {relationLabel}
         </Text>
         <Text
           numberOfLines={1}
           adjustsFontSizeToFit
           minimumFontScale={0.76}
-          style={{ color: toneColor, fontFamily: fontFamily.extraBold, fontSize: 19, marginTop: 7, maxWidth: 118 }}
+          style={{ color: toneColor, fontFamily: fontFamily.semiBold, fontSize: 19, marginTop: 6, maxWidth: 118 }}
         >
           {formatSignedCurrency(balance)}
         </Text>
@@ -276,8 +279,8 @@ export const ContactsScreen = () => {
     <Screen className="pt-1" onRefresh={handleRefresh} refreshLabel="Refreshing contacts...">
       <View className="flex-row items-start justify-between gap-4">
         <View className="flex-1">
-          <Text style={{ color: theme.text, fontFamily: fontFamily.extraBold, fontSize: 30 }}>Contacts</Text>
-          <Text style={{ color: theme.muted, fontFamily: fontFamily.medium, fontSize: 14, marginTop: 4 }}>
+          <Text style={{ color: theme.text, fontFamily: fontFamily.bold, fontSize: 32, lineHeight: 40 }}>Contacts</Text>
+          <Text style={{ color: theme.textSecondary, fontFamily: fontFamily.regular, fontSize: 15, lineHeight: 22, marginTop: 2 }}>
             Tamam Contacts
           </Text>
         </View>
@@ -285,30 +288,30 @@ export const ContactsScreen = () => {
           activeOpacity={0.86}
           onPress={() => navigation.navigate("ContactForm")}
           style={{
-            height: 48,
-            width: 48,
-            borderRadius: 18,
+            height: 40,
+            width: 40,
+            borderRadius: 6,
             alignItems: "center",
             justifyContent: "center",
             backgroundColor: theme.primary,
-            shadowColor: theme.primaryDark,
-            shadowOpacity: 0.2,
-            shadowRadius: 16,
-            shadowOffset: { width: 0, height: 8 },
-            elevation: 5,
+            shadowColor: theme.primary,
+            shadowOpacity: 0.18,
+            shadowRadius: 12,
+            shadowOffset: { width: 0, height: 4 },
+            elevation: 4,
           }}
         >
-          <Plus color={theme.white} size={25} strokeWidth={2.1} />
+          <Plus color={theme.white} size={22} strokeWidth={2.1} />
         </TouchableOpacity>
       </View>
 
       <View
-        className="mt-5 flex-row items-center gap-3 border px-4"
+        className="mt-6 flex-row items-center gap-3 border px-3"
         style={{
-          minHeight: 46,
-          borderRadius: 20,
+          minHeight: 40,
+          borderRadius: 6,
           borderColor: theme.border,
-          backgroundColor: theme.input,
+          backgroundColor: theme.surface,
         }}
       >
         <Search color={theme.muted} size={19} />
@@ -319,15 +322,15 @@ export const ContactsScreen = () => {
           placeholder="Contact talash karein..."
           placeholderTextColor={theme.placeholder}
           returnKeyType="search"
-          style={{ flex: 1, color: theme.text, fontFamily: fontFamily.medium, fontSize: 14, paddingVertical: 0 }}
+          style={{ flex: 1, color: theme.text, fontFamily: fontFamily.regular, fontSize: 15, paddingVertical: 0 }}
         />
       </View>
 
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
-        className="mt-5 -mx-5"
-        contentContainerStyle={{ gap: 8, paddingHorizontal: 20 }}
+        className="mt-5 -mx-6"
+        contentContainerStyle={{ gap: 8, paddingHorizontal: 24 }}
       >
         {filters.map((item) => (
           <FilterChip key={item.value} label={item.label} active={filter === item.value} onPress={() => setFilter(item.value)} />
@@ -336,19 +339,19 @@ export const ContactsScreen = () => {
 
       {showPermissionCard ? (
         <View className="mt-5 rounded-3xl border border-border bg-card p-5" style={theme.shadowSoft}>
-          <View className="h-11 w-11 items-center justify-center rounded-2xl bg-peach">
-            <BookUser color={theme.primaryDark} size={22} />
+          <View className="h-11 w-11 items-center justify-center rounded-xl bg-background-soft">
+            <BookUser color={theme.primary} size={22} />
           </View>
-          <Text className="mt-3 text-lg font-black text-dark">Find Contacts Faster</Text>
+          <Text className="mt-3 text-lg font-bold text-dark">Find Contacts Faster</Text>
           <Text className="mt-2 text-sm font-medium leading-6 text-muted">
             Phone book access allow karein ya manually contact add karein.
           </Text>
           <View className="mt-4 flex-row gap-3">
-            <TouchableOpacity className="flex-1 rounded-full bg-primary py-3" onPress={requestAccess}>
-              <Text className="text-center text-xs font-black text-white">Allow</Text>
+            <TouchableOpacity className="flex-1 rounded-lg bg-primary py-3" onPress={requestAccess}>
+              <Text className="text-center text-xs font-semibold text-white">Allow</Text>
             </TouchableOpacity>
-            <TouchableOpacity className="flex-1 rounded-full bg-background-soft py-3" onPress={() => navigation.navigate("ContactForm")}>
-              <Text className="text-center text-xs font-black text-primary">Manual</Text>
+            <TouchableOpacity className="flex-1 rounded-lg bg-background-soft py-3" onPress={() => navigation.navigate("ContactForm")}>
+              <Text className="text-center text-xs font-semibold text-primary">Manual</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -379,15 +382,16 @@ export const ContactsScreen = () => {
                 disabled={importMutation.isPending}
                 onPress={() => importMutation.mutate(contactToPayload(contact))}
                 className="flex-row items-center gap-3 rounded-3xl border border-border bg-card p-4"
+                style={theme.shadowSoft}
               >
                 <View className="h-11 w-11 items-center justify-center rounded-full bg-background-soft">
-                  <Text className="text-sm font-black text-primary">{initials(contact.name || "U")}</Text>
+                  <Text className="text-sm font-bold text-primary">{initials(contact.name || "U")}</Text>
                 </View>
                 <View className="flex-1">
-                  <Text numberOfLines={1} className="text-base font-black text-dark">{contact.name}</Text>
-                  <Text numberOfLines={1} className="mt-1 text-xs font-semibold text-muted">{getPrimaryPhone(contact) || "No phone"}</Text>
+                  <Text numberOfLines={1} className="text-base font-semibold text-dark">{contact.name}</Text>
+                  <Text numberOfLines={1} className="mt-1 text-xs font-normal text-muted">{getPrimaryPhone(contact) || "No phone"}</Text>
                 </View>
-                {existing ? <CheckCircle2 color={theme.success} size={17} /> : <Text className="text-xs font-black text-primary">Import</Text>}
+                {existing ? <CheckCircle2 color={theme.success} size={17} /> : <Text className="text-xs font-medium text-primary">Import</Text>}
               </TouchableOpacity>
             );
           }) : (

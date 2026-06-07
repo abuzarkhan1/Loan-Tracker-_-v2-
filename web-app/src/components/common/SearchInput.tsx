@@ -17,14 +17,14 @@ export const SearchInput: React.FC<SearchInputProps> = ({
   ...props
 }) => {
   return (
-    <div className={cn("relative flex w-full items-center rounded-2xl bg-appInput shadow-sm", className)}>
+    <div className={cn("relative flex w-full items-center rounded-md bg-appSurface", className)}>
       <div className="absolute left-3.5 flex items-center text-appMuted pointer-events-none">
         <Search className="h-4 w-4" />
       </div>
       
       <input
         type="text"
-        className="w-full rounded-2xl border border-appBorder bg-transparent py-3 pl-10 pr-10 text-sm font-semibold text-appText transition-all placeholder:text-appMuted focus:border-appPrimary focus:outline-none focus:ring-2 focus:ring-appPrimary/20"
+        className="h-10 w-full rounded-md border border-appBorder bg-transparent pl-10 pr-10 text-[15px] font-normal text-appText transition-all placeholder:text-appMuted focus:border-appPrimary focus:outline-none focus:ring-[3px] focus:ring-appPrimary/10"
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}

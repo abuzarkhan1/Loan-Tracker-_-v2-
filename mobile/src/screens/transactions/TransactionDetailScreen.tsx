@@ -20,7 +20,7 @@ type Props = NativeStackScreenProps<RootStackParamList, "TransactionDetail">;
 const DetailRow = ({ label, value }: { label: string; value?: string }) => (
   <View className="flex-row justify-between gap-4 border-b border-border py-3">
     <Text className="text-sm font-bold text-muted">{label}</Text>
-    <Text className="flex-1 text-right text-sm font-black text-dark">{value || "-"}</Text>
+    <Text className="flex-1 text-right text-sm font-bold text-dark">{value || "-"}</Text>
   </View>
 );
 
@@ -62,8 +62,8 @@ export const TransactionDetailScreen = ({ navigation, route }: Props) => {
   return (
     <Screen className="gap-5 pt-5">
       <View className="rounded-3xl border border-border bg-card p-5" style={theme.shadowSoft}>
-        <Text className="text-xs font-black uppercase text-muted">{transactionTypeLabels[transaction.type]}</Text>
-        <AmountText amount={transaction.amount} className="mt-2 text-3xl font-black text-dark" style={{ fontFamily: fontFamily.extraBold }} />
+        <Text className="text-xs font-bold uppercase text-muted">{transactionTypeLabels[transaction.type]}</Text>
+        <AmountText amount={transaction.amount} className="mt-2 text-3xl font-bold text-dark" style={{ fontFamily: fontFamily.bold }} />
         <Text className="mt-1 text-sm font-semibold text-muted">{formatDateTime(transaction.date)}</Text>
       </View>
 

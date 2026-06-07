@@ -39,7 +39,7 @@ export const PaymentDetail: React.FC = () => {
     return (
       <Card variant="bordered" className="mx-auto mt-10 max-w-2xl p-6 text-center">
         <AlertTriangle className="mx-auto mb-2 h-10 w-10 text-appDanger" />
-        <h3 className="text-base font-extrabold text-appText">Payment not found</h3>
+        <h3 className="text-base font-semibold text-appText">Payment not found</h3>
         <p className="mb-4 mt-1 text-xs text-appMuted">Could not find this payment record.</p>
         <Link to={ROUTES.LOANS}>
           <Button variant="outline" leftIcon={<ArrowLeft className="h-4 w-4" />}>
@@ -58,7 +58,7 @@ export const PaymentDetail: React.FC = () => {
     <div className="mx-auto max-w-3xl space-y-6">
       <button
         onClick={() => navigate(loan?._id ? ROUTES.LOAN_DETAIL.replace(":id", loan._id) : ROUTES.LOANS)}
-        className="flex items-center gap-1.5 text-sm font-bold text-appMuted transition-colors hover:text-appText"
+        className="flex items-center gap-1.5 text-xs font-medium text-appMuted transition-colors hover:text-appText"
       >
         <ArrowLeft className="h-4 w-4" /> Back
       </button>
@@ -66,11 +66,11 @@ export const PaymentDetail: React.FC = () => {
       <Card variant="bordered" className="border-appBorder/50">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div>
-            <span className="text-[10px] font-black uppercase tracking-widest text-appMuted">
+            <span className="text-xs font-semibold uppercase tracking-[0.05em] text-appMuted">
               {payment.type === "RECEIVED" ? "Payment Received" : "Payment Paid"}
             </span>
-            <AmountText amount={payment.amount} className="mt-2 block text-3xl font-black text-appSuccess" />
-            <p className="mt-2 text-sm font-semibold text-appMuted">
+            <AmountText amount={payment.amount} className="mt-2 block text-2xl font-semibold text-appSuccess" />
+            <p className="mt-2 text-sm font-normal text-appMuted">
               {loan?.description || "Loan payment"}
             </p>
           </div>
@@ -95,36 +95,36 @@ export const PaymentDetail: React.FC = () => {
         </div>
 
         <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <div className="rounded-2xl bg-appBgSoft p-4">
-            <p className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-appMuted">
+          <div className="rounded-lg border border-appBorder bg-appSurface p-4">
+            <p className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.05em] text-appMuted">
               <Calendar className="h-3.5 w-3.5" /> Date
             </p>
-            <p className="mt-1 text-sm font-bold text-appText">{formatDate(payment.paymentDate)}</p>
+            <p className="mt-1 text-sm font-semibold text-appText">{formatDate(payment.paymentDate)}</p>
           </div>
-          <div className="rounded-2xl bg-appBgSoft p-4">
-            <p className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-appMuted">
+          <div className="rounded-lg border border-appBorder bg-appSurface p-4">
+            <p className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.05em] text-appMuted">
               <CreditCard className="h-3.5 w-3.5" /> Method
             </p>
-            <p className="mt-1 text-sm font-bold text-appText">{methodLabel}</p>
+            <p className="mt-1 text-sm font-semibold text-appText">{methodLabel}</p>
           </div>
-          <div className="rounded-2xl bg-appBgSoft p-4">
-            <p className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-appMuted">
+          <div className="rounded-lg border border-appBorder bg-appSurface p-4">
+            <p className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.05em] text-appMuted">
               <User className="h-3.5 w-3.5" /> Contact
             </p>
-            <p className="mt-1 text-sm font-bold text-appText">{contact?.name || "Unknown Contact"}</p>
+            <p className="mt-1 text-sm font-semibold text-appText">{contact?.name || "Unknown Contact"}</p>
           </div>
-          <div className="rounded-2xl bg-appBgSoft p-4">
-            <p className="text-[10px] font-black uppercase tracking-widest text-appMuted">Cash Flow</p>
-            <p className="mt-1 text-sm font-bold text-appText">
+          <div className="rounded-lg border border-appBorder bg-appSurface p-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.05em] text-appMuted">Cash Flow</p>
+            <p className="mt-1 text-sm font-semibold text-appText">
               {payment.type === "RECEIVED" ? "Loan Recovery" : "Loan Repayment"}
             </p>
           </div>
         </div>
 
         {payment.note && (
-          <div className="mt-5 rounded-2xl border border-appBorder/50 bg-appBgSoft/50 p-4">
-            <p className="text-[10px] font-black uppercase tracking-widest text-appMuted">Note</p>
-            <p className="mt-1 text-sm font-semibold text-appText">{payment.note}</p>
+          <div className="mt-5 rounded-lg border border-appBorder bg-appSurface p-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.05em] text-appMuted">Note</p>
+            <p className="mt-1 text-sm font-normal text-appText">{payment.note}</p>
           </div>
         )}
       </Card>

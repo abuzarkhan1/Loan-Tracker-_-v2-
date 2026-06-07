@@ -91,14 +91,14 @@ export const AddEditGoal: React.FC = () => {
     <div className="mx-auto max-w-xl space-y-6">
       <button
         onClick={() => navigate(isEditing && id ? ROUTES.GOAL_DETAIL.replace(":id", id) : ROUTES.GOALS)}
-        className="flex items-center gap-1.5 text-sm font-bold text-appMuted transition-colors hover:text-appText"
+        className="flex items-center gap-1.5 text-xs font-medium text-appMuted transition-colors hover:text-appText"
       >
         <ArrowLeft className="h-4 w-4" /> Back
       </button>
 
       <div>
-        <h1 className="text-2xl font-extrabold text-appText">{isEditing ? "Edit Goal" : "Add Goal"}</h1>
-        <p className="text-sm font-semibold text-appMuted">
+        <h1 className="text-xl font-semibold text-appText">{isEditing ? "Edit Goal" : "Add Goal"}</h1>
+        <p className="text-sm font-normal text-appMuted">
           Create a simple saving target, like Mobile, Laptop, or Emergency cash.
         </p>
       </div>
@@ -106,20 +106,20 @@ export const AddEditGoal: React.FC = () => {
       <Card variant="bordered" className="border-appBorder/50">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           {formError && (
-            <div className="flex items-center gap-2 rounded-xl border border-appDanger/25 bg-appDanger/10 p-3 text-xs font-semibold text-appDanger">
+            <div className="flex items-center gap-2 rounded-lg border border-appDanger/25 bg-appDanger/10 p-3 text-xs font-semibold text-appDanger">
               <AlertCircle className="h-4 w-4 shrink-0" />
               <span>{formError}</span>
             </div>
           )}
 
-          <div className="rounded-2xl bg-appBgSoft p-4">
+          <div className="rounded-lg bg-appBgSoft p-4">
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-appPeach text-appPrimary">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-appPrimary/10 text-appPrimary">
                 <Target className="h-5 w-5" />
               </div>
               <div>
-                <p className="text-sm font-extrabold text-appText">Saving progress only</p>
-                <p className="text-xs font-semibold text-appMuted">
+                <p className="text-sm font-semibold text-appText">Saving progress only</p>
+                <p className="text-xs font-normal text-appMuted">
                   Goal money does not create expense or income transactions.
                 </p>
               </div>

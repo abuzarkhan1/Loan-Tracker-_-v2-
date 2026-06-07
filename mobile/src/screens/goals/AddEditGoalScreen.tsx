@@ -84,7 +84,7 @@ export const AddEditGoalScreen = ({ navigation, route }: Props) => {
   return (
     <Screen className="gap-4 pt-5">
       <View>
-        <Text className="text-2xl font-black text-dark" style={{ fontFamily: fontFamily.extraBold }}>
+        <Text className="text-2xl font-bold text-dark" style={{ fontFamily: fontFamily.bold }}>
           {isEditing ? "Edit Goal" : "Add Goal"}
         </Text>
         <Text className="mt-1 text-sm font-medium text-muted">

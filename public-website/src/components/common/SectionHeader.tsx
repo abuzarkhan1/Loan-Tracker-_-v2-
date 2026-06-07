@@ -22,9 +22,9 @@ export const SectionHeader = ({
     className={cn("mx-auto max-w-3xl", align === "center" ? "text-center" : "text-left", className)}
   >
     {eyebrow ? (
-      <p className="mb-3 text-xs font-extrabold uppercase text-primary">{eyebrow}</p>
+      <p className="mb-3 text-xs font-semibold uppercase tracking-[0.05em] text-primary">{eyebrow}</p>
     ) : null}
-    <h2 className="text-[2rem] font-extrabold leading-tight text-dark sm:text-4xl lg:text-[2.65rem]">{title}</h2>
-    {description ? <p className="mt-4 text-base font-medium leading-8 text-muted lg:text-[17px]">{description}</p> : null}
+    <h2 className="text-3xl font-semibold leading-tight text-dark sm:text-[34px] sm:leading-[42px]">{title}</h2>
+    {description ? <p className="mt-3 text-[15px] font-normal leading-6 text-muted">{description}</p> : null}
   </motion.div>
 );

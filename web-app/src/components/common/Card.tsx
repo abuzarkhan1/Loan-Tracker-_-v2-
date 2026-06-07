@@ -15,12 +15,12 @@ export const Card: React.FC<CardProps> = ({
   padding = "md",
   ...props
 }) => {
-  const baseStyles = "rounded-[24px] transition-all duration-200 overflow-hidden";
+  const baseStyles = "rounded-xl transition-all duration-200 overflow-hidden";
   
   const variants = {
-    flat: "bg-appBgSoft/80 border border-appBorder/35",
-    bordered: "bg-appCard border border-appBorder shadow-sm",
-    elevated: "bg-appCard shadow-elevated border border-appBorder/50",
+    flat: "border border-appBorder bg-appBgSoft",
+    bordered: "border border-appBorder bg-appCard shadow-level1",
+    elevated: "border border-appBorder bg-appCard shadow-elevated",
     glass: "glass-card",
   };
 
@@ -28,7 +28,7 @@ export const Card: React.FC<CardProps> = ({
     none: "p-0",
     sm: "p-4",
     md: "p-6",
-    lg: "p-8",
+    lg: "p-6",
   };
 
   return (
@@ -37,7 +37,7 @@ export const Card: React.FC<CardProps> = ({
         baseStyles,
         variants[variant],
         paddings[padding],
-        hoverable && "hover:-translate-y-0.5 hover:border-appPrimary/25 hover:shadow-soft cursor-pointer active:translate-y-0",
+        hoverable && "cursor-pointer hover:-translate-y-0.5 hover:border-appPrimary/50 hover:shadow-level2 active:translate-y-0",
         className
       )}
       {...props}

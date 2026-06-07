@@ -21,21 +21,21 @@ type ButtonLinkProps = {
 
 const variantClasses: Record<ButtonVariant, string> = {
   primary:
-    "border-primary bg-primary text-white shadow-primary-glow hover:bg-primary-dark hover:border-primary-dark",
+    "border-primary bg-primary text-white shadow-level1 shadow-primary/10 hover:border-primary-dark hover:bg-primary-dark",
   secondary:
-    "border-border bg-card text-dark shadow-soft hover:border-primary/40 hover:bg-background-soft",
-  ghost: "border-transparent bg-transparent text-primary hover:bg-peach",
-  dark: "border-[#2b2631] bg-[#2b2631] text-[#f5f0eb] hover:bg-[#332d3a] dark:border-border dark:bg-card",
+    "border-border bg-card text-dark shadow-level1 hover:bg-background-soft",
+  ghost: "border-transparent bg-transparent text-primary hover:bg-background-soft",
+  dark: "border-[#0a2540] bg-[#0a2540] text-white hover:bg-[#123456] dark:border-border dark:bg-card dark:text-dark dark:hover:bg-background-soft",
 };
 
 const sizeClasses: Record<ButtonSize, string> = {
-  sm: "min-h-11 px-5 text-sm",
-  md: "min-h-12 px-6 text-sm",
-  lg: "min-h-[52px] px-6 text-sm sm:min-h-[54px] sm:px-7 sm:text-[15px]",
+  sm: "h-8 px-3 text-[13px]",
+  md: "h-9 px-4 text-sm",
+  lg: "h-10 px-5 text-[15px]",
 };
 
 const baseClasses =
-  "inline-flex items-center justify-center gap-2 rounded-full border font-extrabold transition duration-200 hover:-translate-y-0.5 focus:outline-none focus:ring-4 focus:ring-primary/20";
+  "inline-flex items-center justify-center gap-2 rounded-md border font-medium transition duration-150 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:ring-offset-2 focus:ring-offset-background";
 
 export const ButtonLink = ({
   children,

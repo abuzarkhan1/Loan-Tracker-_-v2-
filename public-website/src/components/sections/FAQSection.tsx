@@ -14,8 +14,8 @@ export const FAQSection = () => (
     <div className="mx-auto mt-8 grid max-w-4xl gap-3">
       {faqItems.map((item) => (
         <Card key={item.question} className="p-5">
-          <h3 className="text-lg font-extrabold text-dark">{item.question}</h3>
-          <p className="mt-3 text-sm font-medium leading-7 text-muted">{item.answer}</p>
+          <h3 className="text-base font-semibold text-dark">{item.question}</h3>
+          <p className="mt-2 text-sm font-normal leading-6 text-muted">{item.answer}</p>
         </Card>
       ))}
     </div>

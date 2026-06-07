@@ -29,7 +29,7 @@ export const LoadingState: React.FC<LoadingStateProps> = ({
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 animate-pulse">
         {Array.from({ length: count }).map((_, i) => (
-          <div key={i} className="rounded-[24px] border border-appBorder bg-appCard p-6 space-y-4 shadow-sm">
+          <div key={i} className="space-y-4 rounded-xl border border-appBorder bg-appCard p-5 shadow-level1">
             <div className="flex justify-between items-center">
               <div className="h-4 bg-appBorder rounded w-1/3"></div>
               <div className="h-6 bg-appBorder rounded-full w-1/4"></div>
@@ -37,8 +37,8 @@ export const LoadingState: React.FC<LoadingStateProps> = ({
             <div className="h-8 bg-appBorder rounded w-2/3"></div>
             <div className="h-2 bg-appBorder rounded w-full"></div>
             <div className="flex justify-between gap-4 pt-2">
-              <div className="h-9 bg-appBorder rounded-xl w-1/2"></div>
-              <div className="h-9 bg-appBorder rounded-xl w-1/2"></div>
+              <div className="h-8 bg-appBorder rounded-lg w-1/2"></div>
+              <div className="h-8 bg-appBorder rounded-lg w-1/2"></div>
             </div>
           </div>
         ))}
@@ -47,11 +47,11 @@ export const LoadingState: React.FC<LoadingStateProps> = ({
   }
 
   return (
-    <div className="flex min-h-[250px] w-full flex-col items-center justify-center gap-4 rounded-[24px] border border-appBorder/50 bg-appCard/80">
-      <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-appPeach text-appPrimary">
-        <Loader2 className="h-6 w-6 animate-spin" />
+    <div className="flex min-h-[220px] w-full flex-col items-center justify-center gap-4 rounded-xl border border-appBorder bg-appCard shadow-level1">
+      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-appPrimary/10 text-appPrimary">
+        <Loader2 className="h-5 w-5 animate-spin" />
       </div>
-      <span className="text-sm font-bold text-appMuted">{message}</span>
+      <span className="text-sm font-medium text-appMuted">{message}</span>
     </div>
   );
 };

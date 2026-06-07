@@ -15,13 +15,13 @@ export const ProblemSolutionSection = () => (
 
     <div className="mt-8 grid gap-5 lg:grid-cols-2">
       <motion.div initial={{ opacity: 0, x: -18 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.45 }}>
-        <Card className="h-full rounded-2xl p-6 sm:p-8">
-          <div className="mb-6 inline-flex rounded-full bg-peach px-4 py-2 text-sm font-extrabold text-primary-dark">Common problems</div>
+        <Card className="h-full p-5 sm:p-6">
+          <div className="mb-5 inline-flex rounded-md border border-border bg-background-soft px-3 py-2 text-sm font-medium text-muted">Common problems</div>
           <div className="grid gap-4">
             {painPoints.map((item) => (
-              <div key={item} className="flex gap-3 rounded-xl border border-border bg-background-soft p-4">
-                <XCircle className="mt-0.5 shrink-0 text-primary-dark" size={20} />
-                <p className="text-sm font-bold leading-7 text-dark">{item}</p>
+              <div key={item} className="flex gap-3 rounded-lg border border-border bg-background-soft p-4">
+                <XCircle className="mt-0.5 shrink-0 text-danger" size={18} />
+                <p className="text-sm font-normal leading-6 text-dark">{item}</p>
               </div>
             ))}
           </div>
@@ -29,13 +29,13 @@ export const ProblemSolutionSection = () => (
       </motion.div>
 
       <motion.div initial={{ opacity: 0, x: 18 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.45 }}>
-        <Card className="h-full rounded-2xl p-6 sm:p-8">
-          <div className="mb-6 inline-flex rounded-full bg-mint px-4 py-2 text-sm font-extrabold text-success">Loan Tracker solution</div>
+        <Card className="h-full p-5 sm:p-6">
+          <div className="mb-5 inline-flex rounded-md border border-success/20 bg-mint px-3 py-2 text-sm font-medium text-success">Loan Tracker solution</div>
           <div className="grid gap-4">
             {solutions.map((item) => (
-              <div key={item} className="flex gap-3 rounded-xl border border-border bg-card p-4 shadow-soft">
-                <CheckCircle2 className="mt-0.5 shrink-0 text-success" size={20} />
-                <p className="text-sm font-bold leading-7 text-dark">{item}</p>
+              <div key={item} className="flex gap-3 rounded-lg border border-border bg-card p-4 shadow-level1">
+                <CheckCircle2 className="mt-0.5 shrink-0 text-success" size={18} />
+                <p className="text-sm font-normal leading-6 text-dark">{item}</p>
               </div>
             ))}
           </div>

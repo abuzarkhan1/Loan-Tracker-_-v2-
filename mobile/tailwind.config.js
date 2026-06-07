@@ -6,12 +6,14 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Manrope_500Medium"],
+        sans: ["Inter_500Medium"],
+        code: ["FiraCode_400Regular"],
       },
       borderRadius: {
-        lg: "24px",
-        xl: "28px",
-        "2xl": "32px",
+        lg: "6px",
+        xl: "8px",
+        "2xl": "12px",
+        "3xl": "12px",
       },
       colors: {
         background: "rgb(var(--color-background) / <alpha-value>)",

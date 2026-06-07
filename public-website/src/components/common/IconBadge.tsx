@@ -4,10 +4,10 @@ import { cn } from "../../utils/cn";
 export type Tone = "primary" | "success" | "warning" | "danger";
 
 const toneClasses: Record<Tone, string> = {
-  primary: "bg-background-soft text-primary",
+  primary: "bg-primary/10 text-primary",
   success: "bg-mint text-success",
   warning: "bg-yellow text-warning",
-  danger: "bg-peach text-primary-dark",
+  danger: "bg-danger/10 text-danger",
 };
 
 export const IconBadge = ({
@@ -19,7 +19,7 @@ export const IconBadge = ({
   tone?: Tone;
   className?: string;
 }) => (
-  <span className={cn("grid size-12 place-items-center rounded-[14px] border border-border/40", toneClasses[tone], className)}>
-    <Icon size={20} strokeWidth={2.4} />
+  <span className={cn("grid size-10 place-items-center rounded-lg border border-border/60", toneClasses[tone], className)}>
+    <Icon size={18} strokeWidth={2.2} />
   </span>
 );

@@ -6,12 +6,8 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Manrope", "ui-sans-serif", "system-ui", "sans-serif"],
-      },
-      borderRadius: {
-        lg: "24px",
-        xl: "28px",
-        "2xl": "32px",
+        sans: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
+        code: ["Fira Code", "ui-monospace", "monospace"],
       },
       colors: {
         background: "rgb(var(--color-background) / <alpha-value>)",
@@ -31,9 +27,12 @@ const config: Config = {
         yellow: "rgb(var(--color-yellow) / <alpha-value>)",
       },
       boxShadow: {
-        soft: "0 16px 48px rgba(88, 48, 32, 0.11)",
-        elevated: "0 24px 70px rgba(88, 48, 32, 0.16)",
-        "primary-glow": "0 18px 38px rgba(243, 111, 86, 0.26)",
+        level1: "0 2px 4px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06)",
+        level2: "0 4px 8px rgba(0,0,0,0.06), 0 2px 4px rgba(0,0,0,0.06)",
+        level3: "0 12px 24px rgba(0,0,0,0.08), 0 4px 8px rgba(0,0,0,0.04)",
+        soft: "0 2px 4px var(--shadow-color), 0 1px 2px var(--shadow-color)",
+        elevated: "0 12px 24px var(--shadow-color-strong), 0 4px 8px var(--shadow-color)",
+        "primary-glow": "0 8px 18px rgba(99, 91, 255, 0.18)",
       },
       backgroundImage: {
         "app-gradient":

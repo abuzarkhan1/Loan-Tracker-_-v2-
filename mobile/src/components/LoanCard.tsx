@@ -58,36 +58,36 @@ export const LoanCard = ({ loan, onPress }: { loan: Loan; onPress: () => void })
       onPress={onPress}
       style={[
         {
-          borderRadius: 24,
+          borderRadius: 12,
           borderWidth: 1,
           borderColor: theme.border,
           backgroundColor: theme.card,
-          paddingHorizontal: 18,
+          paddingHorizontal: 16,
           paddingVertical: 16,
         },
         theme.mode === "dark"
           ? theme.shadowSoft
           : {
-              shadowColor: "#2b2631",
-              shadowOpacity: 0.055,
-              shadowRadius: 18,
-              shadowOffset: { width: 0, height: 8 },
-              elevation: 3,
+              shadowColor: theme.secondary,
+              shadowOpacity: 0.06,
+              shadowRadius: 8,
+              shadowOffset: { width: 0, height: 2 },
+              elevation: 2,
             },
       ]}
     >
       <View className="flex-row items-start gap-3">
         <View
           style={{
-            height: 50,
-            width: 50,
-            borderRadius: 25,
+            height: 44,
+            width: 44,
+            borderRadius: 999,
             alignItems: "center",
             justifyContent: "center",
             backgroundColor: avatarBackground,
           }}
         >
-          <Text style={{ color: amountColor, fontFamily: fontFamily.extraBold, fontSize: 16 }}>
+          <Text style={{ color: amountColor, fontFamily: fontFamily.bold, fontSize: 15 }}>
             {initials(name)}
           </Text>
         </View>
@@ -95,15 +95,15 @@ export const LoanCard = ({ loan, onPress }: { loan: Loan; onPress: () => void })
         <View className="min-w-0 flex-1">
           <Text
             numberOfLines={1}
-            style={{ color: theme.text, fontFamily: fontFamily.extraBold, fontSize: 16 }}
+            style={{ color: theme.text, fontFamily: fontFamily.semiBold, fontSize: 16 }}
           >
             {name}
           </Text>
           <View
-            className="mt-2 self-start rounded-full px-3 py-1"
+            className="mt-2 self-start px-3 py-1"
             style={{ backgroundColor: avatarBackground }}
           >
-            <Text style={{ color: amountColor, fontFamily: fontFamily.extraBold, fontSize: 11 }}>
+            <Text style={{ color: amountColor, fontFamily: fontFamily.medium, fontSize: 12 }}>
               {typeLabel}
             </Text>
           </View>
@@ -114,11 +114,11 @@ export const LoanCard = ({ loan, onPress }: { loan: Loan; onPress: () => void })
             numberOfLines={1}
             adjustsFontSizeToFit
             minimumFontScale={0.76}
-            style={{ color: amountColor, fontFamily: fontFamily.extraBold, fontSize: 21, maxWidth: 128 }}
+            style={{ color: amountColor, fontFamily: fontFamily.semiBold, fontSize: 20, maxWidth: 128 }}
           >
             {formatCurrency(loan.amount).replace(/\u00a0/g, " ")}
           </Text>
-          <Text style={{ color: theme.muted, fontFamily: fontFamily.medium, fontSize: 12, marginTop: 8 }}>
+          <Text style={{ color: theme.muted, fontFamily: fontFamily.regular, fontSize: 13, marginTop: 7 }}>
             {progress}% {given ? "wapis" : "diya"}
           </Text>
         </View>
@@ -126,7 +126,7 @@ export const LoanCard = ({ loan, onPress }: { loan: Loan; onPress: () => void })
 
       <View
         className="mt-4 overflow-hidden rounded-full"
-        style={{ height: 7, backgroundColor: theme.mode === "dark" ? theme.surface : "#f1efec" }}
+        style={{ height: 6, backgroundColor: theme.surface }}
       >
         <View
           style={{
@@ -141,13 +141,13 @@ export const LoanCard = ({ loan, onPress }: { loan: Loan; onPress: () => void })
       <View className="mt-4 flex-row items-center justify-between gap-3">
         <View className="min-w-0 flex-1 flex-row items-center gap-2">
           <CalendarDays color={theme.muted} size={16} />
-          <Text numberOfLines={1} style={{ color: theme.muted, fontFamily: fontFamily.medium, fontSize: 12.5 }}>
+          <Text numberOfLines={1} style={{ color: theme.muted, fontFamily: fontFamily.regular, fontSize: 13 }}>
             {dateLabel} {shortDate(dateValue)}
           </Text>
         </View>
 
-        <View className="rounded-full px-3 py-1.5" style={{ backgroundColor: statusBackground }}>
-          <Text style={{ color: statusColor, fontFamily: fontFamily.extraBold, fontSize: 11.5 }}>
+        <View className="px-3 py-1.5" style={{ backgroundColor: statusBackground, borderRadius: 6, borderWidth: 1, borderColor: theme.border }}>
+          <Text style={{ color: statusColor, fontFamily: fontFamily.medium, fontSize: 12 }}>
             {statusMeta.label}
           </Text>
         </View>

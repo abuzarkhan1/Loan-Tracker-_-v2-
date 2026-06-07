@@ -31,9 +31,9 @@ const statusVariant = (status: GoalStatus) => {
 };
 
 const Metric = ({ label, amount, tone = "text-appText" }: { label: string; amount: number; tone?: string }) => (
-  <div className="rounded-2xl bg-appBgSoft p-4">
-    <p className="text-[10px] font-black uppercase tracking-widest text-appMuted">{label}</p>
-    <AmountText amount={amount} className={`mt-1 block text-lg font-extrabold ${tone}`} />
+  <div className="rounded-lg border border-appBorder bg-appSurface p-4">
+    <p className="text-xs font-semibold uppercase tracking-[0.05em] text-appMuted">{label}</p>
+    <AmountText amount={amount} className={`mt-1 block text-lg font-semibold ${tone}`} />
   </div>
 );
 
@@ -86,7 +86,7 @@ export const GoalDetail: React.FC = () => {
     <div className="mx-auto max-w-5xl space-y-6">
       <button
         onClick={() => navigate(ROUTES.GOALS)}
-        className="flex items-center gap-1.5 text-sm font-bold text-appMuted transition-colors hover:text-appText"
+        className="flex items-center gap-1.5 text-xs font-medium text-appMuted transition-colors hover:text-appText"
       >
         <ArrowLeft className="h-4 w-4" /> Back to Goals
       </button>
@@ -96,12 +96,12 @@ export const GoalDetail: React.FC = () => {
           <div className="min-w-0">
             <div className="mb-3 flex flex-wrap items-center gap-2">
               <Badge variant={statusVariant(goal.status)} size="sm">{goal.status}</Badge>
-              <span className="rounded-full bg-appBgSoft px-2.5 py-1 text-[10px] font-black uppercase tracking-widest text-appMuted">
+              <span className="rounded-md border border-appBorder bg-appBgSoft px-2.5 py-1 text-xs font-medium text-appMuted">
                 {goal.progressPercent}% complete
               </span>
             </div>
-            <h1 className="text-2xl font-extrabold text-appText">{goal.title}</h1>
-            <p className="mt-2 max-w-2xl text-sm font-semibold leading-6 text-appMuted">
+            <h1 className="text-xl font-semibold text-appText">{goal.title}</h1>
+            <p className="mt-2 max-w-2xl text-sm font-normal leading-6 text-appMuted">
               {goal.note || "Simple saving target"}
             </p>
           </div>
@@ -152,7 +152,7 @@ export const GoalDetail: React.FC = () => {
         </div>
 
         <div className="mt-6 space-y-2">
-          <div className="flex items-center justify-between text-xs font-semibold text-appMuted">
+          <div className="flex items-center justify-between text-xs font-medium text-appMuted">
             <span>Saving Progress</span>
             <span>{goal.progressPercent}%</span>
           </div>
@@ -162,12 +162,12 @@ export const GoalDetail: React.FC = () => {
         </div>
 
         {(isCompleted || goalMessage) && (
-          <div className="mt-5 rounded-2xl border border-appSuccess/25 bg-appSuccess/10 p-4">
+          <div className="mt-5 rounded-lg border border-appSuccess/25 bg-appSuccess/10 p-4">
             <div className="flex items-start gap-3">
               <CheckCircle className="mt-0.5 h-5 w-5 shrink-0 text-appSuccess" />
               <div>
-                <p className="text-sm font-extrabold text-appText">Goal complete</p>
-                <p className="mt-1 text-sm font-semibold text-appMuted">
+                <p className="text-sm font-semibold text-appText">Goal complete</p>
+                <p className="mt-1 text-sm font-normal text-appMuted">
                   {goalMessage || `You have saved enough for ${goal.title}.`}
                 </p>
               </div>
@@ -179,8 +179,8 @@ export const GoalDetail: React.FC = () => {
       <Card variant="bordered" className="border-appBorder/50">
         <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h2 className="text-lg font-extrabold text-appText">Money Added</h2>
-            <p className="text-xs font-semibold text-appMuted">Small saved amounts over time.</p>
+            <h2 className="text-lg font-semibold text-appText">Money Added</h2>
+            <p className="text-xs font-normal text-appMuted">Small saved amounts over time.</p>
           </div>
           {!isArchived && (
             <Button
@@ -205,16 +205,16 @@ export const GoalDetail: React.FC = () => {
         ) : (
           <div className="space-y-3">
             {contributions.map((contribution) => (
-              <div key={contribution._id} className="rounded-2xl border border-appBorder/50 bg-appBgSoft/50 p-4">
+              <div key={contribution._id} className="rounded-lg border border-appBorder bg-appCard p-4 shadow-level1">
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                   <div className="min-w-0">
-                    <p className="text-base font-extrabold text-appSuccess">
+                    <p className="text-base font-semibold text-appSuccess">
                       <AmountText amount={contribution.amount} />
                     </p>
-                    <p className="mt-1 inline-flex items-center gap-1.5 text-xs font-semibold text-appMuted">
+                    <p className="mt-1 inline-flex items-center gap-1.5 text-xs font-normal text-appMuted">
                       <Calendar className="h-3.5 w-3.5" /> {formatDate(contribution.date)}
                     </p>
-                    {contribution.note && <p className="mt-2 text-sm font-semibold text-appText">{contribution.note}</p>}
+                    {contribution.note && <p className="mt-2 text-sm font-normal text-appText">{contribution.note}</p>}
                   </div>
                   <div className="flex gap-2">
                     {!isArchived && (

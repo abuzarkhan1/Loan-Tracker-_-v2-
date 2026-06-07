@@ -47,11 +47,11 @@ export const Settings: React.FC = () => {
       {user && (
         <Card variant="elevated" className="flex items-center justify-between gap-4 border-appBorder/50 bg-appCard p-5">
           <div className="flex items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-appPrimary text-lg font-extrabold text-white shadow-sm">
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-appPrimary text-sm font-semibold text-white shadow-sm">
               {user.name?.charAt(0).toUpperCase() || "U"}
             </div>
             <div>
-              <span className="block text-sm font-extrabold text-appText">{user.name}</span>
+              <span className="block text-sm font-semibold text-appText">{user.name}</span>
               <span className="block text-xs text-appMuted">{user.email}</span>
             </div>
           </div>
@@ -67,12 +67,12 @@ export const Settings: React.FC = () => {
               className="flex h-full items-start justify-between gap-4 border-appBorder/50 p-4"
             >
               <div className="flex items-start gap-3">
-                <div className="mt-0.5 shrink-0 rounded-xl border border-appBorder bg-appBgSoft p-2">
+                <div className="mt-0.5 shrink-0 rounded-lg border border-appBorder bg-appBgSoft p-2">
                   {link.icon}
                 </div>
                 <div>
-                  <h3 className="text-sm font-extrabold text-appText">{link.title}</h3>
-                  <p className="mt-1 text-xs font-semibold leading-5 text-appMuted">{link.description}</p>
+                  <h3 className="text-sm font-semibold text-appText">{link.title}</h3>
+                  <p className="mt-1 text-xs font-normal leading-5 text-appMuted">{link.description}</p>
                 </div>
               </div>
               <ChevronRight className="mt-1 h-4 w-4 shrink-0 text-appMuted" />
@@ -82,16 +82,16 @@ export const Settings: React.FC = () => {
       </div>
 
       <Card variant="bordered" className="space-y-4 border-appBorder/50 p-5">
-        <h3 className="flex items-center gap-1.5 border-b border-appBorder pb-2 text-xs font-extrabold uppercase tracking-widest text-appMuted">
+        <h3 className="flex items-center gap-1.5 border-b border-appBorder pb-2 text-xs font-semibold uppercase tracking-[0.05em] text-appMuted">
           <Info className="h-4 w-4 text-appPrimary" />
           App Preferences
         </h3>
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <div className="flex items-center justify-between gap-4 rounded-2xl border border-appBorder/50 bg-appBgSoft p-4">
+          <div className="flex items-center justify-between gap-4 rounded-lg border border-appBorder bg-appSurface p-4">
             <div>
-              <span className="block text-xs font-extrabold text-appText">Theme</span>
-              <span className="text-[10px] text-appMuted">Current: {mode}</span>
+              <span className="block text-xs font-semibold text-appText">Theme</span>
+              <span className="text-xs text-appMuted">Current: {mode}</span>
             </div>
             <Button
               variant="outline"
@@ -103,12 +103,12 @@ export const Settings: React.FC = () => {
             </Button>
           </div>
 
-          <div className="flex items-center justify-between gap-4 rounded-2xl border border-appBorder/50 bg-appBgSoft p-4">
+          <div className="flex items-center justify-between gap-4 rounded-lg border border-appBorder bg-appSurface p-4">
             <div>
-              <span className="block text-xs font-extrabold text-appText">App Info</span>
-              <span className="text-[10px] text-appMuted">Loan tracking + expenses/income</span>
+              <span className="block text-xs font-semibold text-appText">App Info</span>
+              <span className="text-xs text-appMuted">Loan tracking + expenses/income</span>
             </div>
-            <span className="rounded-full bg-appCard px-3 py-1 text-[10px] font-black uppercase tracking-widest text-appMuted">
+            <span className="rounded-md border border-appBorder bg-appCard px-3 py-1 text-xs font-medium text-appMuted">
               v1.0
             </span>
           </div>

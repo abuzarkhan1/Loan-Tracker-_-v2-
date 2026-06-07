@@ -1,42 +1,4 @@
-@font-face {
-  font-family: "Manrope";
-  src: url("../assets/fonts/Manrope_400Regular.ttf") format("truetype");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Manrope";
-  src: url("../assets/fonts/Manrope_500Medium.ttf") format("truetype");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Manrope";
-  src: url("../assets/fonts/Manrope_600SemiBold.ttf") format("truetype");
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Manrope";
-  src: url("../assets/fonts/Manrope_700Bold.ttf") format("truetype");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Manrope";
-  src: url("../assets/fonts/Manrope_800ExtraBold.ttf") format("truetype");
-  font-weight: 800;
-  font-style: normal;
-  font-display: swap;
-}
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -44,45 +6,49 @@
 
 @layer base {
   :root {
-    --color-background: 255 250 244;
-    --color-background-soft: 255 247 239;
+    --color-background: 255 255 255;
+    --color-background-soft: 246 249 252;
     --color-card: 255 255 255;
     --color-input: 255 255 255;
-    --color-text: 37 33 43;
-    --color-muted: 111 101 119;
-    --color-primary: 243 111 86;
-    --color-primary-dark: 217 84 65;
-    --color-success: 27 125 98;
-    --color-warning: 138 109 31;
-    --color-danger: 217 84 65;
-    --color-border: 220 213 207;
-    --color-peach: 255 228 211;
-    --color-mint: 217 241 215;
-    --color-yellow: 255 213 106;
-    --gradient-start: 255 248 240;
-    --gradient-mid: 255 250 244;
+    --color-text: 10 37 64;
+    --color-muted: 105 115 134;
+    --color-primary: 99 91 255;
+    --color-primary-dark: 122 115 255;
+    --color-success: 48 177 48;
+    --color-warning: 255 187 0;
+    --color-danger: 223 27 65;
+    --color-border: 227 232 238;
+    --color-peach: 246 249 252;
+    --color-mint: 232 250 232;
+    --color-yellow: 255 248 222;
+    --gradient-start: 246 249 252;
+    --gradient-mid: 255 255 255;
     --gradient-end: 255 255 255;
+    --shadow-color: rgba(10, 37, 64, 0.08);
+    --shadow-color-strong: rgba(10, 37, 64, 0.14);
   }
 
   .dark {
-    --color-background: 26 22 31;
-    --color-background-soft: 37 33 43;
-    --color-card: 37 33 43;
-    --color-input: 51 45 58;
-    --color-text: 245 240 235;
-    --color-muted: 168 159 176;
-    --color-primary: 243 111 86;
-    --color-primary-dark: 217 84 65;
-    --color-success: 217 241 215;
-    --color-warning: 255 213 106;
-    --color-danger: 243 111 86;
-    --color-border: 62 56 70;
-    --color-peach: 76 53 51;
-    --color-mint: 40 71 60;
-    --color-yellow: 73 61 35;
-    --gradient-start: 26 22 31;
-    --gradient-mid: 30 26 36;
-    --gradient-end: 37 33 43;
+    --color-background: 11 15 25;
+    --color-background-soft: 17 24 39;
+    --color-card: 21 27 43;
+    --color-input: 15 22 35;
+    --color-text: 240 246 252;
+    --color-muted: 139 156 181;
+    --color-primary: 124 115 255;
+    --color-primary-dark: 150 143 255;
+    --color-success: 63 185 80;
+    --color-warning: 210 153 34;
+    --color-danger: 248 81 73;
+    --color-border: 42 52 65;
+    --color-peach: 46 27 34;
+    --color-mint: 19 41 31;
+    --color-yellow: 41 37 24;
+    --gradient-start: 17 24 39;
+    --gradient-mid: 11 15 25;
+    --gradient-end: 11 15 25;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --shadow-color-strong: rgba(0, 0, 0, 0.5);
   }
 
   * {
@@ -97,12 +63,13 @@
     min-width: 320px;
     min-height: 100vh;
     margin: 0;
-    background: linear-gradient(135deg, rgb(var(--gradient-start)) 0%, rgb(var(--gradient-mid)) 48%, rgb(var(--gradient-end)) 100%);
+    background: linear-gradient(180deg, rgb(var(--gradient-start)) 0%, rgb(var(--gradient-mid)) 36%, rgb(var(--gradient-end)) 100%);
     color: rgb(var(--color-text));
-    font-family: "Manrope", ui-sans-serif, system-ui, sans-serif;
-    font-weight: 500;
+    font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+    font-weight: 400;
     letter-spacing: 0;
     text-rendering: geometricPrecision;
+    font-feature-settings: "tnum" 1, "ss01" 1;
   }
 
   html,
@@ -124,38 +91,40 @@
   }
 
   ::selection {
-    background: rgb(var(--color-peach));
+    background: rgb(var(--color-primary) / 0.18);
     color: rgb(var(--color-text));
   }
 }
 
 @layer components {
   .site-shell {
-    background: linear-gradient(135deg, rgb(var(--gradient-start)) 0%, rgb(var(--gradient-mid)) 48%, rgb(var(--gradient-end)) 100%);
+    background:
+      radial-gradient(circle at 18% -8%, rgb(var(--color-primary) / 0.10) 0, transparent 30%),
+      linear-gradient(180deg, rgb(var(--gradient-start)) 0%, rgb(var(--gradient-mid)) 36%, rgb(var(--gradient-end)) 100%);
     overflow-x: hidden;
   }
 
   .dark .site-shell {
-    background: linear-gradient(135deg, #1a161f 0%, #1e1a24 48%, #25212b 100%);
+    background: linear-gradient(180deg, #111827 0%, #0b0f19 100%);
   }
 
   .premium-card {
     border: 1px solid rgb(var(--color-border));
-    background: rgb(var(--color-card) / 0.92);
-    box-shadow: 0 16px 48px rgba(88, 48, 32, 0.11);
-    backdrop-filter: blur(20px);
+    background: rgb(var(--color-card) / 0.96);
+    box-shadow: 0 2px 4px var(--shadow-color), 0 1px 2px var(--shadow-color);
+    backdrop-filter: blur(12px);
   }
 
   .dark .premium-card {
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.28);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3), 0 1px 2px rgba(99,91,255,0.05);
   }
 
   .dark .shadow-soft {
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.28);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3), 0 1px 2px rgba(99,91,255,0.05);
   }
 
   .dark .shadow-elevated {
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.5), 0 4px 12px rgba(99,91,255,0.1);
   }
 
   .soft-ring {
@@ -163,10 +132,10 @@
   }
 
   .phone-shadow {
-    box-shadow: 0 28px 80px rgba(88, 48, 32, 0.2);
+    box-shadow: 0 12px 28px rgba(10, 37, 64, 0.14), 0 4px 8px rgba(10, 37, 64, 0.08);
   }
 
   .dark .phone-shadow {
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.5), 0 4px 12px rgba(99,91,255,0.1);
   }
 }

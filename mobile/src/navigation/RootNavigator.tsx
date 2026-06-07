@@ -61,7 +61,7 @@ const AppNavigator = () => {
     <RootStack.Navigator
       screenOptions={{
         headerStyle: { backgroundColor: theme.background },
-        headerTitleStyle: { color: theme.text, fontWeight: "800", fontFamily: fontFamily.extraBold },
+        headerTitleStyle: { color: theme.text, fontWeight: "700", fontFamily: fontFamily.bold },
         headerShadowVisible: false,
         headerTintColor: theme.text,
         contentStyle: { backgroundColor: theme.background },

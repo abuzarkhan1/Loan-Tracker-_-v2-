@@ -24,11 +24,11 @@ export const SummaryCard = ({
       style={[
         {
           gap: 14,
-          borderRadius: 28,
+          borderRadius: 12,
           borderWidth: 1,
           borderColor: theme.border,
           backgroundColor: theme.card,
-          padding: 18,
+          padding: 16,
         },
         theme.shadowSoft,
       ]}
@@ -39,19 +39,19 @@ export const SummaryCard = ({
           width: 48,
           alignItems: "center",
           justifyContent: "center",
-          borderRadius: 14,
+          borderRadius: 8,
           backgroundColor: tone === "success" ? theme.mint : tone === "warning" ? theme.yellow : tone === "danger" ? theme.peach : theme.backgroundSoft,
         }}
       >
         <Icon color={toneColor} size={19} />
       </View>
       <View>
-        <Text style={{ color: theme.muted, fontFamily: fontFamily.bold, fontSize: 11, textTransform: "uppercase" }}>
+        <Text style={{ color: theme.muted, fontFamily: fontFamily.semiBold, fontSize: 12, textTransform: "uppercase" }}>
           {label}
         </Text>
         <AmountText
           value={value}
-          style={{ color: theme.text, fontFamily: fontFamily.extraBold, fontSize: 20, marginTop: 4 }}
+          style={{ color: theme.text, fontFamily: fontFamily.semiBold, fontSize: 20, marginTop: 4 }}
           numberOfLines={1}
         />
       </View>

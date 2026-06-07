@@ -58,43 +58,43 @@ export const Register: React.FC = () => {
 
   return (
     <div className="app-shell-bg flex min-h-screen w-screen items-center justify-center bg-appBg px-4 py-10 select-none">
-      <div className="grid w-full max-w-6xl grid-cols-1 overflow-hidden rounded-[32px] border border-appBorder bg-appCard shadow-elevated lg:grid-cols-[0.95fr_1.05fr]">
-        <div className="hidden border-r border-appBorder bg-appBgSoft/70 p-10 lg:flex lg:flex-col lg:justify-between">
+      <div className="grid w-full max-w-5xl grid-cols-1 overflow-hidden rounded-xl border border-appBorder bg-appCard shadow-elevated lg:grid-cols-[0.95fr_1.05fr]">
+        <div className="navy-panel hidden p-8 lg:flex lg:flex-col lg:justify-between">
           <div>
             <BrandLogo markSize="lg" />
 
-            <div className="mt-16">
-              <p className="page-kicker">Start simple</p>
-              <h1 className="mt-3 max-w-md text-4xl font-extrabold leading-tight tracking-tight text-appText">
+            <div className="mt-12">
+              <p className="text-xs font-semibold uppercase tracking-[0.05em] text-[#a3acb9] dark:text-[#8b949e]">Start simple</p>
+              <h1 className="mt-3 max-w-md text-3xl font-bold leading-tight tracking-tight text-white">
                 Build a clean money ledger in minutes.
               </h1>
-              <p className="mt-5 max-w-md text-sm font-semibold leading-7 text-appMuted">
+              <p className="mt-5 max-w-md text-[15px] font-normal leading-7 text-[#c7d2e1] dark:text-[#8b9cb5]">
                 Add contacts, track given or taken loans, record partial payments, and manage everyday income and expenses.
               </p>
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-3">
-            <div className="rounded-2xl border border-appBorder bg-appCard p-4">
+            <div className="rounded-lg border border-white/10 bg-white/[0.08] p-4 dark:border-[#2a3441] dark:bg-white/[0.06]">
               <WalletCards className="h-5 w-5 text-appPrimary" />
-              <p className="mt-3 text-xs font-extrabold text-appText">Loan clarity</p>
-              <p className="mt-1 text-[11px] font-semibold leading-5 text-appMuted">Remaining balances update automatically.</p>
+              <p className="mt-3 text-xs font-semibold text-white">Loan clarity</p>
+              <p className="mt-1 text-xs font-normal leading-5 text-[#c7d2e1] dark:text-[#8b9cb5]">Remaining balances update automatically.</p>
             </div>
-            <div className="rounded-2xl border border-appBorder bg-appCard p-4">
+            <div className="rounded-lg border border-white/10 bg-white/[0.08] p-4 dark:border-[#2a3441] dark:bg-white/[0.06]">
               <Target className="h-5 w-5 text-appSuccess" />
-              <p className="mt-3 text-xs font-extrabold text-appText">Saving goals</p>
-              <p className="mt-1 text-[11px] font-semibold leading-5 text-appMuted">Track progress toward personal targets.</p>
+              <p className="mt-3 text-xs font-semibold text-white">Saving goals</p>
+              <p className="mt-1 text-xs font-normal leading-5 text-[#c7d2e1] dark:text-[#8b9cb5]">Track progress toward personal targets.</p>
             </div>
           </div>
         </div>
 
-        <div className="p-6 sm:p-10 lg:p-14">
-          <div className="mx-auto w-full max-w-md space-y-7">
+        <div className="p-6 sm:p-8 lg:p-10">
+          <div className="mx-auto w-full max-w-md space-y-6">
             <div>
               <BrandLogo showText={false} markSize="lg" className="mb-6 lg:hidden" />
               <p className="page-kicker">Create account</p>
-              <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-appText">Get started</h2>
-              <p className="mt-2 text-sm font-semibold leading-6 text-appMuted">
+              <h2 className="mt-2 text-3xl font-bold tracking-tight text-appText">Get started</h2>
+              <p className="mt-2 text-[15px] font-normal leading-6 text-appTextSecondary">
                 Your simple workspace for loans, contacts, expenses, and goals.
               </p>
             </div>
@@ -102,7 +102,7 @@ export const Register: React.FC = () => {
             <Card variant="bordered" className="border-appBorder/60">
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             {serverError && (
-              <div className="rounded-xl bg-appDanger/10 border border-appDanger/25 p-3.5 text-center text-xs font-semibold text-appDanger">
+              <div className="rounded-lg border border-appDanger/25 bg-appDanger/10 p-3.5 text-center text-xs font-semibold text-appDanger">
                 {serverError}
               </div>
             )}
@@ -140,7 +140,7 @@ export const Register: React.FC = () => {
               {...register("password")}
             />
 
-            <Button type="submit" variant="primary" fullWidth isLoading={loading} className="mt-2 py-3" rightIcon={<ArrowRight className="h-4 w-4" />}>
+            <Button type="submit" variant="primary" fullWidth isLoading={loading}  rightIcon={<ArrowRight className="h-4 w-4" />}>
               Sign Up
             </Button>
               </form>
@@ -150,7 +150,7 @@ export const Register: React.FC = () => {
               Already have an account?{" "}
               <Link
                 to={ROUTES.LOGIN}
-                className="font-bold text-appPrimary hover:text-appPrimaryDark transition-colors"
+                className="font-medium text-appPrimary transition-colors hover:text-appPrimaryHover"
               >
                 Log in here
               </Link>

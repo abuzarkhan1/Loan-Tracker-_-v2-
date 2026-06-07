@@ -83,7 +83,7 @@ export const Screen = ({
       style={{ backgroundColor: theme.card, borderColor: theme.border, ...theme.shadowSoft }}
     >
       <ActivityIndicator size="small" color={theme.primary} />
-      <Text className="text-xs font-extrabold" style={{ color: theme.muted }}>
+      <Text className="text-xs font-semibold" style={{ color: theme.muted }}>
         {refreshLabel}
       </Text>
     </View>
@@ -102,7 +102,7 @@ export const Screen = ({
   const content = scroll ? (
     <ScrollView
       className="flex-1"
-      contentContainerClassName={`px-5 ${className}`}
+      contentContainerClassName={`px-6 ${className}`}
       contentContainerStyle={{ paddingBottom: contentBottomPadding }}
       contentInsetAdjustmentBehavior="automatic"
       keyboardDismissMode={Platform.OS === "ios" ? "interactive" : "on-drag"}
@@ -115,7 +115,7 @@ export const Screen = ({
       {children}
     </ScrollView>
   ) : (
-    <View className={`flex-1 px-5 ${className}`} style={{ paddingBottom: contentBottomPadding }}>
+    <View className={`flex-1 px-6 ${className}`} style={{ paddingBottom: contentBottomPadding }}>
       {refreshIndicator}
       {children}
     </View>
@@ -125,7 +125,7 @@ export const Screen = ({
     <SafeAreaView className="flex-1 bg-background" edges={["top", "left", "right", "bottom"]}>
       <LinearGradient
         colors={theme.backgroundGradient}
-        locations={[0, 0.48, 1]}
+        locations={[0, 0.5, 1]}
         className="absolute inset-0"
       />
       <KeyboardAvoidingView

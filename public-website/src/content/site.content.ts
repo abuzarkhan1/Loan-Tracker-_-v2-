@@ -108,7 +108,7 @@ export const featureHighlights = [
   },
   {
     title: "Light and Dark Mode",
-    description: "A warm premium light theme and a soft dark theme, matching the mobile app.",
+    description: "A premium white light theme and navy dark theme, matching the redesigned app.",
     icon: Moon,
     tone: "primary",
   },
@@ -188,7 +188,7 @@ export const faqItems = [
   },
   {
     question: "Is there a dark mode?",
-    answer: "Yes. The app and this website support a warm light theme and a premium dark theme.",
+    answer: "Yes. The app and this website support a clean light theme and a premium navy dark theme.",
   },
   {
     question: "Is it free?",

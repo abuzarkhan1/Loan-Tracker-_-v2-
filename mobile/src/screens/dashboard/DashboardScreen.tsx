@@ -14,6 +14,7 @@ import {
 } from "lucide-react-native";
 import { useMemo } from "react";
 import { Text, TouchableOpacity, useWindowDimensions, View } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 import Svg, { G, Line, Rect, Text as SvgText } from "react-native-svg";
 import type { GoalSummary, MonthlyChartPoint } from "../../api/types";
 import { api } from "../../api/client";
@@ -63,11 +64,11 @@ const SurfaceCard = ({ children, className = "", compact = false }: { children: 
       className={className}
       style={[
         {
-          borderRadius: 24,
+          borderRadius: 12,
           borderWidth: 1,
           borderColor: theme.border,
           backgroundColor: theme.card,
-          padding: compact ? 14 : 16,
+          padding: compact ? 16 : 24,
         },
         theme.shadowSoft,
       ]}
@@ -84,16 +85,16 @@ const DashboardHeader = ({ name }: { name?: string }) => {
   return (
     <View className="flex-row items-center justify-between gap-4">
       <View className="flex-1">
-        <Text style={{ color: theme.muted, fontFamily: fontFamily.extraBold, fontSize: 12 }}>
+        <Text style={{ color: theme.muted, fontFamily: fontFamily.medium, fontSize: 13 }}>
           Assalam-o-Alaikum
         </Text>
         <Text
           numberOfLines={1}
-          style={{ color: theme.text, fontFamily: fontFamily.extraBold, fontSize: 24, marginTop: 4 }}
+          style={{ color: theme.text, fontFamily: fontFamily.bold, fontSize: 32, lineHeight: 40, marginTop: 2 }}
         >
           {displayName}
         </Text>
-        <Text style={{ color: theme.muted, fontFamily: fontFamily.semiBold, fontSize: 12, marginTop: 4 }}>
+        <Text style={{ color: theme.textSecondary, fontFamily: fontFamily.regular, fontSize: 15, lineHeight: 22, marginTop: 2 }}>
           Your loan and money overview
         </Text>
       </View>
@@ -101,15 +102,15 @@ const DashboardHeader = ({ name }: { name?: string }) => {
         style={{
           height: 44,
           width: 44,
-          borderRadius: 16,
+          borderRadius: 999,
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: theme.peach,
-          borderWidth: theme.mode === "dark" ? 1 : 0,
+          backgroundColor: theme.surface,
+          borderWidth: 1,
           borderColor: theme.border,
         }}
       >
-        <Text style={{ color: theme.primaryDark, fontFamily: fontFamily.extraBold, fontSize: 15 }}>
+        <Text style={{ color: theme.primary, fontFamily: fontFamily.bold, fontSize: 15 }}>
           {getInitials(displayName)}
         </Text>
       </View>
@@ -128,40 +129,53 @@ const BalanceCard = ({
 }) => {
   const { theme } = useAppTheme();
   const positive = balance >= 0;
+  const panelColors = theme.mode === "dark"
+    ? (["#070C18", "#0F1D33", "#1A2B4A"] as const)
+    : (["#0A2540", "#123456"] as const);
+  const panelMuted = theme.mode === "dark" ? "#8B9CB5" : "#A3ACB9";
+  const panelSecondary = theme.mode === "dark" ? "#F0F6FC" : "#C7D2E1";
+  const panelBorder = theme.mode === "dark" ? "#2A3441" : "rgba(255,255,255,0.12)";
+  const statBg = theme.mode === "dark" ? "rgba(240,246,252,0.06)" : "rgba(246,249,252,0.08)";
+  const statBorder = theme.mode === "dark" ? "rgba(42,52,65,0.9)" : "rgba(227,232,238,0.10)";
+  const badgeBg = theme.mode === "dark" ? "rgba(124,115,255,0.20)" : "rgba(99,91,255,0.18)";
+  const badgeBorder = theme.mode === "dark" ? "rgba(124,115,255,0.34)" : "rgba(122,115,255,0.34)";
+  const overdueColor = theme.mode === "dark" ? "#F85149" : "#FFB2C0";
 
   return (
-    <View
+    <LinearGradient
+      colors={panelColors}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 1 }}
       style={[
         {
-          marginTop: 18,
-          borderRadius: 28,
-          backgroundColor: theme.card,
+          marginTop: 24,
+          borderRadius: 12,
           borderWidth: 1,
-          borderColor: theme.border,
-          padding: 18,
+          borderColor: panelBorder,
+          padding: 24,
         },
         theme.shadowElevated,
       ]}
     >
       <View className="flex-row items-center justify-between gap-3">
         <View>
-          <Text style={{ color: theme.muted, fontFamily: fontFamily.extraBold, fontSize: 10.5 }}>
+          <Text style={{ color: panelMuted, fontFamily: fontFamily.semiBold, fontSize: 12 }}>
             OVERALL BALANCE
           </Text>
-          <Text style={{ color: theme.muted, fontFamily: fontFamily.bold, fontSize: 11.5, marginTop: 4 }}>
+          <Text style={{ color: panelSecondary, fontFamily: fontFamily.regular, fontSize: 13, marginTop: 4 }}>
             {positive ? "Net receivable" : "Net payable"}
           </Text>
         </View>
         <View
-          className="flex-row items-center gap-1.5 rounded-full px-3 py-2"
-          style={{ backgroundColor: positive ? theme.mint : theme.peach }}
+          className="flex-row items-center gap-1.5 px-3 py-2"
+          style={{ backgroundColor: badgeBg, borderRadius: 6, borderWidth: 1, borderColor: badgeBorder }}
         >
-          {positive ? <TrendingUp color={theme.success} size={13} /> : <ArrowUpRight color={theme.primaryDark} size={13} />}
+          {positive ? <TrendingUp color={theme.white} size={13} /> : <ArrowUpRight color={theme.white} size={13} />}
           <Text
             style={{
-              color: positive ? theme.success : theme.primaryDark,
-              fontFamily: fontFamily.extraBold,
-              fontSize: 11,
+              color: theme.white,
+              fontFamily: fontFamily.medium,
+              fontSize: 13,
             }}
           >
             {positive ? "Positive" : "Payable"}
@@ -173,24 +187,24 @@ const BalanceCard = ({
         numberOfLines={1}
         adjustsFontSizeToFit
         minimumFontScale={0.7}
-        style={{ color: theme.text, fontFamily: fontFamily.extraBold, fontSize: 34, marginTop: 12 }}
+        style={{ color: theme.white, fontFamily: fontFamily.bold, fontSize: 40, lineHeight: 48, marginTop: 18 }}
       >
         {currency(Math.abs(balance))}
       </Text>
 
-      <View className="mt-5 flex-row gap-3">
-        <View className="flex-1 rounded-2xl px-4 py-3" style={{ backgroundColor: theme.backgroundSoft }}>
-          <Text style={{ color: theme.muted, fontFamily: fontFamily.bold, fontSize: 11 }}>Active Loans</Text>
-          <Text style={{ color: theme.text, fontFamily: fontFamily.extraBold, fontSize: 20, marginTop: 4 }}>{active}</Text>
+      <View className="mt-6 flex-row gap-3">
+        <View className="flex-1 px-4 py-3" style={{ backgroundColor: statBg, borderRadius: 8, borderWidth: 1, borderColor: statBorder }}>
+          <Text style={{ color: panelMuted, fontFamily: fontFamily.medium, fontSize: 12 }}>Active Loans</Text>
+          <Text style={{ color: theme.white, fontFamily: fontFamily.semiBold, fontSize: 20, marginTop: 4 }}>{active}</Text>
         </View>
-        <View className="flex-1 rounded-2xl px-4 py-3" style={{ backgroundColor: theme.backgroundSoft }}>
-          <Text style={{ color: theme.muted, fontFamily: fontFamily.bold, fontSize: 11 }}>Overdue</Text>
-          <Text style={{ color: overdue > 0 ? theme.danger : theme.text, fontFamily: fontFamily.extraBold, fontSize: 20, marginTop: 4 }}>
+        <View className="flex-1 px-4 py-3" style={{ backgroundColor: statBg, borderRadius: 8, borderWidth: 1, borderColor: statBorder }}>
+          <Text style={{ color: panelMuted, fontFamily: fontFamily.medium, fontSize: 12 }}>Overdue</Text>
+          <Text style={{ color: overdue > 0 ? overdueColor : theme.white, fontFamily: fontFamily.semiBold, fontSize: 20, marginTop: 4 }}>
             {overdue}
           </Text>
         </View>
       </View>
-    </View>
+    </LinearGradient>
   );
 };
 
@@ -215,14 +229,14 @@ const MetricTile = ({
     <SurfaceCard className="w-[48.5%]" compact>
       <View className="flex-row items-start justify-between gap-3">
         <View className="flex-1">
-          <Text style={{ color: theme.muted, fontFamily: fontFamily.extraBold, fontSize: 9.5 }}>
+          <Text style={{ color: theme.muted, fontFamily: fontFamily.semiBold, fontSize: 12 }}>
             {label}
           </Text>
           <Text
             numberOfLines={1}
             adjustsFontSizeToFit
             minimumFontScale={0.72}
-            style={{ color: theme.text, fontFamily: fontFamily.extraBold, fontSize: 19, marginTop: 8 }}
+            style={{ color: theme.text, fontFamily: fontFamily.semiBold, fontSize: 20, marginTop: 8 }}
           >
             {currency(value)}
           </Text>
@@ -231,7 +245,7 @@ const MetricTile = ({
           style={{
             height: 36,
             width: 36,
-            borderRadius: 13,
+            borderRadius: 8,
             alignItems: "center",
             justifyContent: "center",
             backgroundColor: toneBg,
@@ -257,10 +271,10 @@ const SectionTitle = ({
 
   return (
     <View className="mb-3 mt-6 flex-row items-center justify-between">
-      <Text style={{ color: theme.text, fontFamily: fontFamily.extraBold, fontSize: 18 }}>{title}</Text>
+      <Text style={{ color: theme.text, fontFamily: fontFamily.semiBold, fontSize: 20 }}>{title}</Text>
       {action && onPress ? (
         <TouchableOpacity activeOpacity={0.85} className="flex-row items-center gap-1" onPress={onPress}>
-          <Text style={{ color: theme.primary, fontFamily: fontFamily.extraBold, fontSize: 12 }}>{action}</Text>
+          <Text style={{ color: theme.primary, fontFamily: fontFamily.medium, fontSize: 13 }}>{action}</Text>
           <ChevronRight color={theme.primary} size={15} />
         </TouchableOpacity>
       ) : null}
@@ -274,7 +288,7 @@ const LegendItem = ({ color, label }: { color: string; label: string }) => {
   return (
     <View className="flex-row items-center gap-1.5">
       <View style={{ height: 8, width: 8, borderRadius: 4, backgroundColor: color }} />
-      <Text style={{ color: theme.muted, fontFamily: fontFamily.bold, fontSize: 10.5 }}>{label}</Text>
+      <Text style={{ color: theme.muted, fontFamily: fontFamily.medium, fontSize: 12 }}>{label}</Text>
     </View>
   );
 };
@@ -288,9 +302,9 @@ const MonthlyFlowCard = ({
 }) => {
   const { theme } = useAppTheme();
   const chartData = data.length ? data : buildEmptyMonthlyData();
-  const successColor = theme.mode === "dark" ? "#7bd8bf" : theme.success;
-  const dangerColor = theme.mode === "dark" ? "#ff8a77" : theme.primaryDark;
-  const gridColor = theme.mode === "dark" ? "rgba(255,255,255,0.08)" : "rgba(37,33,43,0.08)";
+  const successColor = theme.success;
+  const dangerColor = theme.danger;
+  const gridColor = theme.mode === "dark" ? "rgba(227,232,238,0.10)" : "#E3E8EE";
   const maxValue = Math.max(...chartData.flatMap((item) => [item.received, item.paid]), 1);
   const chartHeight = 128;
   const plotTop = 8;
@@ -305,10 +319,10 @@ const MonthlyFlowCard = ({
     <SurfaceCard>
       <View className="flex-row items-start justify-between gap-3">
         <View className="flex-1">
-          <Text style={{ color: theme.muted, fontFamily: fontFamily.extraBold, fontSize: 10.5 }}>
+          <Text style={{ color: theme.muted, fontFamily: fontFamily.semiBold, fontSize: 12 }}>
             LAST 6 MONTHS
           </Text>
-          <Text style={{ color: theme.text, fontFamily: fontFamily.extraBold, fontSize: 17, marginTop: 5 }}>
+          <Text style={{ color: theme.text, fontFamily: fontFamily.semiBold, fontSize: 20, marginTop: 4 }}>
             Received vs Paid
           </Text>
         </View>
@@ -351,7 +365,7 @@ const MonthlyFlowCard = ({
                   x={center}
                   y={labelY}
                   fill={theme.muted}
-                  fontFamily={fontFamily.bold}
+                  fontFamily={fontFamily.medium}
                   fontSize={10}
                   textAnchor="middle"
                 >
@@ -364,7 +378,7 @@ const MonthlyFlowCard = ({
       </View>
 
       <View className="mt-1 flex-row items-center justify-between gap-4">
-        <Text style={{ color: theme.muted, fontFamily: fontFamily.bold, fontSize: 11 }}>
+        <Text style={{ color: theme.muted, fontFamily: fontFamily.medium, fontSize: 13 }}>
           Net movement
         </Text>
         <Text
@@ -373,7 +387,7 @@ const MonthlyFlowCard = ({
           minimumFontScale={0.78}
           style={{
             color: netPeriod >= 0 ? theme.success : theme.danger,
-            fontFamily: fontFamily.extraBold,
+            fontFamily: fontFamily.semiBold,
             fontSize: 16,
           }}
         >
@@ -404,18 +418,18 @@ const GoalShortcutCard = ({ summary, onPress }: { summary?: GoalSummary; onPress
             style={{
               height: 44,
               width: 44,
-              borderRadius: 16,
+              borderRadius: 8,
               alignItems: "center",
               justifyContent: "center",
-              backgroundColor: theme.peach,
+              backgroundColor: theme.surface,
             }}
           >
-            <Target color={theme.primaryDark} size={21} />
+            <Target color={theme.primary} size={21} />
           </View>
           <View className="min-w-0 flex-1">
             <View className="flex-row items-start justify-between gap-3">
               <View className="min-w-0 flex-1">
-                <Text style={{ color: theme.text, fontFamily: fontFamily.extraBold, fontSize: 16 }}>
+                <Text style={{ color: theme.text, fontFamily: fontFamily.semiBold, fontSize: 16 }}>
                   Saving Goals
                 </Text>
                 <Text numberOfLines={1} style={{ color: theme.muted, fontFamily: fontFamily.semiBold, fontSize: 12, marginTop: 4 }}>
@@ -423,20 +437,20 @@ const GoalShortcutCard = ({ summary, onPress }: { summary?: GoalSummary; onPress
                 </Text>
               </View>
               <View className="flex-row items-center gap-1">
-                <Text style={{ color: theme.primaryDark, fontFamily: fontFamily.extraBold, fontSize: 12 }}>
+                <Text style={{ color: theme.primary, fontFamily: fontFamily.medium, fontSize: 13 }}>
                   Open
                 </Text>
-                <ChevronRight color={theme.primaryDark} size={15} />
+                <ChevronRight color={theme.primary} size={15} />
               </View>
             </View>
 
             {activeGoals ? (
               <View className="mt-4 gap-2">
                 <View className="flex-row items-center justify-between gap-3">
-                  <Text numberOfLines={1} style={{ color: theme.text, fontFamily: fontFamily.bold, fontSize: 12, flex: 1 }}>
+                  <Text numberOfLines={1} style={{ color: theme.text, fontFamily: fontFamily.medium, fontSize: 13, flex: 1 }}>
                     {nearestGoal?.title || "All active goals"}
                   </Text>
-                  <Text style={{ color: theme.muted, fontFamily: fontFamily.bold, fontSize: 11 }}>
+                  <Text style={{ color: theme.muted, fontFamily: fontFamily.medium, fontSize: 12 }}>
                     {progress}%
                   </Text>
                 </View>

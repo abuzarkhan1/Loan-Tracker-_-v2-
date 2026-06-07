@@ -11,8 +11,8 @@ export const Breadcrumbs: React.FC = () => {
   if (location.pathname === ROUTES.DASHBOARD) return null;
 
   return (
-    <nav className="mb-3 flex max-w-full items-center gap-1.5 overflow-x-auto whitespace-nowrap rounded-2xl border border-appBorder/40 bg-appCard/70 px-3 py-2 text-xs font-bold text-appMuted shadow-sm backdrop-blur select-none">
-      <Link to="/" className="hover:text-appText flex items-center gap-1 transition-colors">
+    <nav className="mb-2 flex max-w-full select-none items-center gap-1.5 overflow-x-auto whitespace-nowrap text-xs font-medium text-appMuted">
+      <Link to="/" className="flex items-center gap-1 transition-colors hover:text-appText">
         <Home className="h-3.5 w-3.5" />
         <span>Home</span>
       </Link>
@@ -28,12 +28,12 @@ export const Breadcrumbs: React.FC = () => {
           : value.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
 
         return (
-          <div key={to} className="flex items-center gap-1.5 shrink-0">
+          <div key={to} className="flex shrink-0 items-center gap-1.5">
             <ChevronRight className="h-3 w-3 text-appMuted/60" />
             {isLast ? (
-              <span className="text-appText truncate max-w-[150px] font-bold">{label}</span>
+              <span className="max-w-[150px] truncate font-semibold text-appText">{label}</span>
             ) : (
-              <Link to={to} className={cn("hover:text-appText transition-colors truncate max-w-[150px]")}>
+              <Link to={to} className={cn("max-w-[150px] truncate transition-colors hover:text-appText")}>
                 {label}
               </Link>
             )}

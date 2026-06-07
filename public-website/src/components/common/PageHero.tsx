@@ -15,11 +15,11 @@ export const PageHero = ({
       initial={{ opacity: 0, y: 18 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
-      className="premium-card mx-auto max-w-3xl rounded-xl p-5 text-center sm:rounded-2xl sm:p-8"
+      className="mx-auto max-w-3xl text-center"
     >
-      <p className="text-xs font-extrabold uppercase text-primary">{eyebrow}</p>
-      <h1 className="mt-4 text-3xl font-extrabold leading-tight text-dark sm:text-5xl lg:text-[3.25rem]">{title}</h1>
-      <p className="mx-auto mt-5 max-w-2xl text-base font-medium leading-8 text-muted lg:text-[17px]">{description}</p>
+      <p className="text-xs font-semibold uppercase tracking-[0.05em] text-primary">{eyebrow}</p>
+      <h1 className="mt-3 text-3xl font-bold leading-tight text-dark sm:text-[40px] sm:leading-[48px]">{title}</h1>
+      <p className="mx-auto mt-4 max-w-2xl text-[15px] font-normal leading-6 text-muted">{description}</p>
     </motion.div>
   </Section>
 );

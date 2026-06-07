@@ -65,14 +65,14 @@ export const LoanDetailScreen = ({ navigation, route }: Props) => {
             flexDirection: "row",
             alignItems: "center",
             gap: 4,
-            backgroundColor: theme.peach,
+            backgroundColor: theme.surface,
             borderRadius: 8,
             paddingHorizontal: 10,
             paddingVertical: 6,
           }}
         >
-          <FileText color={theme.primaryDark} size={15} />
-          <Text style={{ color: theme.primaryDark, fontFamily: fontFamily.bold, fontSize: 13 }}>
+          <FileText color={theme.primary} size={15} />
+          <Text style={{ color: theme.primary, fontFamily: fontFamily.bold, fontSize: 13 }}>
             PDF
           </Text>
         </TouchableOpacity>
@@ -151,7 +151,7 @@ export const LoanDetailScreen = ({ navigation, route }: Props) => {
       <View className="rounded-lg border border-border bg-card p-5" style={theme.shadowSoft}>
         <View className="flex-row items-start justify-between gap-3">
           <View className="flex-1">
-            <Text className="text-2xl font-black text-dark">{getContactName(loan.contactId)}</Text>
+            <Text className="text-2xl font-bold text-dark">{getContactName(loan.contactId)}</Text>
             <Text className="mt-2 text-sm font-medium text-muted">{loan.description || "Simple loan record"}</Text>
           </View>
           <View className="items-end gap-2">
@@ -171,11 +171,11 @@ export const LoanDetailScreen = ({ navigation, route }: Props) => {
         <View className="mt-5 flex-row justify-between">
           <View>
             <Text className="text-xs font-bold uppercase text-muted">Total</Text>
-            <AmountText amount={loan.amount} className="mt-1 text-lg font-black text-dark" />
+            <AmountText amount={loan.amount} className="mt-1 text-lg font-bold text-dark" />
           </View>
           <View>
             <Text className="text-xs font-bold uppercase text-muted">Paid</Text>
-            <AmountText amount={loan.paidAmount} className="mt-1 text-lg font-black text-success" />
+            <AmountText amount={loan.paidAmount} className="mt-1 text-lg font-bold text-success" />
           </View>
         </View>
 
@@ -210,7 +210,7 @@ export const LoanDetailScreen = ({ navigation, route }: Props) => {
       </View>
 
       <View className="mt-6 flex-row items-center justify-between">
-        <Text className="text-lg font-black text-dark">Payment History</Text>
+        <Text className="text-lg font-bold text-dark">Payment History</Text>
         <Text className="text-xs font-bold uppercase text-muted">{payments.length} records</Text>
       </View>
 
@@ -220,9 +220,9 @@ export const LoanDetailScreen = ({ navigation, route }: Props) => {
             <View key={payment._id} className="rounded-lg border border-border bg-card p-4" style={theme.shadowSoft}>
               <View className="flex-row items-start justify-between gap-3">
                 <View className="flex-1">
-                  <Text style={{ color: theme.text, fontFamily: fontFamily.extraBold, fontSize: 16 }}>
+                  <Text style={{ color: theme.text, fontFamily: fontFamily.bold, fontSize: 16 }}>
                     {paymentVerb}:{" "}
-                    <AmountText amount={payment.amount} style={{ color: theme.text, fontFamily: fontFamily.extraBold, fontSize: 16 }} />
+                    <AmountText amount={payment.amount} style={{ color: theme.text, fontFamily: fontFamily.bold, fontSize: 16 }} />
                   </Text>
                   <Text style={{ color: theme.muted, fontFamily: fontFamily.bold, fontSize: 12, marginTop: 4 }}>
                     {payment.method} · {formatDate(payment.paymentDate)} · {formatTime(payment.createdAt)}
@@ -230,8 +230,8 @@ export const LoanDetailScreen = ({ navigation, route }: Props) => {
                   <View
                     style={{
                       alignSelf: "flex-start",
-                      backgroundColor: theme.peach,
-                      borderRadius: 999,
+                      backgroundColor: theme.surface,
+                      borderRadius: 6,
                       paddingHorizontal: 12,
                       paddingVertical: 5,
                       marginTop: 10,
@@ -240,7 +240,7 @@ export const LoanDetailScreen = ({ navigation, route }: Props) => {
                     <AmountText
                       amount={runningBalances[payment._id] ?? loan.remainingAmount}
                       prefix="Baqi: "
-                      style={{ color: theme.primaryDark, fontFamily: fontFamily.extraBold, fontSize: 11 }}
+                      style={{ color: theme.primary, fontFamily: fontFamily.bold, fontSize: 11 }}
                     />
                   </View>
                   {payment.note ? <Text className="mt-2 text-sm text-dark">{payment.note}</Text> : null}
@@ -253,7 +253,7 @@ export const LoanDetailScreen = ({ navigation, route }: Props) => {
                     <Edit3 color={theme.primary} size={17} />
                   </TouchableOpacity>
                   <TouchableOpacity
-                    className="h-9 w-9 items-center justify-center rounded-lg bg-peach"
+                    className="h-9 w-9 items-center justify-center rounded-lg bg-background-soft"
                     onPress={() => confirmPaymentDelete(payment._id)}
                   >
                     <Trash2 color={theme.danger} size={17} />

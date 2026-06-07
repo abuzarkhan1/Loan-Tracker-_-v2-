@@ -20,15 +20,15 @@ export const MoneySummaryCard = ({ title, value, subtitle, icon: Icon, tone = "p
     tone === "success" ? theme.mint : tone === "warning" ? theme.yellow : tone === "danger" ? theme.peach : theme.backgroundSoft;
 
   return (
-    <View className="flex-1 rounded-3xl border border-border bg-card p-4" style={theme.shadowSoft}>
+    <View className="flex-1 rounded-2xl border border-border bg-card p-4" style={theme.shadowSoft}>
       <View className="flex-row items-start justify-between gap-3">
         <View className="flex-1">
-          <Text style={{ color: theme.muted, fontFamily: fontFamily.bold, fontSize: 11, textTransform: "uppercase" }}>{title}</Text>
-          <AmountText value={value} className="mt-2 text-lg font-black text-dark" style={{ fontFamily: fontFamily.extraBold }}>
+          <Text style={{ color: theme.muted, fontFamily: fontFamily.semiBold, fontSize: 12, textTransform: "uppercase" }}>{title}</Text>
+          <AmountText value={value} className="mt-2 text-lg font-bold text-dark" style={{ fontFamily: fontFamily.semiBold }}>
             {value}
           </AmountText>
         </View>
-        <View className="h-10 w-10 items-center justify-center rounded-2xl" style={{ backgroundColor: iconBackground }}>
+        <View className="h-10 w-10 items-center justify-center rounded-xl" style={{ backgroundColor: iconBackground }}>
           <Icon color={iconColor} size={20} />
         </View>
       </View>

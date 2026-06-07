@@ -15,7 +15,7 @@ export const BrandLogo = ({ size = 64, elevated = true }: BrandLogoProps) => {
         {
           width: size,
           height: size,
-          borderRadius: Math.round(size * 0.24),
+          borderRadius: 12,
           backgroundColor: theme.card,
           alignItems: "center",
           justifyContent: "center",

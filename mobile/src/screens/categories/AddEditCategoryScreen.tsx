@@ -68,7 +68,7 @@ export const AddEditCategoryScreen = ({ navigation, route }: Props) => {
 
   return (
     <Screen className="gap-4 pt-5">
-      <Text className="text-2xl font-black text-dark" style={{ fontFamily: fontFamily.extraBold }}>
+      <Text className="text-2xl font-bold text-dark" style={{ fontFamily: fontFamily.bold }}>
         {categoryId ? "Edit Category" : "Add Category"}
       </Text>
       <Controller

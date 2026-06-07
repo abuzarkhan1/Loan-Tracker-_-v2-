@@ -105,7 +105,7 @@ export const PaymentFormScreen = ({ navigation, route }: Props) => {
   return (
     <Screen className="gap-4 pt-5">
       <View>
-        <Text className="text-2xl font-black text-dark">{isEditing ? "Edit Payment" : "Nayi Payment"}</Text>
+        <Text className="text-2xl font-bold text-dark">{isEditing ? "Edit Payment" : "Nayi Payment"}</Text>
         <Text className="mt-1 text-sm font-medium text-muted">
           {paymentLabel} · Available: {formatCurrency(availableAmount)}
         </Text>
