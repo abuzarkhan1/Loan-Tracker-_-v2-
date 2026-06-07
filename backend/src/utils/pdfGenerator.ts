@@ -1,9 +1,17 @@
+import { existsSync } from "fs";
+import { join, resolve } from "path";
 import PDFDocument from "pdfkit";
-import { Response } from "express";
+import type { Response } from "express";
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Helpers
-// ─────────────────────────────────────────────────────────────────────────────
+type PdfDoc = InstanceType<typeof PDFDocument>;
+
+type PdfFontSet = {
+  regular: string;
+  medium: string;
+  semiBold: string;
+  bold: string;
+  italic: string;
+};
 
 const formatDate = (dateInput?: Date | string | null): string => {
   if (!dateInput) return "N/A";
@@ -21,9 +29,65 @@ const formatCurrency = (value?: number | null): string => {
   return `Rs. ${amount.toLocaleString("en-PK")}`;
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Main export
-// ─────────────────────────────────────────────────────────────────────────────
+const humanizeValue = (value?: string | null): string => {
+  if (!value) return "N/A";
+  return value
+    .toLowerCase()
+    .split("_")
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
+};
+
+const resolveInterFont = (relativePath: string): string | undefined => {
+  const roots = [
+    resolve(process.cwd(), "../mobile/node_modules/@expo-google-fonts/inter"),
+    resolve(process.cwd(), "mobile/node_modules/@expo-google-fonts/inter"),
+    resolve(__dirname, "../../../mobile/node_modules/@expo-google-fonts/inter"),
+    resolve(__dirname, "../../../../mobile/node_modules/@expo-google-fonts/inter"),
+  ];
+
+  return roots
+    .map((root) => join(root, relativePath))
+    .find((fontPath) => existsSync(fontPath));
+};
+
+const registerFonts = (doc: PdfDoc): PdfFontSet => {
+  const fontFiles = {
+    regular: resolveInterFont("400Regular/Inter_400Regular.ttf"),
+    medium: resolveInterFont("500Medium/Inter_500Medium.ttf"),
+    semiBold: resolveInterFont("600SemiBold/Inter_600SemiBold.ttf"),
+    bold: resolveInterFont("700Bold/Inter_700Bold.ttf"),
+    italic: resolveInterFont("400Regular_Italic/Inter_400Regular_Italic.ttf"),
+  };
+
+  if (Object.values(fontFiles).every(Boolean)) {
+    try {
+      doc.registerFont("Inter-Regular", fontFiles.regular!);
+      doc.registerFont("Inter-Medium", fontFiles.medium!);
+      doc.registerFont("Inter-SemiBold", fontFiles.semiBold!);
+      doc.registerFont("Inter-Bold", fontFiles.bold!);
+      doc.registerFont("Inter-Italic", fontFiles.italic!);
+
+      return {
+        regular: "Inter-Regular",
+        medium: "Inter-Medium",
+        semiBold: "Inter-SemiBold",
+        bold: "Inter-Bold",
+        italic: "Inter-Italic",
+      };
+    } catch {
+      // Fall through to built-in PDF fonts if local Inter cannot be registered.
+    }
+  }
+
+  return {
+    regular: "Helvetica",
+    medium: "Helvetica",
+    semiBold: "Helvetica-Bold",
+    bold: "Helvetica-Bold",
+    italic: "Helvetica-Oblique",
+  };
+};
 
 export const generateLoanPdf = (
   loan: any,
@@ -31,10 +95,10 @@ export const generateLoanPdf = (
   res: Response,
 ) => {
   const doc = new PDFDocument({
-    margin: 0,           // We handle all margins manually for precision
+    margin: 0,
     size: "A4",
     info: {
-      Title: `Loan Statement – ${loan.description || "Loan Detail"}`,
+      Title: `Loan Statement - ${loan.description || "Loan Detail"}`,
       Author: "LoanTracker",
       Subject: "Loan Payment Statement",
     },
@@ -42,200 +106,169 @@ export const generateLoanPdf = (
 
   doc.pipe(res);
 
-  // ── Design tokens ──────────────────────────────────────────────────────────
   const C = {
-    primary:      "#f36f56",
-    primaryDark:  "#d95441",
-    success:      "#1b7d62",
-    background:   "#fffaf4",
-    bgSoft:       "#fff7ef",
-    white:        "#ffffff",
-    text:         "#25212b",
-    muted:        "#6f6577",
-    mutedLight:   "#a89cb0",
-    border:       "#e8ddd5",
-    headerBg:     "#2c2433",
-    accentStripe: "#f36f56",
+    primary: "#635BFF",
+    bgPage: "#FFFFFF",
+    bgSurface: "#F6F9FC",
+    bgHero: "#0A2540",
+    bgHeroEnd: "#1A3A5C",
+    bgCard: "#FFFFFF",
+    text: "#0A2540",
+    textSecondary: "#425466",
+    textOnHero: "#FFFFFF",
+    textOnHeroMuted: "#C7D2E1",
+    border: "#E3E8EE",
+    borderSoft: "#EEF2F7",
+    success: "#30B130",
+    danger: "#DF1B41",
+    shadow: "#E8EEF7",
   };
 
-  const F = {
-    regular: "Helvetica",
-    bold:    "Helvetica-Bold",
-    italic:  "Helvetica-Oblique",
+  const F = registerFonts(doc);
+
+  const MARGIN = 44;
+  const PAGE_W = doc.page.width;
+  const PAGE_H = doc.page.height;
+  const INNER_W = PAGE_W - MARGIN * 2;
+  const RIGHT = PAGE_W - MARGIN;
+  const BOTTOM = PAGE_H - 60;
+
+  const principalAmt = Number(loan.amount || 0);
+
+  const drawPageBackground = () => {
+    doc.fillColor(C.bgPage).rect(0, 0, PAGE_W, PAGE_H).fill();
   };
 
-  // Safe inner margins
-  const MARGIN   = 44;
-  const PAGE_W   = doc.page.width;           // 595.28
-  const INNER_W  = PAGE_W - MARGIN * 2;      // ~507
-  const RIGHT    = PAGE_W - MARGIN;
-  const BOTTOM   = doc.page.height - 54;     // footer threshold
+  const drawSoftCard = (x: number, y: number, width: number, height: number, radius = 8) => {
+    doc.fillColor(C.shadow).roundedRect(x + 1.5, y + 2, width, height, radius).fill();
+    doc.fillColor(C.bgCard).roundedRect(x, y, width, height, radius).fill();
+    doc.strokeColor(C.border).lineWidth(0.8).roundedRect(x, y, width, height, radius).stroke();
+  };
 
-  // ── Derived loan data ──────────────────────────────────────────────────────
-  const principalAmt  = Number(loan.amount || 0);
-
-  // ─────────────────────────────────────────────────────────────────────────
-  // HEADER
-  // Solid dark bar across the top; coral accent stripe below it
-  // ─────────────────────────────────────────────────────────────────────────
   const drawHeader = () => {
-    const BAR_H   = 64;
-    const STRIP_H = 4;
+    const headerHeight = 78;
+    drawPageBackground();
 
-    // Dark header background
-    doc.fillColor(C.headerBg).rect(0, 0, PAGE_W, BAR_H).fill();
+    const gradient = doc.linearGradient(0, 0, PAGE_W, headerHeight);
+    gradient.stop(0, C.bgHero).stop(1, C.bgHeroEnd);
+    doc.rect(0, 0, PAGE_W, headerHeight).fill(gradient);
+    doc.fillColor(C.primary).rect(0, headerHeight - 3, PAGE_W, 3).fill();
 
-    // Coral accent stripe under the header
-    doc.fillColor(C.accentStripe).rect(0, BAR_H, PAGE_W, STRIP_H).fill();
+    doc.fillColor(C.primary).roundedRect(MARGIN, 20, 36, 36, 8).fill();
+    doc.fillColor(C.textOnHero).font(F.bold).fontSize(13).text("LT", MARGIN, 31, {
+      width: 36,
+      align: "center",
+    });
 
-    // Brand name
+    doc.fillColor(C.textOnHero).font(F.bold).fontSize(18).text("LoanTracker", MARGIN + 48, 19);
     doc
-      .fillColor(C.white)
+      .fillColor(C.textOnHeroMuted)
+      .font(F.medium)
+      .fontSize(8)
+      .text("Personal loan ledger", MARGIN + 49, 43, { characterSpacing: 0.8 });
+
+    doc
+      .fillColor(C.textOnHero)
       .font(F.bold)
-      .fontSize(20)
-      .text("LoanTracker", MARGIN, 18);
+      .fontSize(10.5)
+      .text("LOAN STATEMENT", MARGIN, 21, { width: INNER_W, align: "right" });
 
-    // Tagline
     doc
-      .fillColor(C.mutedLight)
-      .font(F.regular)
-      .fontSize(7)
-      .text("RECLAIMING BILATERAL TRUST", MARGIN + 1, 43, { characterSpacing: 1.4 });
-
-    // Document type — right-aligned
-    doc
-      .fillColor(C.white)
-      .font(F.bold)
-      .fontSize(11)
-      .text("LOAN STATEMENT", MARGIN, 18, { width: INNER_W, align: "right" });
-
-    // Generated date
-    doc
-      .fillColor(C.mutedLight)
+      .fillColor(C.textOnHeroMuted)
       .font(F.regular)
       .fontSize(8)
-      .text(`Generated: ${formatDate(new Date())}`, MARGIN, 38, {
+      .text(`Generated ${formatDate(new Date())}`, MARGIN, 41, {
         width: INNER_W,
         align: "right",
       });
   };
 
-  // ─────────────────────────────────────────────────────────────────────────
-  // FOOTER
-  // ─────────────────────────────────────────────────────────────────────────
   const drawFooter = () => {
-    const FOOTER_Y = doc.page.height - 38;
+    const footerY = PAGE_H - 40;
 
-    doc.fillColor(C.border).rect(0, FOOTER_Y - 1, PAGE_W, 0.6).fill();
-
+    doc.strokeColor(C.border).lineWidth(0.7).moveTo(MARGIN, footerY - 1).lineTo(RIGHT, footerY - 1).stroke();
     doc
-      .fillColor(C.mutedLight)
+      .fillColor(C.textSecondary)
       .font(F.regular)
-      .fontSize(7)
+      .fontSize(7.5)
       .text(
         "This statement is generated from LoanTracker records for personal loan tracking and settlement reference.",
         MARGIN,
-        FOOTER_Y + 7,
+        footerY + 7,
         { width: INNER_W, align: "center" },
       );
 
-    // Coral dot separator · brand
     doc
-      .fillColor(C.primaryDark)
-      .font(F.bold)
-      .fontSize(7)
-      .text("LoanTracker · Reclaiming Bilateral Trust", MARGIN, FOOTER_Y + 19, {
+      .fillColor(C.primary)
+      .font(F.semiBold)
+      .fontSize(7.5)
+      .text("LoanTracker - Personal Loan Ledger", MARGIN, footerY + 20, {
         width: INNER_W,
         align: "center",
       });
   };
 
-  // ─────────────────────────────────────────────────────────────────────────
-  // DIVIDER
-  // ─────────────────────────────────────────────────────────────────────────
-  const drawDivider = (y: number, color = C.border, weight = 0.6) => {
+  const drawDivider = (y: number, color = C.border, weight = 0.7) => {
     doc.strokeColor(color).lineWidth(weight).moveTo(MARGIN, y).lineTo(RIGHT, y).stroke();
   };
 
-  // ─────────────────────────────────────────────────────────────────────────
-  // TABLE HEADER ROW
-  // ─────────────────────────────────────────────────────────────────────────
-
-  // Column x-positions
-  // All right-aligned columns are clamped 6px inside RIGHT to avoid PDFKit edge clipping.
-  const PAD_R    = 6;                          // inner right padding
-  const REM_W    = 82;
-  const AMT_W    = 86;
-  const REM_X    = RIGHT - REM_W - PAD_R;     // text block ends at RIGHT - PAD_R
-  const AMT_X    = REM_X - AMT_W - 6;         // 6px gap between the two right columns
+  const PAD_R = 10;
+  const REM_W = 82;
+  const AMT_W = 86;
+  const REM_X = RIGHT - REM_W - PAD_R;
+  const AMT_X = REM_X - AMT_W - 6;
 
   const TC = {
-    date:      MARGIN,
-    type:      MARGIN + 108,
-    method:    MARGIN + 220,
-    amount:    AMT_X,
+    date: MARGIN + 10,
+    type: MARGIN + 116,
+    method: MARGIN + 226,
+    amount: AMT_X,
     remaining: REM_X,
   };
 
   const drawTableHead = (y: number): number => {
-    const H = 24;
+    const h = 28;
 
-    doc.fillColor(C.headerBg).rect(0, y, PAGE_W, H).fill();
+    doc.fillColor(C.bgSurface).roundedRect(MARGIN, y, INNER_W, h, 8).fill();
+    doc.strokeColor(C.border).lineWidth(0.8).roundedRect(MARGIN, y, INNER_W, h, 8).stroke();
+    doc.fillColor(C.primary).roundedRect(MARGIN, y, 4, h, 2).fill();
 
-    // Coral left accent strip on header
-    doc.fillColor(C.primary).rect(0, y, 3, H).fill();
+    doc.fillColor(C.textSecondary).font(F.semiBold).fontSize(8);
+    doc.text("Date", TC.date, y + 10);
+    doc.text("Transaction", TC.type, y + 10);
+    doc.text("Method", TC.method, y + 10);
+    doc.text("Paid Amount", TC.amount, y + 10, { width: AMT_W, align: "right" });
+    doc.text("Remaining", TC.remaining, y + 10, { width: REM_W, align: "right" });
 
-    doc.fillColor(C.white).font(F.bold).fontSize(8);
-
-    doc.text("Date",        TC.date    + 8, y + 8);
-    doc.text("Transaction", TC.type    + 4, y + 8);
-    doc.text("Method",      TC.method  + 4, y + 8);
-    doc.text("Paid Amount", TC.amount,      y + 8, { width: AMT_W, align: "right" });
-    doc.text("Remaining",   TC.remaining,   y + 8, { width: REM_W, align: "right" });
-
-    return y + H;
+    return y + h + 4;
   };
 
-  // ─────────────────────────────────────────────────────────────────────────
-  // NEW PAGE  (with continued header + table header)
-  // ─────────────────────────────────────────────────────────────────────────
   const newPage = (): number => {
     doc.addPage();
     drawHeader();
 
-    let y = 92;
+    let y = 104;
+    doc.fillColor(C.text).font(F.bold).fontSize(13).text("Payment History", MARGIN, y);
+    doc.fillColor(C.textSecondary).font(F.italic).fontSize(8.5).text("(continued)", MARGIN + 118, y + 3);
 
-    // Compact continuation label
-    doc
-      .fillColor(C.text)
-      .font(F.bold)
-      .fontSize(11)
-      .text("Payment History  ", MARGIN, y);
-
-    doc
-      .fillColor(C.muted)
-      .font(F.italic)
-      .fontSize(8)
-      .text("(continued)", MARGIN + 130, y + 2);
-
-    y += 22;
-    drawDivider(y, C.border, 0.6);
-    y += 10;
+    y += 23;
+    drawDivider(y);
+    y += 12;
 
     return drawTableHead(y);
   };
 
-  // ─────────────────────────────────────────────────────────────────────────
-  // PAYMENT TABLE
-  // ─────────────────────────────────────────────────────────────────────────
   const drawPaymentTable = (startY: number): number => {
     let y = startY;
 
-    // Section label with coral left-bar accent
-    doc.fillColor(C.primary).rect(MARGIN, y, 3, 30).fill();
-    doc.fillColor(C.text).font(F.bold).fontSize(11).text("Payment History Ledger", MARGIN + 12, y);
-    doc.fillColor(C.muted).font(F.regular).fontSize(8).text("Chronological settlement record with running balance", MARGIN + 12, y + 15);
-    y += 44;
+    doc.fillColor(C.primary).roundedRect(MARGIN, y + 1, 4, 31, 2).fill();
+    doc.fillColor(C.text).font(F.bold).fontSize(13).text("Payment History Ledger", MARGIN + 14, y);
+    doc
+      .fillColor(C.textSecondary)
+      .font(F.regular)
+      .fontSize(8.5)
+      .text("Chronological settlement record with running balance", MARGIN + 14, y + 17);
+    y += 42;
 
     y = drawTableHead(y);
 
@@ -244,117 +277,88 @@ export const generateLoanPdf = (
         new Date(a.paymentDate).getTime() - new Date(b.paymentDate).getTime(),
     );
 
-    // ── Empty state ──
     if (sorted.length === 0) {
+      drawSoftCard(MARGIN, y + 4, INNER_W, 58);
       doc
-        .fillColor(C.bgSoft)
-        .rect(MARGIN, y, INNER_W, 52)
-        .fill();
-
-      doc
-        .fillColor(C.muted)
+        .fillColor(C.textSecondary)
         .font(F.italic)
         .fontSize(9)
-        .text(
-          "No payment records have been added for this loan yet.",
-          MARGIN,
-          y + 20,
-          { width: INNER_W, align: "center" },
-        );
+        .text("No payment records have been added for this loan yet.", MARGIN, y + 28, {
+          width: INNER_W,
+          align: "center",
+        });
 
-      return y + 72;
+      return y + 78;
     }
 
-    // ── Rows ──
     let cumulativePaid = 0;
-    const ROW_H = 26;
+    const rowH = 30;
 
     sorted.forEach((payment, index) => {
-      if (y + ROW_H > BOTTOM) {
+      if (y + rowH > BOTTOM) {
         drawFooter();
         y = newPage();
       }
 
-      // Alternating background
-      if (index % 2 === 0) {
-        doc.fillColor(C.white).rect(0, y, PAGE_W, ROW_H).fill();
-      } else {
-        doc.fillColor(C.background).rect(0, y, PAGE_W, ROW_H).fill();
-      }
+      const rowBg = index % 2 === 0 ? C.bgCard : C.bgSurface;
+      doc.fillColor(rowBg).rect(MARGIN, y, INNER_W, rowH).fill();
 
       cumulativePaid += Number(payment.amount || 0);
-      const remaining  = Math.max(principalAmt - cumulativePaid, 0);
-      const typeLabel  = payment.type === "RECEIVED" ? "Received Back" : "Paid Back";
+      const remaining = Math.max(principalAmt - cumulativePaid, 0);
+      const typeLabel = payment.type === "RECEIVED" ? "Received Back" : "Paid Back";
+      const amountColor = payment.type === "RECEIVED" ? C.success : C.danger;
 
-      // ── Date
       doc
         .fillColor(C.text)
         .font(F.regular)
         .fontSize(8.5)
-        .text(formatDate(payment.paymentDate), TC.date + 8, y + 9, { width: 95 });
+        .text(formatDate(payment.paymentDate), TC.date, y + 10, { width: 95 });
 
-      // ── Transaction type
       doc
         .fillColor(C.text)
-        .font(F.regular)
+        .font(F.medium)
         .fontSize(8.5)
-        .text(typeLabel, TC.type + 4, y + 9, { width: 114 });
+        .text(typeLabel, TC.type, y + 10, { width: 108 });
 
-      // ── Method
       doc
-        .fillColor(C.muted)
+        .fillColor(C.textSecondary)
         .font(F.regular)
         .fontSize(8.5)
-        .text(payment.method || "N/A", TC.method + 4, y + 9, {
-          width: 100,
+        .text(payment.method ? humanizeValue(payment.method) : "N/A", TC.method, y + 10, {
+          width: 98,
           ellipsis: true,
         });
 
-      // ── Paid amount (coral/success)
       doc
-        .fillColor(C.success)
+        .fillColor(amountColor)
         .font(F.bold)
         .fontSize(8.5)
-        .text(formatCurrency(payment.amount), TC.amount, y + 9, {
+        .text(formatCurrency(payment.amount), TC.amount, y + 10, {
           width: AMT_W,
           align: "right",
         });
 
-      // ── Remaining (green if zero, dark if positive)
-      const remColor = remaining === 0 ? C.success : C.text;
       doc
-        .fillColor(remColor)
+        .fillColor(remaining === 0 ? C.success : C.text)
         .font(F.bold)
         .fontSize(8.5)
-        .text(formatCurrency(remaining), TC.remaining, y + 9, {
+        .text(formatCurrency(remaining), TC.remaining, y + 10, {
           width: REM_W,
           align: "right",
         });
 
-      y += ROW_H;
-
-      // Row separator
-      doc
-        .strokeColor(C.border)
-        .lineWidth(0.35)
-        .moveTo(0, y)
-        .lineTo(PAGE_W, y)
-        .stroke();
+      y += rowH;
+      doc.strokeColor(C.border).lineWidth(0.45).moveTo(MARGIN, y).lineTo(RIGHT, y).stroke();
     });
 
     return y + 20;
   };
 
-  // ─────────────────────────────────────────────────────────────────────────
-  // COMPOSE THE DOCUMENT
-  // ─────────────────────────────────────────────────────────────────────────
   drawHeader();
 
-  let y = 92;   // below header (64) + accent stripe (4) + breathing room (24)
-
+  let y = 112;
   y = drawPaymentTable(y);
 
   drawFooter();
-
   doc.end();
 };
