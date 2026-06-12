@@ -69,9 +69,9 @@ const SummaryCard = ({
   value: number;
   helper: string;
   tone: "success" | "danger" | "primary";
-  icon: React.ElementType;
+  icon: React.ComponentType<any>;
 }) => {
-  const toneClasses = {
+  const toneClasses: Record<string, string> = {
     success: "bg-appSuccess/10 text-appSuccess",
     danger: "bg-appDanger/10 text-appDanger",
     primary: "bg-appPrimary/10 text-appPrimary",
@@ -106,9 +106,9 @@ const FlowChip = ({
     type="button"
     onClick={onClick}
     className={cn(
-      "h-9 rounded-md border px-3 text-sm font-medium transition-all",
+      "h-9 rounded-full border px-4 text-sm font-medium transition-all",
       active
-        ? "border-appPrimary bg-appPrimary text-white shadow-level1"
+        ? "border-white bg-white text-black shadow-level1"
         : "border-appBorder bg-appCard text-appMuted hover:bg-appSurface hover:text-appText",
     )}
   >

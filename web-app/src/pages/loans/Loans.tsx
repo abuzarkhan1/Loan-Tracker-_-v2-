@@ -83,9 +83,9 @@ export const Loans: React.FC = () => {
               <button
                 key={value}
                 onClick={() => setType(value)}
-                className={`rounded-md border px-3 py-1.5 text-xs font-medium uppercase tracking-[0.05em] transition-all ${
+                className={`rounded-full border px-3 py-1.5 text-xs font-medium uppercase tracking-[0.05em] transition-all ${
                   type === value
-                    ? "border-appPrimary bg-appPrimary text-white shadow-sm"
+                    ? "border-white bg-white text-black shadow-sm"
                     : "border-appBorder bg-appCard text-appMuted hover:bg-appBgSoft hover:text-appText"
                 }`}
               >
@@ -98,9 +98,9 @@ export const Loans: React.FC = () => {
               <button
                 key={value}
                 onClick={() => setStatus(value)}
-                className={`rounded-md border px-3 py-1.5 text-xs font-medium uppercase tracking-[0.05em] transition-all ${
+                className={`rounded-full border px-3 py-1.5 text-xs font-medium uppercase tracking-[0.05em] transition-all ${
                   status === value
-                    ? "border-appPrimary bg-appPrimary text-white shadow-sm"
+                    ? "border-white bg-white text-black shadow-sm"
                     : "border-appBorder bg-appCard text-appMuted hover:bg-appBgSoft hover:text-appText"
                 }`}
               >

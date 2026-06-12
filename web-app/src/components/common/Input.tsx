@@ -17,15 +17,15 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     const actualType = isPassword ? (showPassword ? "text" : "password") : type;
 
     return (
-      <div className="flex w-full flex-col gap-1">
+      <div className="flex w-full flex-col gap-1.5">
         {label && (
-          <label htmlFor={id} className="text-[13px] font-medium leading-4 text-appText">
+          <label htmlFor={id} className="text-[13px] font-medium leading-4 text-appText pl-2">
             {label}
           </label>
         )}
-        <div className="relative flex items-center rounded-md bg-appInput">
+        <div className="relative flex items-center rounded-full bg-appInput">
           {leftIcon && (
-            <div className="absolute left-3.5 flex items-center text-appMuted pointer-events-none">
+            <div className="absolute left-4 flex items-center text-appMuted pointer-events-none">
               {leftIcon}
             </div>
           )}
@@ -34,9 +34,9 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             id={id}
             type={actualType}
             className={cn(
-              "h-10 w-full rounded-md border border-appBorder bg-transparent px-3 text-[15px] font-normal text-appText transition-all placeholder:text-appMuted focus:border-appPrimary focus:outline-none focus:ring-[3px] focus:ring-appPrimary/10 disabled:cursor-not-allowed disabled:opacity-50",
-              leftIcon && "pl-10",
-              (rightIcon || isPassword) && "pr-10",
+              "h-10 w-full rounded-full border border-appBorder bg-transparent px-5 text-[15px] font-normal text-appText transition-all placeholder:text-appMuted focus:border-white/30 focus:outline-none focus:ring-1 focus:ring-white/25 disabled:cursor-not-allowed disabled:opacity-50",
+              leftIcon && "pl-11",
+              (rightIcon || isPassword) && "pr-11",
               error && "border-appDanger focus:border-appDanger focus:ring-appDanger",
               className
             )}
@@ -45,7 +45,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           />
 
           {rightIcon && !isPassword && (
-            <div className="absolute right-3.5 flex items-center text-appMuted pointer-events-none">
+            <div className="absolute right-4 flex items-center text-appMuted pointer-events-none">
               {rightIcon}
             </div>
           )}
@@ -53,7 +53,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           {isPassword && (
             <button
               type="button"
-              className="absolute right-3.5 flex items-center text-appMuted hover:text-appText transition-colors focus:outline-none"
+              className="absolute right-4 flex items-center text-appMuted hover:text-appText transition-colors focus:outline-none"
               onClick={() => setShowPassword(!showPassword)}
             >
               {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -61,8 +61,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           )}
         </div>
 
-        {error && <p className="text-xs font-medium text-appDanger">{error}</p>}
-        {!error && helperText && <p className="text-xs text-appMuted">{helperText}</p>}
+        {error && <p className="text-xs font-medium text-appDanger pl-2">{error}</p>}
+        {!error && helperText && <p className="text-xs text-appMuted pl-2">{helperText}</p>}
       </div>
     );
   }

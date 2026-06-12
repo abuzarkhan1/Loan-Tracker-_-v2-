@@ -35,7 +35,7 @@ export const Header: React.FC = () => {
   };
 
   return (
-    <header className="sticky top-0 z-20 hidden h-16 items-center justify-between border-b border-appBorder bg-appCard/95 px-8 shadow-level1 backdrop-blur-xl md:flex">
+    <header className="hidden h-14 w-full items-center justify-between rounded-full border border-appBorder bg-appCard/75 px-6 shadow-level2 backdrop-blur-md md:flex">
       {/* Welcome text */}
       <div className="flex flex-col">
         <h1 className="select-none text-sm font-semibold tracking-tight text-appText">
@@ -100,7 +100,7 @@ export const Header: React.FC = () => {
             className="flex items-center gap-2 rounded-md border border-appBorder bg-appSurface p-1 transition-all hover:bg-appBorder/60 focus:outline-none focus:ring-2 focus:ring-appPrimary/20 sm:px-2.5 sm:py-1.5"
             aria-label="Open profile menu"
           >
-            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-appPrimary text-xs font-semibold text-white">
+            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-appPrimary text-xs font-semibold text-black">
               {user?.name ? user.name.charAt(0).toUpperCase() : <User className="h-4 w-4" />}
             </div>
             <span className="hidden max-w-[80px] truncate text-xs font-medium tracking-wide text-appText sm:inline">

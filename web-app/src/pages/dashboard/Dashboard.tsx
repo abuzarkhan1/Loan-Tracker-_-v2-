@@ -56,19 +56,19 @@ const tooltipStyle = {
 type MetricCardProps = {
   label: string;
   value: number;
-  icon: React.ElementType;
+  icon: React.ComponentType<any>;
   tone: "primary" | "success" | "danger" | "warning";
   isCount?: boolean;
 };
 
-const toneClass = {
+const toneClass: Record<string, string> = {
   primary: "text-appPrimary",
   success: "text-appSuccess",
   danger: "text-appDanger",
   warning: "text-appWarning",
 };
 
-const toneBg = {
+const toneBg: Record<string, string> = {
   primary: "bg-appPrimary/10",
   success: "bg-appSuccess/10",
   danger: "bg-appDanger/10",
@@ -101,7 +101,7 @@ const QuickAction = ({
 }: {
   label: string;
   description: string;
-  icon: React.ElementType;
+  icon: React.ComponentType<any>;
   onClick: () => void;
 }) => (
   <button

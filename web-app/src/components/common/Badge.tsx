@@ -15,7 +15,7 @@ export const Badge: React.FC<BadgeProps> = ({
   outlined = false,
   ...props
 }) => {
-  const baseStyles = "inline-flex items-center justify-center rounded-md border font-medium transition-colors duration-150";
+  const baseStyles = "inline-flex items-center justify-center rounded-full border font-medium transition-colors duration-150";
 
   const variants = {
     primary: outlined 

@@ -27,11 +27,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed, setCollapsed }) => 
   return (
     <aside
       className={cn(
-        "hidden md:flex flex-col bg-appSurface/95 backdrop-blur-xl border-r border-appBorder h-screen sticky top-0 transition-all duration-300 ease-out z-30 shrink-0",
+        "hidden md:flex flex-col bg-appSurface/65 backdrop-blur-md border border-appBorder h-[calc(100vh-2rem)] my-4 ml-4 rounded-3xl transition-all duration-300 ease-out z-30 shrink-0 relative shadow-level3",
         collapsed ? "w-20" : "w-72",
       )}
     >
-      <div className="flex h-16 items-center justify-between border-b border-appBorder bg-appCard px-5">
+      <div className="flex h-16 items-center justify-between border-b border-appBorder bg-appCard/50 px-5 rounded-t-3xl">
         {!collapsed ? (
           <Link to="/" className="min-w-0">
             <BrandLogo markSize="md" />
@@ -43,7 +43,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed, setCollapsed }) => 
         )}
         <button
           onClick={() => setCollapsed(!collapsed)}
-          className="hidden rounded-md border border-appBorder bg-appCard p-1.5 text-appMuted transition-all duration-200 hover:bg-appSurface hover:text-appText focus:outline-none focus:ring-2 focus:ring-appPrimary/20 md:block"
+          className="hidden rounded-full border border-appBorder bg-appCard p-1.5 text-appMuted transition-all duration-200 hover:bg-appSurface hover:text-appText focus:outline-none focus:ring-2 focus:ring-appPrimary/20 md:block"
         >
           {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
         </button>

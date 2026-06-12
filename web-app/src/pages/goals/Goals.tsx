@@ -106,9 +106,9 @@ export const Goals: React.FC = () => {
             key={option.value}
             onClick={() => setStatus(option.value)}
             className={cn(
-              "rounded-md border px-3 py-1.5 text-xs font-medium uppercase tracking-[0.05em] transition-all",
+              "rounded-full border px-3 py-1.5 text-xs font-medium uppercase tracking-[0.05em] transition-all",
               status === option.value
-                ? "border-appPrimary bg-appPrimary text-white shadow-sm"
+                ? "border-white bg-white text-black shadow-sm"
                 : "border-appBorder bg-appCard text-appMuted hover:bg-appBgSoft hover:text-appText",
             )}
           >

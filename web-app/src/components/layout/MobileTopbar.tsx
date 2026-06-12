@@ -22,7 +22,7 @@ export const MobileTopbar: React.FC = () => {
 
   return (
     <>
-      <div className="sticky top-0 z-20 flex h-16 w-full select-none items-center justify-between border-b border-appBorder bg-appCard/95 px-4 shadow-level1 backdrop-blur-xl md:hidden">
+      <div className="flex h-14 w-full select-none items-center justify-between rounded-full border border-appBorder bg-appCard/75 px-4 shadow-level2 backdrop-blur-md md:hidden">
         <Link to="/" className="min-w-0">
           <BrandLogo compact markSize="sm" />
         </Link>

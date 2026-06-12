@@ -10,6 +10,7 @@ import Input from "../../components/common/Input";
 import Button from "../../components/common/Button";
 import Card from "../../components/common/Card";
 import BrandLogo from "../../components/common/BrandLogo";
+import { CanvasRevealEffect } from "../../components/ui/CanvasRevealEffect";
 
 const registerSchema = zod.object({
   name: zod.string().min(1, "Name is required").max(50, "Name must be under 50 characters"),
@@ -57,33 +58,64 @@ export const Register: React.FC = () => {
   };
 
   return (
-    <div className="app-shell-bg flex min-h-screen w-screen items-center justify-center bg-appBg px-4 py-10 select-none">
-      <div className="grid w-full max-w-5xl grid-cols-1 overflow-hidden rounded-xl border border-appBorder bg-appCard shadow-elevated lg:grid-cols-[0.95fr_1.05fr]">
-        <div className="navy-panel hidden p-8 lg:flex lg:flex-col lg:justify-between">
-          <div>
-            <BrandLogo markSize="lg" />
+    <div className="flex min-h-screen w-screen items-center justify-center bg-black px-4 py-10 select-none relative overflow-hidden">
+      {/* Dynamic Canvas Dots Background */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0">
+          <CanvasRevealEffect
+            animationSpeed={3}
+            containerClassName="bg-black"
+            colors={[
+              [255, 255, 255],
+              [255, 255, 255],
+            ]}
+            dotSize={6}
+            reverse={false}
+          />
+        </div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(0,0,0,0.4)_0%,_rgba(0,0,0,1)_100%)]" />
+        <div className="absolute top-0 left-0 right-0 h-1/3 bg-gradient-to-b from-black to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-black to-transparent" />
+      </div>
 
-            <div className="mt-12">
-              <p className="text-xs font-semibold uppercase tracking-[0.05em] text-[#a3acb9] dark:text-[#8b949e]">Start simple</p>
-              <h1 className="mt-3 max-w-md text-3xl font-bold leading-tight tracking-tight text-white">
-                Build a clean money ledger in minutes.
-              </h1>
-              <p className="mt-5 max-w-md text-[15px] font-normal leading-7 text-[#c7d2e1] dark:text-[#8b9cb5]">
-                Add contacts, track given or taken loans, record partial payments, and manage everyday income and expenses.
-              </p>
-            </div>
+      <div className="relative z-10 grid w-full max-w-5xl grid-cols-1 overflow-hidden rounded-3xl border border-white/10 bg-black/40 backdrop-blur-xl shadow-elevated lg:grid-cols-[0.95fr_1.05fr]">
+        <div className="navy-panel hidden p-8 lg:flex lg:flex-col lg:justify-between rounded-l-3xl border-0 relative overflow-hidden">
+          {/* Subtle panel grid/reveal overlay */}
+          <div className="absolute inset-0 z-0 opacity-20 pointer-events-none">
+            <CanvasRevealEffect
+              animationSpeed={1.5}
+              containerClassName="bg-transparent"
+              colors={[[255, 255, 255]]}
+              dotSize={4}
+              showGradient={false}
+            />
           </div>
+          <div className="relative z-10 flex flex-col justify-between h-full">
+            <div>
+              <BrandLogo markSize="lg" />
 
-          <div className="grid grid-cols-2 gap-3">
-            <div className="rounded-lg border border-white/10 bg-white/[0.08] p-4 dark:border-[#2a3441] dark:bg-white/[0.06]">
-              <WalletCards className="h-5 w-5 text-appPrimary" />
-              <p className="mt-3 text-xs font-semibold text-white">Loan clarity</p>
-              <p className="mt-1 text-xs font-normal leading-5 text-[#c7d2e1] dark:text-[#8b9cb5]">Remaining balances update automatically.</p>
+              <div className="mt-12">
+                <p className="text-xs font-semibold uppercase tracking-[0.05em] text-[#a3acb9]">Start simple</p>
+                <h1 className="mt-3 max-w-md text-3xl font-bold leading-tight tracking-tight text-white">
+                  Build a clean money ledger in minutes.
+                </h1>
+                <p className="mt-5 max-w-md text-[15px] font-normal leading-7 text-[#c7d2e1]">
+                  Add contacts, track given or taken loans, record partial payments, and manage everyday income and expenses.
+                </p>
+              </div>
             </div>
-            <div className="rounded-lg border border-white/10 bg-white/[0.08] p-4 dark:border-[#2a3441] dark:bg-white/[0.06]">
-              <Target className="h-5 w-5 text-appSuccess" />
-              <p className="mt-3 text-xs font-semibold text-white">Saving goals</p>
-              <p className="mt-1 text-xs font-normal leading-5 text-[#c7d2e1] dark:text-[#8b9cb5]">Track progress toward personal targets.</p>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div className="rounded-lg border border-white/10 bg-white/[0.08] p-4">
+                <WalletCards className="h-5 w-5 text-white" />
+                <p className="mt-3 text-xs font-semibold text-white">Loan clarity</p>
+                <p className="mt-1 text-xs font-normal leading-5 text-[#c7d2e1]">Remaining balances update automatically.</p>
+              </div>
+              <div className="rounded-lg border border-white/10 bg-white/[0.08] p-4">
+                <Target className="h-5 w-5 text-white" />
+                <p className="mt-3 text-xs font-semibold text-white">Saving goals</p>
+                <p className="mt-1 text-xs font-normal leading-5 text-[#c7d2e1]">Track progress toward personal targets.</p>
+              </div>
             </div>
           </div>
         </div>

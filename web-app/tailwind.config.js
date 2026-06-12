@@ -26,7 +26,7 @@ module.exports = {
         appPill: "var(--pill)",
       },
       fontFamily: {
-        sans: ["Inter", "sans-serif"],
+        sans: ["Outfit", "Inter", "sans-serif"],
         code: ["Fira Code", "monospace"],
       },
       boxShadow: {

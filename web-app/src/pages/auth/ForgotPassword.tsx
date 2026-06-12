@@ -9,6 +9,7 @@ import Input from "../../components/common/Input";
 import Button from "../../components/common/Button";
 import Card from "../../components/common/Card";
 import BrandLogo from "../../components/common/BrandLogo";
+import { CanvasRevealEffect } from "../../components/ui/CanvasRevealEffect";
 
 const forgotSchema = zod.object({
   email: zod.string().min(1, "Email is required").email("Invalid email address"),
@@ -38,8 +39,27 @@ export const ForgotPassword: React.FC = () => {
   };
 
   return (
-    <div className="flex min-h-screen w-screen items-center justify-center bg-appBg px-4 py-12 select-none">
-      <div className="w-full max-w-md space-y-6">
+    <div className="flex min-h-screen w-screen items-center justify-center bg-black px-4 py-12 select-none relative overflow-hidden">
+      {/* Dynamic Canvas Dots Background */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0">
+          <CanvasRevealEffect
+            animationSpeed={3}
+            containerClassName="bg-black"
+            colors={[
+              [255, 255, 255],
+              [255, 255, 255],
+            ]}
+            dotSize={6}
+            reverse={false}
+          />
+        </div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(0,0,0,0.4)_0%,_rgba(0,0,0,1)_100%)]" />
+        <div className="absolute top-0 left-0 right-0 h-1/3 bg-gradient-to-b from-black to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-black to-transparent" />
+      </div>
+
+      <div className="relative z-10 w-full max-w-md space-y-6">
         {/* Branding header */}
         <div className="flex flex-col items-center text-center gap-2">
           <BrandLogo showText={false} markSize="md" />
