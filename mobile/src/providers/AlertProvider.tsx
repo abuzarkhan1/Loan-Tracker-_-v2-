@@ -148,7 +148,7 @@ export const AlertProvider = ({ children }: PropsWithChildren) => {
                   const isDestructive = btn.style === "destructive";
                   
                   let btnBg = theme.primary;
-                  let textColor = theme.white;
+                  let textColor = "#000000";
                   let borderStyle = {};
                   
                   if (isCancel) {
@@ -209,14 +209,14 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: "rgba(10, 37, 64, 0.45)",
+    backgroundColor: "rgba(0, 0, 0, 0.7)",
   },
   card: {
     width: "82%",
     padding: 24,
     borderRadius: 12,
     borderWidth: 1,
-    shadowColor: "#0A2540",
+    shadowColor: "#000000",
     shadowOpacity: 0.12,
     shadowRadius: 24,
     shadowOffset: { width: 0, height: 12 },

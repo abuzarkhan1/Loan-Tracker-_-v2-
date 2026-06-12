@@ -10,16 +10,22 @@ export const PageHero = ({
   title: string;
   description: string;
 }) => (
-  <Section className="pb-6 pt-10 lg:pb-8 lg:pt-12">
+  <Section className="pb-10 pt-16 sm:pb-14 sm:pt-20 overflow-hidden">
     <motion.div
-      initial={{ opacity: 0, y: 18 }}
+      initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
-      className="mx-auto max-w-3xl text-center"
+      transition={{ duration: 0.6, ease: "easeOut" }}
+      className="mx-auto max-w-4xl text-center space-y-5"
     >
-      <p className="text-xs font-semibold uppercase tracking-[0.05em] text-primary">{eyebrow}</p>
-      <h1 className="mt-3 text-3xl font-bold leading-tight text-dark sm:text-[40px] sm:leading-[48px]">{title}</h1>
-      <p className="mx-auto mt-4 max-w-2xl text-[15px] font-normal leading-6 text-muted">{description}</p>
+      <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-white/85 backdrop-blur-sm">
+        {eyebrow}
+      </div>
+      <h1 className="text-4xl sm:text-6xl font-bold leading-[1.1] tracking-tight text-white max-w-3xl mx-auto">
+        {title}
+      </h1>
+      <p className="mx-auto mt-4 max-w-2xl text-base sm:text-lg font-light leading-relaxed text-white/60">
+        {description}
+      </p>
     </motion.div>
   </Section>
 );

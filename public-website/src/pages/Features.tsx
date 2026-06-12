@@ -32,13 +32,13 @@ export const Features = () => (
       title="A complete personal loan ledger in your pocket."
       description="Loan Tracker keeps the product simple while covering the details that matter: contacts, loan direction, repayments, balances, dates, statuses, expenses, and income."
     />
-    <FeatureHighlightsSection />
+    <FeatureHighlightsSection hideHeader />
     <Section className="pt-2">
-      <div className="grid gap-5 lg:grid-cols-3">
+      <div className="grid gap-6 lg:grid-cols-3">
         {featureStories.map((story) => (
-          <Card key={story.title} className="p-5">
-            <h3 className="text-base font-semibold text-dark">{story.title}</h3>
-            <p className="mt-2 text-sm font-normal leading-6 text-muted">{story.copy}</p>
+          <Card key={story.title} className="p-6 space-y-3">
+            <h3 className="text-base font-semibold text-white">{story.title}</h3>
+            <p className="text-[13px] font-light leading-relaxed text-white/50">{story.copy}</p>
           </Card>
         ))}
       </div>

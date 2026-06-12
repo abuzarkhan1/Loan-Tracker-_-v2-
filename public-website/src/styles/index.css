@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Outfit:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,49 +6,49 @@
 
 @layer base {
   :root {
-    --color-background: 255 255 255;
-    --color-background-soft: 246 249 252;
-    --color-card: 255 255 255;
-    --color-input: 255 255 255;
-    --color-text: 10 37 64;
-    --color-muted: 105 115 134;
-    --color-primary: 99 91 255;
-    --color-primary-dark: 122 115 255;
-    --color-success: 48 177 48;
-    --color-warning: 255 187 0;
-    --color-danger: 223 27 65;
-    --color-border: 227 232 238;
-    --color-peach: 246 249 252;
-    --color-mint: 232 250 232;
-    --color-yellow: 255 248 222;
-    --gradient-start: 246 249 252;
-    --gradient-mid: 255 255 255;
-    --gradient-end: 255 255 255;
-    --shadow-color: rgba(10, 37, 64, 0.08);
-    --shadow-color-strong: rgba(10, 37, 64, 0.14);
+    --color-background: 0 0 0;
+    --color-background-soft: 9 9 9;
+    --color-card: 15 15 15;
+    --color-input: 20 20 20;
+    --color-text: 255 255 255;
+    --color-muted: 156 163 175;
+    --color-primary: 255 255 255;
+    --color-primary-dark: 200 200 200;
+    --color-success: 34 197 94;
+    --color-warning: 234 179 8;
+    --color-danger: 239 68 68;
+    --color-border: 38 38 38;
+    --color-peach: 24 24 27;
+    --color-mint: 9 24 16;
+    --color-yellow: 24 20 10;
+    --gradient-start: 0 0 0;
+    --gradient-mid: 10 10 10;
+    --gradient-end: 0 0 0;
+    --shadow-color: rgba(0, 0, 0, 0.6);
+    --shadow-color-strong: rgba(0, 0, 0, 0.9);
   }
 
   .dark {
-    --color-background: 11 15 25;
-    --color-background-soft: 17 24 39;
-    --color-card: 21 27 43;
-    --color-input: 15 22 35;
-    --color-text: 240 246 252;
-    --color-muted: 139 156 181;
-    --color-primary: 124 115 255;
-    --color-primary-dark: 150 143 255;
-    --color-success: 63 185 80;
-    --color-warning: 210 153 34;
-    --color-danger: 248 81 73;
-    --color-border: 42 52 65;
-    --color-peach: 46 27 34;
-    --color-mint: 19 41 31;
-    --color-yellow: 41 37 24;
-    --gradient-start: 17 24 39;
-    --gradient-mid: 11 15 25;
-    --gradient-end: 11 15 25;
-    --shadow-color: rgba(0, 0, 0, 0.3);
-    --shadow-color-strong: rgba(0, 0, 0, 0.5);
+    --color-background: 0 0 0;
+    --color-background-soft: 9 9 9;
+    --color-card: 15 15 15;
+    --color-input: 20 20 20;
+    --color-text: 255 255 255;
+    --color-muted: 156 163 175;
+    --color-primary: 255 255 255;
+    --color-primary-dark: 200 200 200;
+    --color-success: 34 197 94;
+    --color-warning: 234 179 8;
+    --color-danger: 239 68 68;
+    --color-border: 38 38 38;
+    --color-peach: 24 24 27;
+    --color-mint: 9 24 16;
+    --color-yellow: 24 20 10;
+    --gradient-start: 0 0 0;
+    --gradient-mid: 10 10 10;
+    --gradient-end: 0 0 0;
+    --shadow-color: rgba(0, 0, 0, 0.6);
+    --shadow-color-strong: rgba(0, 0, 0, 0.9);
   }
 
   * {
@@ -63,13 +63,14 @@
     min-width: 320px;
     min-height: 100vh;
     margin: 0;
-    background: linear-gradient(180deg, rgb(var(--gradient-start)) 0%, rgb(var(--gradient-mid)) 36%, rgb(var(--gradient-end)) 100%);
+    background: #000000;
     color: rgb(var(--color-text));
-    font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+    font-family: "Outfit", "Inter", ui-sans-serif, system-ui, sans-serif;
     font-weight: 400;
-    letter-spacing: 0;
+    letter-spacing: -0.01em;
     text-rendering: geometricPrecision;
     font-feature-settings: "tnum" 1, "ss01" 1;
+    -webkit-font-smoothing: antialiased;
   }
 
   html,
@@ -77,6 +78,7 @@
   #root {
     max-width: 100%;
     overflow-x: hidden;
+    background-color: #000000;
   }
 
   a {
@@ -91,51 +93,61 @@
   }
 
   ::selection {
-    background: rgb(var(--color-primary) / 0.18);
-    color: rgb(var(--color-text));
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
   }
 }
 
 @layer components {
   .site-shell {
-    background:
-      radial-gradient(circle at 18% -8%, rgb(var(--color-primary) / 0.10) 0, transparent 30%),
-      linear-gradient(180deg, rgb(var(--gradient-start)) 0%, rgb(var(--gradient-mid)) 36%, rgb(var(--gradient-end)) 100%);
+    background: #000000;
+    min-height: 100vh;
+    position: relative;
     overflow-x: hidden;
   }
 
-  .dark .site-shell {
-    background: linear-gradient(180deg, #111827 0%, #0b0f19 100%);
-  }
-
+  /* Interactive items & grids */
   .premium-card {
-    border: 1px solid rgb(var(--color-border));
-    background: rgb(var(--color-card) / 0.96);
-    box-shadow: 0 2px 4px var(--shadow-color), 0 1px 2px var(--shadow-color);
-    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(20, 20, 20, 0.6);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    border-radius: 24px;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .dark .premium-card {
-    box-shadow: 0 2px 4px rgba(0,0,0,0.3), 0 1px 2px rgba(99,91,255,0.05);
+  .premium-card:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 40px rgba(255, 255, 255, 0.03);
+    transform: translateY(-2px);
   }
 
-  .dark .shadow-soft {
-    box-shadow: 0 2px 4px rgba(0,0,0,0.3), 0 1px 2px rgba(99,91,255,0.05);
+  .glow-btn {
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .dark .shadow-elevated {
-    box-shadow: 0 12px 32px rgba(0,0,0,0.5), 0 4px 12px rgba(99,91,255,0.1);
+  .glow-btn::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    background: linear-gradient(135deg, #ffffff, #888888);
+    border-radius: 9999px;
+    z-index: -1;
+    opacity: 0;
+    filter: blur(8px);
+    transition: opacity 0.3s ease;
   }
 
-  .soft-ring {
-    box-shadow: inset 0 0 0 1px rgb(var(--color-border));
+  .glow-btn:hover::after {
+    opacity: 0.4;
   }
 
-  .phone-shadow {
-    box-shadow: 0 12px 28px rgba(10, 37, 64, 0.14), 0 4px 8px rgba(10, 37, 64, 0.08);
-  }
-
-  .dark .phone-shadow {
-    box-shadow: 0 12px 32px rgba(0,0,0,0.5), 0 4px 12px rgba(99,91,255,0.1);
+  /* Grid overlay patterns */
+  .grid-pattern {
+    background-size: 40px 40px;
+    background-image: 
+      linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
   }
 }

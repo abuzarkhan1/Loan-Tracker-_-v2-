@@ -40,17 +40,17 @@ export const DownloadSection = ({ full = false }: { full?: boolean }) => (
 
         <div className="mt-7 grid gap-3 sm:grid-cols-2">
           {details.map(([label, value]) => (
-            <div key={label} className="rounded-lg border border-border bg-background-soft p-4">
-              <p className="text-xs font-semibold uppercase tracking-[0.05em] text-muted">{label}</p>
-              <p className="mt-1 text-sm font-semibold text-dark">{value}</p>
+            <div key={label} className="rounded-2xl border border-white/5 bg-white/5 p-4">
+              <p className="text-xs font-medium uppercase tracking-[0.05em] text-white/50">{label}</p>
+              <p className="mt-1 text-sm font-semibold text-white">{value}</p>
             </div>
           ))}
         </div>
 
         {full ? (
-          <div className="mt-7 rounded-lg border border-border bg-card p-5">
-            <h4 className="text-base font-semibold text-dark">Installation guide</h4>
-            <ol className="mt-4 grid gap-3 text-sm font-normal leading-6 text-muted">
+          <div className="mt-7 rounded-2xl border border-white/5 bg-white/5 p-5">
+            <h4 className="text-base font-semibold text-white">Installation guide</h4>
+            <ol className="mt-4 grid gap-3 text-sm font-light leading-6 text-white/60">
               <li>1. Download the APK from the button above.</li>
               <li>2. Open the downloaded file on your Android phone.</li>
               <li>3. Allow installation from your browser if Android asks for permission.</li>

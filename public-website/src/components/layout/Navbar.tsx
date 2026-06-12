@@ -1,75 +1,152 @@
 import { Menu, X } from "lucide-react";
-import { useEffect, useState } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { useEffect, useState, useRef } from "react";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { navLinks } from "../../content/site.content";
 import { cn } from "../../utils/cn";
 import { BrandMark } from "../common/BrandMark";
-import { DownloadApkButton } from "../common/DownloadApkButton";
-import { ThemeToggle } from "../common/ThemeToggle";
 
-const linkClass = ({ isActive }: { isActive: boolean }) =>
-  cn(
-    "rounded-md px-3 py-2 text-sm font-medium transition duration-150",
-    isActive ? "bg-primary/10 text-primary" : "text-muted hover:bg-background-soft hover:text-dark",
+const AnimatedNavLink = ({ to, children }: { to: string; children: React.ReactNode }) => {
+  return (
+    <NavLink to={to} className="group text-sm font-medium">
+      {({ isActive }) => (
+        <div className="overflow-hidden h-[1.25rem]">
+          <div className="flex flex-col transition-transform duration-300 ease-out group-hover:-translate-y-1/2">
+            <span
+              className={cn(
+                "h-[1.25rem] flex items-center leading-none whitespace-nowrap",
+                isActive ? "text-white" : "text-white/60"
+              )}
+            >
+              {children}
+            </span>
+            <span className="h-[1.25rem] flex items-center leading-none whitespace-nowrap text-white">
+              {children}
+            </span>
+          </div>
+        </div>
+      )}
+    </NavLink>
   );
+};
 
 export const Navbar = () => {
-  const [open, setOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [headerShapeClass, setHeaderShapeClass] = useState("rounded-full");
   const location = useLocation();
+  const shapeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
 
   useEffect(() => {
-    setOpen(false);
+    setIsOpen(false);
   }, [location.pathname]);
 
+  useEffect(() => {
+    if (shapeTimeoutRef.current) {
+      clearTimeout(shapeTimeoutRef.current);
+    }
+
+    if (isOpen) {
+      setHeaderShapeClass("rounded-xl");
+    } else {
+      shapeTimeoutRef.current = setTimeout(() => {
+        setHeaderShapeClass("rounded-full");
+      }, 300);
+    }
+
+    return () => {
+      if (shapeTimeoutRef.current) {
+        clearTimeout(shapeTimeoutRef.current);
+      }
+    };
+  }, [isOpen]);
+
+  const loginButtonElement = (
+    <Link
+      to="/sign-in"
+      className="px-4 py-2 text-xs border border-[#333] bg-[rgba(31,31,31,0.62)] text-gray-300 rounded-full hover:border-white/50 hover:text-white transition-colors duration-200 w-full sm:w-auto text-center"
+    >
+      LogIn
+    </Link>
+  );
+
+  const downloadButtonElement = (
+    <div className="relative group w-full sm:w-auto">
+      <div
+        className="absolute inset-0 -m-2 rounded-full
+                     hidden sm:block
+                     bg-gray-100
+                     opacity-40 filter blur-lg pointer-events-none
+                     transition-all duration-300 ease-out
+                     group-hover:opacity-60 group-hover:blur-xl group-hover:-m-3"
+      />
+      <Link
+        to="/download"
+        className="relative z-10 block text-center px-4 py-2 text-xs font-semibold text-black bg-gradient-to-br from-gray-100 to-gray-300 rounded-full hover:from-gray-200 hover:to-gray-400 transition-all duration-200 w-full sm:w-auto whitespace-nowrap"
+      >
+        Download App
+      </Link>
+    </div>
+  );
+
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-card/95 px-4 shadow-level1 backdrop-blur-xl sm:px-6">
-      <div className="mx-auto max-w-6xl">
-        <nav className="flex h-16 items-center justify-between gap-3">
+    <header
+      className={cn(
+        "fixed top-6 left-1/2 transform -translate-x-1/2 z-50",
+        "flex flex-col items-center",
+        "pl-6 pr-6 py-3 backdrop-blur-sm",
+        headerShapeClass,
+        "border border-[#333] bg-[#1f1f1f57]",
+        "w-[calc(100%-2rem)] md:w-auto",
+        "transition-[border-radius] duration-0 ease-in-out"
+      )}
+    >
+      <div className="flex items-center justify-between w-full gap-x-6 md:gap-x-8">
+        <div className="flex items-center">
           <BrandMark />
+        </div>
 
-          <div className="hidden items-center gap-1 lg:flex">
-            {navLinks.slice(0, 5).map((link) => (
-              <NavLink key={link.href} to={link.href} className={linkClass}>
-                {link.label}
-              </NavLink>
-            ))}
-          </div>
-
-          <div className="hidden items-center gap-3 lg:flex">
-            <ThemeToggle />
-            <DownloadApkButton size="md">
-              Download APK
-            </DownloadApkButton>
-          </div>
-
-          <div className="flex shrink-0 items-center gap-2 lg:hidden max-[380px]:gap-1.5">
-            <ThemeToggle compact />
-            <button
-              type="button"
-              aria-label={open ? "Close navigation menu" : "Open navigation menu"}
-              aria-expanded={open}
-              onClick={() => setOpen((current) => !current)}
-              className="grid size-9 place-items-center rounded-md border border-border bg-card text-dark shadow-level1 transition hover:bg-background-soft focus:outline-none focus:ring-2 focus:ring-primary/25"
-            >
-              {open ? <X size={21} /> : <Menu size={21} />}
-            </button>
-          </div>
+        <nav className="hidden md:flex items-center space-x-4 md:space-x-6 text-sm">
+          {navLinks.map((link) => (
+            <AnimatedNavLink key={link.href} to={link.href}>
+              {link.label}
+            </AnimatedNavLink>
+          ))}
         </nav>
 
-        {open ? (
-          <div className="premium-card mt-3 rounded-xl p-3 lg:hidden">
-            <div className="grid gap-1">
-              {navLinks.map((link) => (
-                <NavLink key={link.href} to={link.href} className={linkClass}>
-                  {link.label}
-                </NavLink>
-              ))}
-            </div>
-            <DownloadApkButton className="mt-3 w-full">
-              Download Android APK
-            </DownloadApkButton>
-          </div>
-        ) : null}
+        <div className="hidden md:flex items-center gap-2 md:gap-3">
+          {loginButtonElement}
+          {downloadButtonElement}
+        </div>
+
+        <button
+          className="md:hidden flex items-center justify-center w-8 h-8 text-gray-300 focus:outline-none"
+          onClick={toggleMenu}
+          aria-label={isOpen ? "Close Menu" : "Open Menu"}
+        >
+          {isOpen ? <X size={20} /> : <Menu size={20} />}
+        </button>
+      </div>
+
+      <div
+        className={cn(
+          "md:hidden flex flex-col items-center w-full transition-all ease-in-out duration-300 overflow-hidden",
+          isOpen ? "max-h-[1000px] opacity-100 pt-4" : "max-h-0 opacity-0 pt-0 pointer-events-none"
+        )}
+      >
+        <nav className="flex flex-col items-center space-y-4 text-base w-full pb-4 border-b border-white/5">
+          {navLinks.map((link) => (
+            <AnimatedNavLink key={link.href} to={link.href}>
+              {link.label}
+            </AnimatedNavLink>
+          ))}
+        </nav>
+        <div className="flex flex-col items-center space-y-3 mt-4 w-full">
+          {loginButtonElement}
+          {downloadButtonElement}
+        </div>
       </div>
     </header>
   );

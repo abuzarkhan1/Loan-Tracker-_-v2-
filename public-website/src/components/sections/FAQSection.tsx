@@ -11,11 +11,11 @@ export const FAQSection = () => (
       description="A quick overview of what the app does and how the Android APK download works."
     />
 
-    <div className="mx-auto mt-8 grid max-w-4xl gap-3">
+    <div className="mx-auto mt-8 grid max-w-4xl gap-4">
       {faqItems.map((item) => (
-        <Card key={item.question} className="p-5">
-          <h3 className="text-base font-semibold text-dark">{item.question}</h3>
-          <p className="mt-2 text-sm font-normal leading-6 text-muted">{item.answer}</p>
+        <Card key={item.question} className="p-6">
+          <h3 className="text-base font-semibold text-white">{item.question}</h3>
+          <p className="mt-2 text-[13px] font-light leading-relaxed text-white/50">{item.answer}</p>
         </Card>
       ))}
     </div>

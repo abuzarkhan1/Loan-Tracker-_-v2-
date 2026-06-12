@@ -7,7 +7,7 @@ export const SiteLayout = () => (
   <div className="site-shell min-h-screen">
     <ScrollToTop />
     <Navbar />
-    <main>
+    <main className="pt-24 md:pt-28">
       <Outlet />
     </main>
     <Footer />

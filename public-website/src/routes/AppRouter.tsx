@@ -8,6 +8,7 @@ import { HowItWorks } from "../pages/HowItWorks";
 import { PrivacyPolicy } from "../pages/PrivacyPolicy";
 import { Screenshots } from "../pages/Screenshots";
 import { Terms } from "../pages/Terms";
+import { SignInPage } from "../components/ui/sign-in-flow-1";
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
       { path: "terms", element: <Terms /> },
       { path: "contact", element: <Contact /> },
     ],
+  },
+  {
+    path: "/sign-in",
+    element: <SignInPage />,
   },
 ]);
 

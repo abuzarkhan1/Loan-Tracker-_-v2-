@@ -5,27 +5,37 @@ import { IconBadge, type Tone } from "../common/IconBadge";
 import { Section } from "../common/Section";
 import { SectionHeader } from "../common/SectionHeader";
 
-export const FeatureHighlightsSection = ({ compact = false }: { compact?: boolean }) => (
-  <Section id="features">
-    <SectionHeader
-      eyebrow="Features"
-      title="Everything needed for clean personal loan tracking."
-      description="From given and taken loans to expenses, income, and statuses, each workflow is built around clarity."
-    />
+export const FeatureHighlightsSection = ({ 
+  compact = false,
+  hideHeader = false,
+}: { 
+  compact?: boolean;
+  hideHeader?: boolean;
+}) => (
+  <Section id="features" className="py-12 sm:py-16">
+    {!hideHeader && (
+      <SectionHeader
+        eyebrow="Features"
+        title="Everything needed for clean personal loan tracking."
+        description="From given and taken loans to expenses, income, and statuses, each workflow is built around clarity."
+      />
+    )}
 
-    <div className="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <div className={hideHeader ? "grid gap-6 sm:grid-cols-2 lg:grid-cols-3" : "mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"}>
       {featureHighlights.slice(0, compact ? 6 : featureHighlights.length).map((feature, index) => (
         <motion.div
           key={feature.title}
           initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.38, ease: "easeOut", delay: index * 0.025 }}
+          transition={{ duration: 0.4, ease: "easeOut", delay: index * 0.025 }}
         >
-          <Card className="h-full p-5" interactive>
+          <Card className="h-full p-6 space-y-4" interactive>
             <IconBadge icon={feature.icon} tone={feature.tone as Tone} />
-            <h3 className="mt-4 text-base font-semibold text-dark">{feature.title}</h3>
-            <p className="mt-2 text-sm font-normal leading-6 text-muted">{feature.description}</p>
+            <div>
+              <h3 className="text-base font-semibold text-white">{feature.title}</h3>
+              <p className="mt-2 text-[13px] font-light leading-relaxed text-white/50">{feature.description}</p>
+            </div>
           </Card>
         </motion.div>
       ))}

@@ -21,21 +21,23 @@ type ButtonLinkProps = {
 
 const variantClasses: Record<ButtonVariant, string> = {
   primary:
-    "border-primary bg-primary text-white shadow-level1 shadow-primary/10 hover:border-primary-dark hover:bg-primary-dark",
+    "border-transparent bg-white text-black font-semibold hover:bg-neutral-200 shadow-lg shadow-white/5",
   secondary:
-    "border-border bg-card text-dark shadow-level1 hover:bg-background-soft",
-  ghost: "border-transparent bg-transparent text-primary hover:bg-background-soft",
-  dark: "border-[#0a2540] bg-[#0a2540] text-white hover:bg-[#123456] dark:border-border dark:bg-card dark:text-dark dark:hover:bg-background-soft",
+    "border-white/10 bg-white/5 text-white hover:border-white/30 hover:bg-white/10",
+  ghost: 
+    "border-transparent bg-transparent text-white/80 hover:bg-white/5 hover:text-white",
+  dark: 
+    "border-white/20 bg-neutral-900 text-white hover:bg-neutral-800",
 };
 
 const sizeClasses: Record<ButtonSize, string> = {
-  sm: "h-8 px-3 text-[13px]",
-  md: "h-9 px-4 text-sm",
-  lg: "h-10 px-5 text-[15px]",
+  sm: "h-8 px-4 text-xs",
+  md: "h-10 px-5 text-sm",
+  lg: "h-12 px-6 text-base",
 };
 
 const baseClasses =
-  "inline-flex items-center justify-center gap-2 rounded-md border font-medium transition duration-150 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:ring-offset-2 focus:ring-offset-background";
+  "inline-flex items-center justify-center gap-2 rounded-full border font-medium transition duration-300 ease-out hover:-translate-y-0.5 focus:outline-none focus:ring-1 focus:ring-white/30";
 
 export const ButtonLink = ({
   children,
@@ -51,9 +53,9 @@ export const ButtonLink = ({
 }: ButtonLinkProps) => {
   const content = (
     <>
-      {Icon ? <Icon size={18} strokeWidth={2.4} /> : null}
+      {Icon ? <Icon size={18} strokeWidth={2} className="opacity-90" /> : null}
       <span>{children}</span>
-      {TrailingIcon ? <TrailingIcon size={18} strokeWidth={2.4} /> : null}
+      {TrailingIcon ? <TrailingIcon size={18} strokeWidth={2} className="opacity-90" /> : null}
     </>
   );
   const classes = cn(baseClasses, variantClasses[variant], sizeClasses[size], className);

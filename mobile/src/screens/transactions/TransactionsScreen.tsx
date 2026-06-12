@@ -62,7 +62,7 @@ const MonthChip = ({ label, active, onPress }: { label: string; active: boolean;
         paddingHorizontal: 15,
       }}
     >
-      <Text style={{ color: active ? theme.white : theme.muted, fontFamily: fontFamily.medium, fontSize: 13 }}>
+      <Text style={{ color: active ? "#000000" : theme.muted, fontFamily: fontFamily.medium, fontSize: 13 }}>
         {label}
       </Text>
     </TouchableOpacity>
@@ -87,7 +87,7 @@ const TypeChip = ({
       className="border px-3 py-2"
       style={{ borderRadius: 6, borderColor: active ? theme.primary : theme.border, backgroundColor: active ? theme.primary : theme.pill }}
     >
-      <Text style={{ color: active ? theme.white : theme.muted, fontFamily: fontFamily.medium, fontSize: 13 }}>
+      <Text style={{ color: active ? "#000000" : theme.muted, fontFamily: fontFamily.medium, fontSize: 13 }}>
         {label}
       </Text>
     </TouchableOpacity>
@@ -162,13 +162,11 @@ const CashFlowSummary = ({
   net: number;
 }) => {
   const { theme } = useAppTheme();
-  const panelColors = theme.mode === "dark"
-    ? (["#070C18", "#0F1D33", "#1A2B4A"] as const)
-    : (["#0A2540", "#123456"] as const);
-  const panelMuted = theme.mode === "dark" ? "#8B9CB5" : "#A3ACB9";
-  const panelSecondary = theme.mode === "dark" ? "#F0F6FC" : "#C7D2E1";
-  const panelBorder = theme.mode === "dark" ? "#2A3441" : "rgba(255,255,255,0.12)";
-  const iconBg = theme.mode === "dark" ? "rgba(124,115,255,0.20)" : "rgba(99,91,255,0.18)";
+  const panelColors = ["#141414", "#0a0a0a"] as const;
+  const panelMuted = "rgba(255, 255, 255, 0.5)";
+  const panelSecondary = "#ffffff";
+  const panelBorder = "rgba(255, 255, 255, 0.08)";
+  const iconBg = "rgba(255, 255, 255, 0.06)";
 
   return (
     <LinearGradient
@@ -282,7 +280,7 @@ export const TransactionsScreen = () => {
             elevation: 4,
           }}
         >
-          <Plus color={theme.white} size={22} strokeWidth={2.1} />
+          <Plus color="#000000" size={22} strokeWidth={2.1} />
         </TouchableOpacity>
       </View>
 
@@ -322,8 +320,8 @@ export const TransactionsScreen = () => {
           onPress={() => setShowFilters((value) => !value)}
           style={{ borderRadius: 6, borderColor: showFilters ? theme.primary : theme.border, backgroundColor: showFilters ? theme.primary : theme.card }}
         >
-          <SlidersHorizontal color={showFilters ? theme.white : theme.primary} size={16} />
-          <Text style={{ color: showFilters ? theme.white : theme.primary, fontFamily: fontFamily.medium, fontSize: 13 }}>
+          <SlidersHorizontal color={showFilters ? "#000000" : theme.primary} size={16} />
+          <Text style={{ color: showFilters ? "#000000" : theme.primary, fontFamily: fontFamily.medium, fontSize: 13 }}>
             Filter
           </Text>
         </TouchableOpacity>

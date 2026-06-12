@@ -33,17 +33,17 @@ const Progress = ({ value }: { value: number }) => (
 const PhoneShell = ({ children, compact = false }: { children: ReactNode; compact?: boolean }) => (
   <div
     className={cn(
-      "phone-shadow relative mx-auto w-full max-w-[280px] rounded-[32px] border border-[#0a2540] bg-[#0a2540] p-2.5 dark:border-[#2a3441] dark:bg-[#070c18] sm:max-w-[292px] sm:rounded-[34px] sm:p-3",
+      "phone-shadow relative mx-auto w-full max-w-[280px] rounded-[32px] border border-white/10 bg-neutral-900 p-2.5 sm:max-w-[292px] sm:rounded-[34px] sm:p-3",
       compact && "max-w-[218px] rounded-[32px] sm:max-w-[226px] sm:rounded-[34px]",
     )}
   >
     <div
       className={cn(
-        "h-[500px] overflow-hidden rounded-[24px] bg-app-gradient px-3.5 pb-5 pt-5 text-dark sm:h-[540px] sm:rounded-[26px] sm:px-4",
+        "h-[500px] overflow-hidden rounded-[24px] bg-black px-3.5 pb-5 pt-5 text-white sm:h-[540px] sm:rounded-[26px] sm:px-4",
         compact && "h-[410px] rounded-xl px-3 sm:h-[438px] sm:rounded-xl",
       )}
     >
-      <div className={cn("mx-auto mb-5 h-1.5 w-16 rounded-full bg-[#0a2540] dark:bg-[#070c18]", compact && "mb-4 w-12")} />
+      <div className={cn("mx-auto mb-5 h-1.5 w-16 rounded-full bg-neutral-800", compact && "mb-4 w-12")} />
       {children}
     </div>
   </div>

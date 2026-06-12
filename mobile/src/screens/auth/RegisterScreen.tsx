@@ -12,6 +12,7 @@ import { AuthStackParamList } from "../../navigation/types";
 import { useAuth } from "../../providers/AuthProvider";
 import { useAppTheme } from "../../providers/ThemeProvider";
 import { getErrorMessage } from "../../utils/errors";
+import { fontFamily } from "../../utils/theme";
 
 const schema = z.object({
   name: z.string().min(2, "Name required"),
@@ -39,12 +40,20 @@ export const RegisterScreen = ({ navigation }: Props) => {
   });
 
   return (
-    <Screen className="justify-center pt-16" refreshable={false}>
+    <Screen className="justify-center pt-16 bg-black" refreshable={false}>
       <View className="mb-10 items-center gap-4">
-        <BrandLogo size={72} />
+        {/* Premium Badge instead of Logo */}
+        <View 
+          className="rounded-full border px-4 py-1.5" 
+          style={{ borderColor: "rgba(255, 255, 255, 0.12)", backgroundColor: "rgba(255, 255, 255, 0.05)" }}
+        >
+          <Text style={{ color: "rgba(255, 255, 255, 0.8)", fontFamily: fontFamily.bold, fontSize: 10, letterSpacing: 2.5, textTransform: "uppercase" }}>
+            Premium
+          </Text>
+        </View>
         <View className="items-center">
-          <Text className="text-3xl font-bold text-dark">Create Account</Text>
-          <Text className="mt-2 text-center text-[15px] font-normal leading-6 text-muted">
+          <Text className="text-3.5xl font-bold text-white tracking-tight">Create Account</Text>
+          <Text className="mt-2 text-center text-[14px] font-light leading-relaxed text-white/50">
             Apni lending aur borrowing ko clean tareeqe se track karein.
           </Text>
         </View>
@@ -80,8 +89,8 @@ export const RegisterScreen = ({ navigation }: Props) => {
       </View>
 
       <TouchableOpacity className="mt-6 items-center" onPress={() => navigation.navigate("Login")}>
-        <Text className="text-sm font-normal text-muted">
-          Already have an account? <Text style={{ color: theme.primary }}>Login</Text>
+        <Text style={{ fontFamily: fontFamily.medium, fontSize: 14, color: "rgba(255, 255, 255, 0.45)" }}>
+          Already have an account? <Text style={{ color: "#ffffff", fontFamily: fontFamily.bold }}>Login</Text>
         </Text>
       </TouchableOpacity>
     </Screen>

@@ -173,7 +173,7 @@ const TransactionForm = ({ navigation, route, forcedType }: Props & { forcedType
                     className="rounded-lg border px-3 py-2"
                     style={{ borderColor: selected ? theme.primary : theme.border, backgroundColor: selected ? theme.primary : theme.pill }}
                   >
-                    <Text style={{ color: selected ? theme.white : theme.muted, fontFamily: fontFamily.medium, fontSize: 13 }}>
+                    <Text style={{ color: selected ? "#000000" : theme.muted, fontFamily: fontFamily.medium, fontSize: 13 }}>
                       {category.name}
                     </Text>
                   </TouchableOpacity>

@@ -61,7 +61,7 @@ const FilterChip = ({
           : null,
       ]}
     >
-      <Text style={{ color: active ? theme.white : theme.muted, fontFamily: fontFamily.medium, fontSize: 13 }}>
+      <Text style={{ color: active ? "#000000" : theme.muted, fontFamily: fontFamily.medium, fontSize: 13 }}>
         {label}
       </Text>
     </TouchableOpacity>
@@ -113,7 +113,7 @@ export const LoansScreen = () => {
             elevation: 4,
           }}
         >
-          <Plus color={theme.white} size={22} strokeWidth={2.1} />
+          <Plus color="#000000" size={22} strokeWidth={2.1} />
         </TouchableOpacity>
       </View>
 

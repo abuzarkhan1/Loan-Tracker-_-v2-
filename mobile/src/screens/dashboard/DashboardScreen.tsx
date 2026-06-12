@@ -129,17 +129,15 @@ const BalanceCard = ({
 }) => {
   const { theme } = useAppTheme();
   const positive = balance >= 0;
-  const panelColors = theme.mode === "dark"
-    ? (["#070C18", "#0F1D33", "#1A2B4A"] as const)
-    : (["#0A2540", "#123456"] as const);
-  const panelMuted = theme.mode === "dark" ? "#8B9CB5" : "#A3ACB9";
-  const panelSecondary = theme.mode === "dark" ? "#F0F6FC" : "#C7D2E1";
-  const panelBorder = theme.mode === "dark" ? "#2A3441" : "rgba(255,255,255,0.12)";
-  const statBg = theme.mode === "dark" ? "rgba(240,246,252,0.06)" : "rgba(246,249,252,0.08)";
-  const statBorder = theme.mode === "dark" ? "rgba(42,52,65,0.9)" : "rgba(227,232,238,0.10)";
-  const badgeBg = theme.mode === "dark" ? "rgba(124,115,255,0.20)" : "rgba(99,91,255,0.18)";
-  const badgeBorder = theme.mode === "dark" ? "rgba(124,115,255,0.34)" : "rgba(122,115,255,0.34)";
-  const overdueColor = theme.mode === "dark" ? "#F85149" : "#FFB2C0";
+  const panelColors = ["#141414", "#0a0a0a"] as const;
+  const panelMuted = "rgba(255, 255, 255, 0.5)";
+  const panelSecondary = "#ffffff";
+  const panelBorder = "rgba(255, 255, 255, 0.08)";
+  const statBg = "rgba(255, 255, 255, 0.03)";
+  const statBorder = "rgba(255, 255, 255, 0.06)";
+  const badgeBg = "rgba(255, 255, 255, 0.06)";
+  const badgeBorder = "rgba(255, 255, 255, 0.12)";
+  const overdueColor = "#ef4444";
 
   return (
     <LinearGradient

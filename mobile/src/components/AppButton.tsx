@@ -26,7 +26,7 @@ export const AppButton = ({
     variant === "primary" ? theme.primary : variant === "danger" ? theme.danger : variant === "secondary" ? theme.card : "transparent";
   const borderColor =
     variant === "primary" ? theme.primary : variant === "danger" ? theme.danger : variant === "secondary" ? theme.border : "transparent";
-  const textColor = variant === "primary" || variant === "danger" ? theme.white : variant === "secondary" ? theme.text : theme.primary;
+  const textColor = variant === "primary" ? "#000000" : variant === "danger" ? theme.white : variant === "secondary" ? theme.text : theme.primary;
   const iconColor = textColor;
 
   return (
@@ -37,12 +37,12 @@ export const AppButton = ({
       className={isDisabled ? "opacity-60" : ""}
       style={[
         {
-          minHeight: 40,
-          borderRadius: 6,
+          minHeight: 44,
+          borderRadius: 9999, // Premium capsule button shape
           borderWidth: 1,
           borderColor,
           backgroundColor,
-          paddingHorizontal: 16,
+          paddingHorizontal: 20,
           alignItems: "center",
           justifyContent: "center",
           flexDirection: "row",

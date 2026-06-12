@@ -38,7 +38,7 @@ export const FormSelect = <T extends string>({ label, value, options, onChange, 
                 paddingVertical: 7,
               }}
             >
-              <Text style={{ color: selected ? theme.white : theme.muted, fontFamily: fontFamily.medium, fontSize: 13 }}>
+              <Text style={{ color: selected ? "#000000" : theme.muted, fontFamily: fontFamily.medium, fontSize: 13 }}>
                 {option.label}
               </Text>
             </TouchableOpacity>

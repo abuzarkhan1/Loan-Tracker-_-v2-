@@ -76,7 +76,7 @@ export const CategoriesScreen = () => {
           className="h-10 w-10 items-center justify-center rounded-lg bg-primary"
           style={theme.shadowSoft}
         >
-          <Plus color={theme.white} size={22} />
+          <Plus color="#000000" size={22} />
         </TouchableOpacity>
       </View>
 
@@ -91,7 +91,7 @@ export const CategoriesScreen = () => {
               className="flex-1 rounded-lg border py-2.5"
               style={{ borderColor: active ? theme.primary : theme.border, backgroundColor: active ? theme.primary : theme.pill }}
             >
-              <Text className="text-center text-sm font-medium" style={{ color: active ? theme.white : theme.muted }}>
+              <Text className="text-center text-sm font-medium" style={{ color: active ? "#000000" : theme.muted }}>
                 {option === "EXPENSE" ? "Expense" : "Income"}
               </Text>
             </TouchableOpacity>

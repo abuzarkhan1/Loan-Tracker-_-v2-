@@ -10,6 +10,8 @@
     "typecheck": "tsc -b"
   },
   "dependencies": {
+    "@react-three/fiber": "^9.6.1",
+    "@types/three": "^0.184.1",
     "@vitejs/plugin-react": "latest",
     "clsx": "latest",
     "framer-motion": "latest",
@@ -18,7 +20,8 @@
     "react-dom": "latest",
     "react-router-dom": "latest",
     "recharts": "latest",
-    "tailwind-merge": "latest"
+    "tailwind-merge": "latest",
+    "three": "^0.184.0"
   },
   "devDependencies": {
     "@types/node": "latest",

@@ -24,14 +24,14 @@ export const FloatingTabBar = ({ state, navigation }: BottomTabBarProps) => {
         position: "absolute",
         left: 24,
         right: 24,
-        bottom: Math.max(insets.bottom, 10),
+        bottom: Math.max(insets.bottom, 14),
       }}
     >
       <View
         style={[
           {
             minHeight: 64,
-            borderRadius: 12,
+            borderRadius: 9999, // Premium capsule outer container
             borderWidth: 1,
             borderColor: theme.border,
             backgroundColor: theme.card,
@@ -70,27 +70,28 @@ export const FloatingTabBar = ({ state, navigation }: BottomTabBarProps) => {
               onPress={onPress}
               style={{
                 minHeight: 48,
-                flex: focused ? 1.22 : 0.82,
-                borderRadius: 6,
+                flex: focused ? 1.25 : 0.8,
+                borderRadius: 9999, // Capsule tab items
                 alignItems: "center",
                 justifyContent: "center",
                 flexDirection: focused ? "row" : "column",
                 gap: focused ? 6 : 3,
                 backgroundColor: focused ? theme.primary : "transparent",
                 shadowColor: focused ? theme.primary : "transparent",
-                shadowOpacity: focused ? 0.16 : 0,
-                shadowRadius: focused ? 12 : 0,
-                shadowOffset: { width: 0, height: 5 },
-                elevation: focused ? 4 : 0,
+                shadowOpacity: focused ? 0.15 : 0,
+                shadowRadius: focused ? 10 : 0,
+                shadowOffset: { width: 0, height: 4 },
+                elevation: focused ? 3 : 0,
               }}
             >
-              <Icon color={focused ? theme.white : theme.muted} size={focused ? 16 : 18} />
+              <Icon color={focused ? "#000000" : theme.muted} size={focused ? 16 : 18} />
               <Text
                 numberOfLines={1}
                 style={{
-                  color: focused ? theme.white : theme.muted,
-                  fontFamily: focused ? fontFamily.medium : fontFamily.medium,
-                  fontSize: focused ? 13 : 10,
+                  color: focused ? "#000000" : theme.muted,
+                  fontFamily: fontFamily.medium,
+                  fontSize: focused ? 12 : 9,
+                  fontWeight: focused ? "600" : "400",
                 }}
               >
                 {meta.label}

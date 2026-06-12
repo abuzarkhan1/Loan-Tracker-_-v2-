@@ -20,19 +20,23 @@ export const Download = () => (
     <DownloadSection full />
     <Section className="pt-2">
       <div className="grid gap-5 lg:grid-cols-2">
-        <Card className="p-5">
-          <ShieldCheck className="text-success" size={30} />
-          <h2 className="mt-4 text-base font-semibold text-dark">Safety note</h2>
-          <p className="mt-2 text-sm font-normal leading-6 text-muted">
-            Download the APK only from the official link shared on this website. The app is focused on simple loan, payment, expense, and income records.
-          </p>
+        <Card className="p-6 space-y-4">
+          <ShieldCheck className="text-emerald-400" size={28} />
+          <div>
+            <h2 className="text-base font-semibold text-white">Safety note</h2>
+            <p className="mt-2 text-[13px] font-light leading-relaxed text-white/50">
+              Download the APK only from the official link shared on this website. The app is focused on simple loan, payment, expense, and income records.
+            </p>
+          </div>
         </Card>
-        <Card className="p-5">
-          <AlertCircle className="text-primary" size={30} />
-          <h2 className="mt-4 text-base font-semibold text-dark">Before installing</h2>
-          <p className="mt-2 text-sm font-normal leading-6 text-muted">
-            Android may ask you to allow installation from your browser. This is normal for APK files downloaded outside the Play Store.
-          </p>
+        <Card className="p-6 space-y-4">
+          <AlertCircle className="text-white/40" size={28} />
+          <div>
+            <h2 className="text-base font-semibold text-white">Before installing</h2>
+            <p className="mt-2 text-[13px] font-light leading-relaxed text-white/50">
+              Android may ask you to allow installation from your browser. This is normal for APK files downloaded outside the Play Store.
+            </p>
+          </div>
         </Card>
       </div>
     </Section>

@@ -143,7 +143,7 @@ export const QuickAddPaymentScreen = ({ navigation, route }: Props) => {
               className="rounded-lg border px-3 py-2.5"
               style={{ borderColor: method === item ? theme.primary : theme.border, backgroundColor: method === item ? theme.primary : theme.pill }}
             >
-              <Text style={{ color: method === item ? theme.white : theme.muted, fontFamily: fontFamily.medium, fontSize: 13 }}>{item}</Text>
+              <Text style={{ color: method === item ? "#000000" : theme.muted, fontFamily: fontFamily.medium, fontSize: 13 }}>{item}</Text>
             </TouchableOpacity>
           ))}
         </View>

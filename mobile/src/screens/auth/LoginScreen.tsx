@@ -103,12 +103,20 @@ export const LoginScreen = ({ navigation }: Props) => {
   };
 
   return (
-    <Screen className="justify-center pt-16" refreshable={false}>
+    <Screen className="justify-center pt-16 bg-black" refreshable={false}>
       <View className="mb-10 items-center gap-4">
-        <BrandLogo size={72} />
+        {/* Premium Badge instead of Logo */}
+        <View 
+          className="rounded-full border px-4 py-1.5" 
+          style={{ borderColor: "rgba(255, 255, 255, 0.12)", backgroundColor: "rgba(255, 255, 255, 0.05)" }}
+        >
+          <Text style={{ color: "rgba(255, 255, 255, 0.8)", fontFamily: fontFamily.bold, fontSize: 10, letterSpacing: 2.5, textTransform: "uppercase" }}>
+            Premium
+          </Text>
+        </View>
         <View className="items-center">
-          <Text className="text-3xl font-bold text-dark">Loan Tracker</Text>
-          <Text className="mt-2 text-center text-[15px] font-normal leading-6 text-muted">
+          <Text className="text-3.5xl font-bold text-white tracking-tight">Loan Tracker</Text>
+          <Text className="mt-2 text-center text-[14px] font-light leading-relaxed text-white/50">
             Raqam, contacts, aur payments ek jagah.
           </Text>
         </View>
@@ -180,7 +188,7 @@ export const LoginScreen = ({ navigation }: Props) => {
                 backgroundColor: rememberBiometric ? theme.primary : theme.pill,
               }}
             >
-              <ShieldCheck color={rememberBiometric ? theme.white : theme.muted} size={16} strokeWidth={2.5} />
+              <ShieldCheck color={rememberBiometric ? "#000000" : theme.muted} size={16} strokeWidth={2.5} />
             </View>
             <View className="flex-1">
               <Text style={{ color: theme.text, fontFamily: fontFamily.semiBold, fontSize: 15 }}>
@@ -199,8 +207,8 @@ export const LoginScreen = ({ navigation }: Props) => {
       </View>
 
       <TouchableOpacity className="mt-6 items-center" onPress={() => navigation.navigate("Register")}>
-        <Text className="text-sm font-normal text-muted">
-          New here? <Text style={{ color: theme.primary }}>Create account</Text>
+        <Text style={{ fontFamily: fontFamily.regular, fontSize: 14, color: "rgba(255, 255, 255, 0.45)" }}>
+          New here? <Text style={{ color: "#ffffff", fontFamily: fontFamily.bold }}>Create account</Text>
         </Text>
       </TouchableOpacity>
     </Screen>

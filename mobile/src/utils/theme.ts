@@ -45,104 +45,65 @@ export type AppTheme = {
   };
 };
 
-const navyShadow = "#0A2540";
-
-export const lightTheme: AppTheme = {
-  mode: "light",
-  background: "#FFFFFF",
-  backgroundSoft: "#F6F9FC",
-  backgroundGradient: ["#FFFFFF", "#F6F9FC", "#FFFFFF"],
-  heroOverlay: "rgba(246, 249, 252, 0.96)",
-  card: "#ffffff",
-  surface: "#F6F9FC",
-  input: "#ffffff",
-  text: "#0A2540",
-  textSecondary: "#425466",
-  muted: "#697386",
-  primary: "#635BFF",
-  primaryHover: "#7A73FF",
-  secondary: "#0A2540",
-  success: "#30B130",
-  warning: "#FFBB00",
-  danger: "#DF1B41",
-  peach: "rgba(223, 27, 65, 0.10)",
-  mint: "rgba(48, 177, 48, 0.10)",
-  yellow: "rgba(255, 187, 0, 0.12)",
-  white: "#ffffff",
-  border: "#E3E8EE",
-  pill: "#F6F9FC",
-  footer: "#0A2540",
-  footerText: "#FFFFFF",
-  footerMuted: "#A3ACB9",
-  placeholder: "rgba(105, 115, 134, 0.64)",
-  shadowColor: "rgba(10, 37, 64, 0.08)",
-  shadowSoft: {
-    shadowColor: navyShadow,
-    shadowOpacity: 0.06,
-    shadowRadius: 8,
-    shadowOffset: { width: 0, height: 2 },
-    elevation: 2,
-  },
-  shadowElevated: {
-    shadowColor: navyShadow,
-    shadowOpacity: 0.1,
-    shadowRadius: 24,
-    shadowOffset: { width: 0, height: 12 },
-    elevation: 7,
-  },
-};
-
-export const darkTheme: AppTheme = {
+const premiumDarkTheme: AppTheme = {
   mode: "dark",
-  background: "#0B0F19",
-  backgroundSoft: "#111827",
-  backgroundGradient: ["#111827", "#0B0F19", "#0B0F19"],
-  heroOverlay: "rgba(7, 12, 24, 0.94)",
-  card: "#151B2B",
-  surface: "#111827",
-  input: "#0F1623",
-  text: "#F0F6FC",
-  textSecondary: "#8B9CB5",
-  muted: "#8B949E",
-  primary: "#7C73FF",
-  primaryHover: "#968FFF",
-  secondary: "#1E3A5F",
-  success: "#3FB950",
-  warning: "#D29922",
-  danger: "#F85149",
-  peach: "rgba(248, 81, 73, 0.15)",
-  mint: "rgba(63, 185, 80, 0.15)",
-  yellow: "rgba(210, 153, 34, 0.15)",
+  background: "#000000",
+  backgroundSoft: "#090909",
+  backgroundGradient: ["#000000", "#090909", "#000000"],
+  heroOverlay: "rgba(0, 0, 0, 0.95)",
+  card: "#0f0f0f",
+  surface: "#0f0f0f",
+  input: "#141414",
+  text: "#ffffff",
+  textSecondary: "#a3a3a3",
+  muted: "#9c9c9c",
+  primary: "#ffffff",
+  primaryHover: "#e5e5e5",
+  secondary: "#1a1a1a",
+  success: "#22c55e",
+  warning: "#eab308",
+  danger: "#ef4444",
+  peach: "rgba(239, 68, 68, 0.15)",
+  mint: "rgba(34, 197, 94, 0.15)",
+  yellow: "rgba(234, 179, 8, 0.15)",
   white: "#ffffff",
-  border: "#2A3441",
-  pill: "#111827",
-  footer: "#070C18",
-  footerText: "#F0F6FC",
-  footerMuted: "#8B9CB5",
-  placeholder: "rgba(139, 156, 181, 0.62)",
-  shadowColor: "rgba(0, 0, 0, 0.3)",
+  border: "#262626",
+  pill: "#141414",
+  footer: "#000000",
+  footerText: "#ffffff",
+  footerMuted: "#a3a3a3",
+  placeholder: "rgba(255, 255, 255, 0.4)",
+  shadowColor: "rgba(0, 0, 0, 0.8)",
   shadowSoft: {
     shadowColor: "#000000",
-    shadowOpacity: 0.3,
-    shadowRadius: 12,
+    shadowOpacity: 0.6,
+    shadowRadius: 10,
     shadowOffset: { width: 0, height: 4 },
     elevation: 4,
   },
   shadowElevated: {
     shadowColor: "#000000",
-    shadowOpacity: 0.5,
-    shadowRadius: 32,
+    shadowOpacity: 0.8,
+    shadowRadius: 24,
     shadowOffset: { width: 0, height: 12 },
-    elevation: 9,
+    elevation: 8,
   },
 };
+
+// Map both light and dark modes to the premium theme to make it dark-first and consistent
+export const lightTheme: AppTheme = {
+  ...premiumDarkTheme,
+  mode: "light",
+};
+
+export const darkTheme: AppTheme = premiumDarkTheme;
 
 export const themes: Record<ThemeMode, AppTheme> = {
   light: lightTheme,
   dark: darkTheme,
 };
 
-export const colors = lightTheme;
+export const colors = darkTheme;
 
 export const fontFamily = {
   regular: "Inter_400Regular",

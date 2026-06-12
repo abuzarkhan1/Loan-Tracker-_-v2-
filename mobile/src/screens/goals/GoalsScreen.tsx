@@ -31,7 +31,7 @@ const StatusChip = ({ label, active, onPress }: { label: string; active: boolean
       className="flex-1 rounded-lg border py-2.5"
       style={{ borderColor: active ? theme.primary : theme.border, backgroundColor: active ? theme.primary : theme.pill }}
     >
-      <Text style={{ color: active ? theme.white : theme.muted, fontFamily: fontFamily.medium, fontSize: 13, textAlign: "center" }}>
+      <Text style={{ color: active ? "#000000" : theme.muted, fontFamily: fontFamily.medium, fontSize: 13, textAlign: "center" }}>
         {label}
       </Text>
     </TouchableOpacity>
@@ -75,7 +75,7 @@ export const GoalsScreen = () => {
             elevation: 4,
           }}
         >
-          <Plus color={theme.white} size={22} strokeWidth={2.1} />
+          <Plus color="#000000" size={22} strokeWidth={2.1} />
         </TouchableOpacity>
       </View>
 

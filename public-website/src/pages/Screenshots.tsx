@@ -1,8 +1,8 @@
+import { Card } from "../components/common/Card";
 import { PageHero } from "../components/common/PageHero";
 import { SEO } from "../components/common/SEO";
 import { Section } from "../components/common/Section";
 import { AppPreviewSection } from "../components/sections/AppPreviewSection";
-import { PhoneMockup } from "../components/mockups/PhoneMockup";
 
 export const Screenshots = () => (
   <>
@@ -13,27 +13,26 @@ export const Screenshots = () => (
     <PageHero
       eyebrow="Screenshots"
       title="A focused fintech app experience, previewed screen by screen."
-      description="Product mockups show the final navy, purple, white, and cool-gray design direction."
+      description="Product details showcase the dark titanium-gray theme, clean structure, and highly readable interfaces."
     />
-    <AppPreviewSection />
+    <AppPreviewSection hideHeader />
     <Section className="pt-0 lg:py-12">
-      <div className="grid gap-5 lg:grid-cols-2">
-        <div className="premium-card rounded-xl p-5 sm:p-6">
-          <p className="text-xs font-semibold uppercase tracking-[0.05em] text-primary">Light Preview</p>
-          <h2 className="mt-3 text-xl font-semibold text-dark">White surfaces, purple actions, cool-gray structure.</h2>
-          <p className="mt-2 text-sm font-normal leading-6 text-muted">The light theme follows the same premium system used across the web app.</p>
-          <div className="mt-6">
-            <PhoneMockup screen="dashboard" compact />
-          </div>
-        </div>
-        <div className="dark rounded-xl border border-border bg-background p-5 text-dark shadow-elevated sm:p-6">
-          <p className="text-xs font-semibold uppercase tracking-[0.05em] text-primary">Dark Preview</p>
-          <h2 className="mt-3 text-xl font-semibold text-dark">Navy surfaces, purple actions, clear contrast.</h2>
-          <p className="mt-2 text-sm font-normal leading-6 text-muted">The dark preview uses the same app palette without extra decorative colors.</p>
-          <div className="mt-6 dark">
-            <PhoneMockup screen="expenses" compact />
-          </div>
-        </div>
+      <div className="grid gap-6 lg:grid-cols-2">
+        <Card className="p-6 sm:p-8 space-y-2">
+          <p className="text-xs font-semibold uppercase tracking-wider text-white/50">Core Dashboard</p>
+          <h2 className="text-xl font-semibold text-white">Visual data summaries.</h2>
+          <p className="text-sm font-light leading-relaxed text-white/60">
+            A glanceable summary of total receivables and payables, alongside monthly Cashflow trend charts.
+          </p>
+        </Card>
+
+        <Card className="p-6 sm:p-8 space-y-2">
+          <p className="text-xs font-semibold uppercase tracking-wider text-white/50">Ledger & Cash Flow</p>
+          <h2 className="text-xl font-semibold text-white">Detailed cash movement.</h2>
+          <p className="text-sm font-light leading-relaxed text-white/60">
+            Record every transaction, income source, expense, and loan recovery with automatic calculations.
+          </p>
+        </Card>
       </div>
     </Section>
   </>

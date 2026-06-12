@@ -156,11 +156,9 @@ export const SettingsScreen = () => {
   const [biometricEnabled, setBiometricEnabled] = useState(false);
   const [biometricLabel, setBiometricLabel] = useState("Biometric");
   const [savedBiometricEmail, setSavedBiometricEmail] = useState<string | null>(null);
-  const profileGradient = theme.mode === "dark"
-    ? (["#070C18", "#0F1D33", "#1A2B4A"] as const)
-    : (["#0A2540", "#123456"] as const);
-  const profileBorder = theme.mode === "dark" ? "#2A3441" : "rgba(255,255,255,0.12)";
-  const profileSecondaryText = theme.mode === "dark" ? "#8B9CB5" : "#C7D2E1";
+  const profileGradient = ["#141414", "#0a0a0a"] as const;
+  const profileBorder = "rgba(255, 255, 255, 0.08)";
+  const profileSecondaryText = "rgba(255, 255, 255, 0.5)";
 
   const {
     control,

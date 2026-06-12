@@ -21,48 +21,65 @@ export const Contact = () => (
     <PageHero
       eyebrow="Contact"
       title="Questions about Loan Tracker?"
-      description="Use the form UI below for now, or reach out through the support email placeholder. Backend form handling can be added later."
+      description="Reach out to us using the form below, or contact support directly through our email."
     />
     <Section className="pt-4">
       <div className="grid gap-6 lg:grid-cols-[0.85fr_1.15fr]">
         <div className="grid gap-4">
           {supportCards.map((card) => (
             <Card key={card.title} className="flex items-center gap-4 p-5">
-              <span className="grid size-10 place-items-center rounded-lg bg-primary/10 text-primary">
-                <card.icon size={18} />
+              <span className="grid size-10 place-items-center rounded-xl bg-white/5 text-white border border-white/5">
+                <card.icon size={18} className="opacity-80" />
               </span>
               <div>
-                <p className="text-sm font-semibold text-dark">{card.title}</p>
-                <p className="mt-1 text-sm font-normal text-muted">{card.value}</p>
+                <p className="text-sm font-semibold text-white">{card.title}</p>
+                <p className="mt-1 text-sm font-light text-white/50">{card.value}</p>
               </div>
             </Card>
           ))}
         </div>
 
-        <Card className="p-5 sm:p-6">
-          <form className="grid gap-4">
+        <Card className="p-6 sm:p-8">
+          <form className="grid gap-5">
             <div className="grid gap-4 sm:grid-cols-2">
               <label className="grid gap-2">
-                <span className="text-xs font-semibold uppercase tracking-[0.05em] text-muted">Name</span>
-                <input className="h-10 rounded-md border border-border bg-input px-3 text-[15px] font-normal text-dark outline-none transition focus:border-primary focus:ring-[3px] focus:ring-primary/10" placeholder="Your name" />
+                <span className="text-xs font-semibold uppercase tracking-wider text-white/50">Name</span>
+                <input 
+                  className="h-11 rounded-full border border-white/10 bg-transparent px-4 text-sm font-light text-white outline-none transition focus:border-white/30" 
+                  placeholder="Your name" 
+                />
               </label>
               <label className="grid gap-2">
-                <span className="text-xs font-semibold uppercase tracking-[0.05em] text-muted">Email</span>
-                <input type="email" className="h-10 rounded-md border border-border bg-input px-3 text-[15px] font-normal text-dark outline-none transition focus:border-primary focus:ring-[3px] focus:ring-primary/10" placeholder="you@example.com" />
+                <span className="text-xs font-semibold uppercase tracking-wider text-white/50">Email</span>
+                <input 
+                  type="email" 
+                  className="h-11 rounded-full border border-white/10 bg-transparent px-4 text-sm font-light text-white outline-none transition focus:border-white/30" 
+                  placeholder="you@example.com" 
+                />
               </label>
             </div>
             <label className="grid gap-2">
-              <span className="text-xs font-semibold uppercase tracking-[0.05em] text-muted">Subject</span>
-              <input className="h-10 rounded-md border border-border bg-input px-3 text-[15px] font-normal text-dark outline-none transition focus:border-primary focus:ring-[3px] focus:ring-primary/10" placeholder="APK, support, or feedback" />
+              <span className="text-xs font-semibold uppercase tracking-wider text-white/50">Subject</span>
+              <input 
+                className="h-11 rounded-full border border-white/10 bg-transparent px-4 text-sm font-light text-white outline-none transition focus:border-white/30" 
+                placeholder="APK, support, or feedback" 
+              />
             </label>
             <label className="grid gap-2">
-              <span className="text-xs font-semibold uppercase tracking-[0.05em] text-muted">Message</span>
-              <textarea className="min-h-32 resize-none rounded-md border border-border bg-input px-3 py-3 text-[15px] font-normal text-dark outline-none transition focus:border-primary focus:ring-[3px] focus:ring-primary/10" placeholder="Write your message" />
+              <span className="text-xs font-semibold uppercase tracking-wider text-white/50">Message</span>
+              <textarea 
+                className="min-h-32 resize-none rounded-2xl border border-white/10 bg-transparent px-4 py-3 text-sm font-light text-white outline-none transition focus:border-white/30" 
+                placeholder="Write your message" 
+              />
             </label>
-            <ButtonLink icon={Send} className="w-fit">
-              Send Message
-            </ButtonLink>
-            <p className="text-xs font-normal leading-5 text-muted">This is a static contact form UI for now. No backend submission is connected yet.</p>
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
+              <ButtonLink icon={Send} className="w-full sm:w-auto">
+                Send Message
+              </ButtonLink>
+              <p className="text-xs font-light text-white/40">
+                This is a static contact form UI. No backend submission is connected yet.
+              </p>
+            </div>
           </form>
         </Card>
       </div>
